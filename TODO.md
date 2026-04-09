@@ -363,6 +363,7 @@ Phase 5 已交付内容：
 目标：
 
 - 在前端开始前先锁定接口结构
+- 当前状态：已完成，见 [PHASE6_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE6_SETUP.md)
 
 #### T601 冻结 Package 列表接口
 
@@ -413,6 +414,13 @@ Phase 5 已交付内容：
 
 - 规则：`seo_title`、`seo_description` 为空时怎么处理
 - 依赖：T602
+
+Phase 6 已交付内容：
+
+- 冻结接口合同文档：[API_CONTRACT.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/API_CONTRACT.md)
+- 阶段说明与验收口径：[PHASE6_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE6_SETUP.md)
+- 合同可执行验证脚本：[scripts/verify_phase6_contract.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase6_contract.mjs)
+- T601-T606 已全部落地并完成验证
 
 ### Phase 7：前台共享壳与基础组件
 
