@@ -2,7 +2,7 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T1001-T1005 Completed）
+状态：Frozen（T1001-T1006 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
@@ -11,6 +11,7 @@
 - [scripts/verify_phase10_publish_visibility.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_publish_visibility.mjs)
 - [scripts/verify_phase10_media_mix.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_media_mix.mjs)
 - [scripts/verify_phase10_mobile.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_mobile.mjs)
+- [scripts/verify_phase10_smoke.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_smoke.mjs)
 
 ## 1. Phase 10 目标
 
@@ -94,6 +95,23 @@ Phase 10 聚焦可交付验证，不再扩展新功能。
 - 详情页相关布局在移动断点下保持单列可读
 - 详情页来源链接保留断词规则，避免小屏溢出
 
+### 2.6 T1006 预发环境 smoke test
+
+已落地 smoke 脚本，执行范围如下：
+
+1. Directus 健康检查
+2. `typecheck`
+3. `build`
+4. T1001 页面检查
+5. T1002 角色检查
+6. T1003 发布状态检查
+7. T1004 媒体组合检查
+8. T1005 移动端检查
+
+结果要求：
+
+- 所有步骤全部通过，才算 smoke 通过
+
 ## 3. 执行方式
 
 执行前先完成构建：
@@ -132,8 +150,12 @@ node scripts/verify_phase10_media_mix.mjs
 node scripts/verify_phase10_mobile.mjs
 ```
 
+执行 smoke 测试：
+
+```bash
+node scripts/verify_phase10_smoke.mjs
+```
+
 ## 4. 下一步
 
-按计划进入：
-
-- T1006 预发环境 smoke test
+Phase 10 已完成。

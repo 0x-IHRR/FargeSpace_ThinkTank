@@ -603,7 +603,7 @@ Phase 9 当前已交付：
 目标：
 
 - 确保不是“能跑”，而是“可交付”
-- 当前状态：进行中（T1001、T1002、T1003、T1004、T1005 已完成）
+- 当前状态：已完成（T1001-T1006 全部完成）
 
 #### T1001 页面级检查
 
@@ -652,11 +652,13 @@ Phase 10 当前已交付：
 - T1003 发布状态检查已落地：验证 `draft`、`scheduled` 对会员不可见
 - T1004 媒体组合检查已落地：覆盖 5 类来源与 4 类加工形态
 - T1005 移动端检查已落地：覆盖卡片布局、筛选区、详情页阅读流
+- T1006 预发 smoke test 已落地：串联执行环境健康、构建与 T1001-T1005 回归
 - 页面检查脚本：[scripts/verify_phase10_pages.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_pages.mjs)
 - 角色检查脚本：[scripts/verify_phase10_roles.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_roles.mjs)
 - 发布状态检查脚本：[scripts/verify_phase10_publish_visibility.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_publish_visibility.mjs)
 - 媒体组合检查脚本：[scripts/verify_phase10_media_mix.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_media_mix.mjs)
 - 移动端检查脚本：[scripts/verify_phase10_mobile.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_mobile.mjs)
+- smoke 脚本：[scripts/verify_phase10_smoke.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_smoke.mjs)
 - 阶段文档：[PHASE10_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE10_SETUP.md)
 
 ## 4. 可平行执行图
