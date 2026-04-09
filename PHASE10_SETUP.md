@@ -2,12 +2,13 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T1001-T1002 Completed）
+状态：In Progress（T1001-T1003 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
 - [scripts/verify_phase10_pages.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_pages.mjs)
 - [scripts/verify_phase10_roles.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_roles.mjs)
+- [scripts/verify_phase10_publish_visibility.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_publish_visibility.mjs)
 
 ## 1. Phase 10 目标
 
@@ -49,6 +50,20 @@ Phase 10 聚焦可交付验证，不再扩展新功能。
 - `member` 可读取可见内容包但不能直接读取原始来源
 - 未登录用户不能读取会员内容包
 
+### 2.3 T1003 发布状态检查
+
+已落地发布状态检查脚本，覆盖以下状态：
+
+1. `published`
+2. `draft`
+3. `scheduled`
+
+检查点包含：
+
+- 会员能看到 `published`
+- 会员看不到 `draft`
+- 会员看不到 `scheduled`
+
 ## 3. 执行方式
 
 执行前先完成构建：
@@ -69,8 +84,14 @@ node scripts/verify_phase10_pages.mjs
 node scripts/verify_phase10_roles.mjs
 ```
 
+执行发布状态检查：
+
+```bash
+node scripts/verify_phase10_publish_visibility.mjs
+```
+
 ## 4. 下一步
 
 按计划进入：
 
-- T1003 发布状态检查
+- T1004 媒体组合检查
