@@ -2,7 +2,7 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T1001-T1004 Completed）
+状态：In Progress（T1001-T1005 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
@@ -10,6 +10,7 @@
 - [scripts/verify_phase10_roles.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_roles.mjs)
 - [scripts/verify_phase10_publish_visibility.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_publish_visibility.mjs)
 - [scripts/verify_phase10_media_mix.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_media_mix.mjs)
+- [scripts/verify_phase10_mobile.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_mobile.mjs)
 
 ## 1. Phase 10 目标
 
@@ -78,6 +79,21 @@ Phase 10 聚焦可交付验证，不再扩展新功能。
 - 上述 4 类加工资产在内容包中全部出现
 - 输出来源 × 资产的组合矩阵，便于后续回归对比
 
+### 2.5 T1005 移动端检查
+
+已落地移动端检查脚本，覆盖以下范围：
+
+1. 卡片布局
+2. 筛选区
+3. 详情页阅读流
+
+检查点包含：
+
+- 移动断点下 `.package-grid` 为单列
+- 移动断点下 `.search-filter-form` 为单列
+- 详情页相关布局在移动断点下保持单列可读
+- 详情页来源链接保留断词规则，避免小屏溢出
+
 ## 3. 执行方式
 
 执行前先完成构建：
@@ -110,8 +126,14 @@ node scripts/verify_phase10_publish_visibility.mjs
 node scripts/verify_phase10_media_mix.mjs
 ```
 
+执行移动端检查：
+
+```bash
+node scripts/verify_phase10_mobile.mjs
+```
+
 ## 4. 下一步
 
 按计划进入：
 
-- T1005 移动端检查
+- T1006 预发环境 smoke test
