@@ -307,6 +307,44 @@ Phase 4 已交付内容：
 - 原始 `sources` 直接读取已关闭，避免绕过内容包可见边界
 - [scripts/verify_phase4_access.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase4_access.mjs) 已通过
 
+### Phase 11：后台上传流程
+
+目标：
+
+- 把后台上传、整理、发布流程固定成可执行操作
+- 当前状态：已完成，见 [PHASE11_UPLOAD_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE11_UPLOAD_FLOW.md)
+
+#### T1101 固定上传文件夹
+
+- 范围：来源封面、内容封面、摘要附件、音频、幻灯片、视频
+- 输出：后台文件夹结构固定
+- 依赖：Phase 1 完成
+
+#### T1102 固定上传书签
+
+- 范围：`sources`、`processed_assets`、`packages`
+- 输出：上传与发布书签可直接使用
+- 依赖：T1101
+
+#### T1103 固定后台操作顺序
+
+- 范围：先来源、再内容包、再关联、再资产、最后排期/发布
+- 输出：后台操作说明文档
+- 依赖：T1101、T1102
+
+#### T1104 做可重复校验
+
+- 范围：文件夹、书签、核心流程口径
+- 输出：校验脚本
+- 依赖：T1101、T1102、T1103
+
+Phase 11 已交付内容：
+
+- 上传文件夹结构已写入 Directus
+- 上传书签已写入 `sources`、`processed_assets`、`packages`
+- 后台操作顺序已写入 [PHASE11_UPLOAD_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE11_UPLOAD_FLOW.md)
+- [scripts/verify_phase11_upload_flow.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase11_upload_flow.mjs) 已通过
+
 ### Phase 5：种子数据与试填验证
 
 目标：
