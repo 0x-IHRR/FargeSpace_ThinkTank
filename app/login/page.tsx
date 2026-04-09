@@ -1,7 +1,7 @@
+import { getDirectusAdminLoginUrl } from "@/lib/login-entry";
+
 export default function LoginPage() {
-  const directusBase =
-    process.env.NEXT_PUBLIC_DIRECTUS_URL?.replace(/\/$/, "") ?? "http://localhost:8055";
-  const directusAdminLoginUrl = `${directusBase}/admin/login`;
+  const directusAdminLoginUrl = getDirectusAdminLoginUrl();
 
   return (
     <div className="showcase-stack login-stack">
@@ -44,7 +44,7 @@ export default function LoginPage() {
               登录
             </button>
           </form>
-          <p className="login-note">当前版本先完成登录页模块，账号会话在 Phase 9 接入。</p>
+          <p className="login-note">登录入口规则已固定，会话对象与鉴权会在 T902 继续接入。</p>
         </article>
 
         <article className="login-panel login-panel-alt">

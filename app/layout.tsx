@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { ROUTE_EXAMPLES, ROUTES } from "@/lib/routes";
+import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
+import { ROUTE_EXAMPLES } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "FargeSpace Think Tank",
@@ -21,6 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const year = new Date().getFullYear();
+  const directusAdminLoginUrl = getDirectusAdminLoginUrl();
 
   return (
     <html lang="zh-CN">
@@ -46,8 +48,8 @@ export default function RootLayout({
                   <p className="status-value">访客模式</p>
                 </div>
                 <div className="status-actions">
-                  <Link href={ROUTES.login}>会员登录</Link>
-                  <a href="http://localhost:8055/admin" target="_blank" rel="noreferrer">
+                  <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
+                  <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
                     后台入口
                   </a>
                 </div>
