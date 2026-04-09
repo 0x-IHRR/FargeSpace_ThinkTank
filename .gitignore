@@ -6,3 +6,9 @@ __pycache__/
 .pytest_cache/
 .gstack/
 .spec-workflow/
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/uploads/directus-health-file
+storage/backups/
+directus/schema/generated/
+extensions/build/
