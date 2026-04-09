@@ -388,7 +388,7 @@ Phase 12 已交付内容：
 目标：
 
 - 把当前演示登录替换成真实会员登录
-- 当前状态：未开始
+- 当前状态：进行中（T1301 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 #### T1301 冻结登录方案
 
@@ -471,6 +471,13 @@ Phase 12 已交付内容：
   - 测试账号说明
 - 输出：测试环境可重复部署
 - 依赖：T1304-T1308
+
+Phase 13 当前已交付内容：
+
+- 正式会员登录已确定采用“前台 `/login` + Next 服务端代理 Directus 登录”的方案
+- 前后台登录边界已冻结：会员走前台，编辑继续走 Directus Admin
+- 会话口径已冻结：前台会员会话与服务端 refresh token 分离保存
+- 方案说明已写入 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 ### Phase 5：种子数据与试填验证
 
