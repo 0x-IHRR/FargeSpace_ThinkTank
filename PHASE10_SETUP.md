@@ -2,11 +2,12 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T1001 Completed）
+状态：In Progress（T1001-T1002 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
 - [scripts/verify_phase10_pages.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_pages.mjs)
+- [scripts/verify_phase10_roles.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_roles.mjs)
 
 ## 1. Phase 10 目标
 
@@ -32,6 +33,22 @@ Phase 10 聚焦可交付验证，不再扩展新功能。
 - 登录页关键模块显示正常
 - 已登录状态可访问并渲染上述 6 个页面
 
+### 2.2 T1002 角色权限检查
+
+已落地角色权限检查脚本，覆盖以下角色：
+
+1. `admin`
+2. `editor`
+3. `member`
+4. 未登录用户
+
+检查点包含：
+
+- `admin` 可读取 `users`
+- `editor` 可创建内容包但不能创建用户
+- `member` 可读取可见内容包但不能直接读取原始来源
+- 未登录用户不能读取会员内容包
+
 ## 3. 执行方式
 
 执行前先完成构建：
@@ -46,8 +63,14 @@ npm run build
 node scripts/verify_phase10_pages.mjs
 ```
 
+执行角色检查：
+
+```bash
+node scripts/verify_phase10_roles.mjs
+```
+
 ## 4. 下一步
 
 按计划进入：
 
-- T1002 角色权限检查
+- T1003 发布状态检查
