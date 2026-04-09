@@ -487,7 +487,7 @@ Phase 7 当前已交付：
 目标：
 
 - 完成 V1 的会员浏览能力
-- 当前状态：进行中（T801、T802、T803 已完成）
+- 当前状态：进行中（T801、T802、T803、T804 已完成）
 
 #### T801 首页
 
@@ -549,6 +549,8 @@ Phase 8 当前已交付：
 - 主题页实现文档：[FRONTEND_TOPIC.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_TOPIC.md)
 - T803 合集页已落地：合集标题、描述、有序内容包列表
 - 合集页实现文档：[FRONTEND_COLLECTION.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_COLLECTION.md)
+- T804 搜索页已落地：URL 筛选、结果数、清空筛选
+- 搜索页实现文档：[FRONTEND_SEARCH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_SEARCH.md)
 
 ### Phase 9：登录与会话
 

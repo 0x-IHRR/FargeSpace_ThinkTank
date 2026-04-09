@@ -3,6 +3,7 @@ import type {
   AssetType,
   CollectionDisplayItem,
   PackageDisplayItem,
+  SourceType,
   TopicDisplayItem,
 } from "./ui-models";
 
@@ -382,6 +383,8 @@ const PACKAGE_INDEX_BY_SLUG: Record<string, PackageDisplayItem> = Object.fromEnt
   [...HOME_LATEST, ...EXTRA_PACKAGES].map((item) => [item.slug, item])
 );
 
+const ALL_PACKAGES: PackageDisplayItem[] = Object.values(PACKAGE_INDEX_BY_SLUG);
+
 export function getCollectionPageData(slug: string) {
   const collectionMeta = COLLECTION_DETAILS[slug];
   const collection = {
@@ -400,5 +403,93 @@ export function getCollectionPageData(slug: string) {
     collection,
     items,
     knownCollection: Boolean(collectionMeta),
+  };
+}
+
+export const SEARCH_FILTER_OPTIONS = {
+  topic: [
+    { label: "全部主题", value: "all" },
+    ...Object.entries(TOPIC_DETAILS).map(([slug, meta]) => ({
+      label: meta.name,
+      value: slug,
+    })),
+  ] as const,
+  packageType: [
+    { label: "全部类型", value: "all" },
+    { label: "回顾", value: "recap" },
+    { label: "深度解读", value: "deep_dive" },
+    { label: "清单", value: "watchlist" },
+    { label: "工具实践", value: "toolkit" },
+    { label: "访谈", value: "interview" },
+  ] as const,
+  sourceType: [
+    { label: "全部来源", value: "all" },
+    { label: "文章", value: "article" },
+    { label: "视频", value: "video" },
+    { label: "播客", value: "podcast" },
+    { label: "论文", value: "paper" },
+    { label: "网站文档", value: "website" },
+  ] as const,
+  assetType: [
+    { label: "全部形式", value: "all" },
+    { label: "摘要", value: "brief" },
+    { label: "音频", value: "audio" },
+    { label: "幻灯片", value: "slides" },
+    { label: "视频", value: "video" },
+  ] as const,
+};
+
+type SearchFilters = {
+  q?: string;
+  topic?: string;
+  packageType?: PackageDisplayItem["packageType"] | null;
+  sourceType?: SourceType | null;
+  assetType?: AssetType | null;
+  publishedFrom?: string;
+  publishedTo?: string;
+};
+
+function normalizeDateInput(value: string | undefined) {
+  if (!value) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  return value;
+}
+
+function includesKeyword(item: PackageDisplayItem, keyword: string) {
+  const haystack = `${item.title} ${item.summary} ${item.sourcePlatform}`.toLowerCase();
+  return haystack.includes(keyword.toLowerCase());
+}
+
+export function getSearchPageData(filters: SearchFilters = {}) {
+  const q = filters.q?.trim() ?? "";
+  const publishedFrom = normalizeDateInput(filters.publishedFrom);
+  const publishedTo = normalizeDateInput(filters.publishedTo);
+
+  const items = sortPackagesByDateDesc(ALL_PACKAGES).filter((item) => {
+    if (q && !includesKeyword(item, q)) return false;
+    if (filters.topic && filters.topic !== "all" && item.topic.slug !== filters.topic) {
+      return false;
+    }
+    if (filters.packageType && item.packageType !== filters.packageType) {
+      return false;
+    }
+    if (filters.sourceType && item.sourceType !== filters.sourceType) {
+      return false;
+    }
+    if (filters.assetType && !item.availableAssetTypes.includes(filters.assetType)) {
+      return false;
+    }
+    if (publishedFrom && item.displayDate < publishedFrom) {
+      return false;
+    }
+    if (publishedTo && item.displayDate > publishedTo) {
+      return false;
+    }
+    return true;
+  });
+
+  return {
+    items,
+    total: items.length,
   };
 }
