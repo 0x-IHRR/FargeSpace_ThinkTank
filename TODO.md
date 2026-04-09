@@ -202,6 +202,7 @@ Phase 2 已交付内容：
 目标：
 
 - 让后台不仅能存东西，还能按规则发布
+- 当前状态：已完成，见 [PHASE3_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE3_SETUP.md)
 
 #### T301 配置工作流状态
 
@@ -244,6 +245,14 @@ Phase 2 已交付内容：
   - 已排期
   - 已发布
 - 依赖：T301-T306
+
+Phase 3 已交付内容：
+
+- [directus/schema/phase3-rules.sql](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/directus/schema/phase3-rules.sql) 已启用
+- 主来源唯一与主资产唯一已通过唯一索引生效
+- 发布前检查、内容包最小要求、摘要格式检查已通过数据库触发生效
+- 5 个后台书签已写入：待补来源、待补摘要、可排期、已排期、已发布
+- [scripts/verify_phase3_rules.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase3_rules.mjs) 已通过
 
 ### Phase 4：角色与权限
 
