@@ -1,12 +1,8 @@
 import Link from "next/link";
 import { EmptyState } from "@/components/empty-state";
 import { PackageCard } from "@/components/package-card";
+import { TOPIC_FILTER_OPTIONS, getTopicPageData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
-import {
-  TOPIC_FILTER_OPTIONS,
-  TOPIC_DETAILS,
-  getTopicPageData,
-} from "@/lib/mock-content";
 import type { AssetType, PackageDisplayItem } from "@/lib/ui-models";
 
 type TopicPageProps = {
@@ -42,7 +38,7 @@ function toTopicHref(
   return query.length > 0 ? `${ROUTES.topicDetail(slug)}?${query}` : ROUTES.topicDetail(slug);
 }
 
-export default function TopicPage({ params, searchParams }: TopicPageProps) {
+export default async function TopicPage({ params, searchParams }: TopicPageProps) {
   const { slug } = params;
   const packageTypeRaw = searchParams?.package_type ?? "all";
   const assetTypeRaw = searchParams?.asset_type ?? "all";
@@ -50,8 +46,7 @@ export default function TopicPage({ params, searchParams }: TopicPageProps) {
   const packageType = isPackageType(packageTypeRaw) ? packageTypeRaw : undefined;
   const assetType = isAssetType(assetTypeRaw) ? assetTypeRaw : undefined;
 
-  const data = getTopicPageData(slug, { packageType, assetType });
-  const knownTopic = Boolean(TOPIC_DETAILS[slug]);
+  const data = await getTopicPageData(slug, { packageType, assetType });
 
   return (
     <div className="showcase-stack topic-stack">
@@ -60,7 +55,7 @@ export default function TopicPage({ params, searchParams }: TopicPageProps) {
         <h1>{data.topic.name}</h1>
         <p>{data.topic.description}</p>
         <p className="topic-count">当前结果：{data.items.length} 条</p>
-        {!knownTopic ? (
+        {!data.knownTopic ? (
           <p className="topic-note">这个主题 slug 不在预设列表中，当前显示的是占位说明。</p>
         ) : null}
       </section>

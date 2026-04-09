@@ -4,16 +4,16 @@ import { CollectionPill } from "@/components/collection-pill";
 import { NotFoundState } from "@/components/not-found-state";
 import { SourceBadge } from "@/components/source-badge";
 import { TopicPill } from "@/components/topic-pill";
+import { getPackageDetailData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
-import { getPackageDetailData } from "@/lib/mock-content";
 
 type PackagePageProps = {
   params: { slug: string };
 };
 
-export default function PackagePage({ params }: PackagePageProps) {
+export default async function PackagePage({ params }: PackagePageProps) {
   const { slug } = params;
-  const data = getPackageDetailData(slug);
+  const data = await getPackageDetailData(slug);
 
   if (!data.detail) {
     return (

@@ -1,7 +1,7 @@
 import { EmptyState } from "@/components/empty-state";
 import { PackageCard } from "@/components/package-card";
+import { SEARCH_FILTER_OPTIONS, getSearchPageData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
-import { SEARCH_FILTER_OPTIONS, getSearchPageData } from "@/lib/mock-content";
 import type { AssetType, PackageDisplayItem, SourceType } from "@/lib/ui-models";
 
 type SearchPageProps = {
@@ -28,7 +28,7 @@ function isAssetType(value: string): value is AssetType {
   return ["brief", "audio", "slides", "video"].includes(value);
 }
 
-export default function SearchPage({ searchParams }: SearchPageProps) {
+export default async function SearchPage({ searchParams }: SearchPageProps) {
   const q = searchParams?.q?.trim() ?? "";
   const topic = searchParams?.topic ?? "all";
 
@@ -44,7 +44,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
   const publishedFrom = searchParams?.published_from ?? "";
   const publishedTo = searchParams?.published_to ?? "";
 
-  const data = getSearchPageData({
+  const data = await getSearchPageData({
     q,
     topic,
     packageType: safePackageType,

@@ -7,6 +7,7 @@ const adminEmail =
   process.env.DIRECTUS_ADMIN_EMAIL ?? "admin@example.com";
 const adminPassword =
   process.env.DIRECTUS_ADMIN_PASSWORD ?? "phase1-admin-password";
+const staticToken = process.env.DIRECTUS_TOKEN ?? null;
 
 const topicSeeds = [
   { slug: "agents", name: "Agents", description: "与智能体相关的内容", sort_order: 10 },
@@ -595,6 +596,8 @@ async function api(path, { method = "GET", token, body, allow404 = false } = {})
 }
 
 async function login() {
+  if (staticToken) return staticToken;
+
   const payload = await api("/auth/login", {
     method: "POST",
     body: { email: adminEmail, password: adminPassword },

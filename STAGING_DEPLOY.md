@@ -77,12 +77,15 @@ Vercel 官方文档说明，环境变量要分别绑定到 Preview、Production 
 
 | 变量 | Preview 建议值 |
 |---|---|
+| `DIRECTUS_URL` | Directus 测试环境域名 |
+| `DIRECTUS_TOKEN` | Directus Static Token |
 | `NEXT_PUBLIC_APP_URL` | 预览站域名 |
 | `NEXT_PUBLIC_DIRECTUS_URL` | Directus 测试环境域名 |
 | `NEXT_PUBLIC_ASSET_BASE_URL` | `Directus 域名/assets` |
 
 说明：
 
+- `DIRECTUS_TOKEN` 只给服务器端读取，不会显示在浏览器里
 - 如果还没准备好后台域名，可以先不填 `NEXT_PUBLIC_DIRECTUS_URL`
 - 当前前台已改成：未配置后台域名时，不显示错误的后台地址
 

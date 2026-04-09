@@ -3,16 +3,12 @@ import { CollectionPill } from "@/components/collection-pill";
 import { PackageCard } from "@/components/package-card";
 import { PackageHero } from "@/components/package-hero";
 import { TopicPill } from "@/components/topic-pill";
-import {
-  HOME_COLLECTIONS,
-  HOME_FEATURED,
-  HOME_FILTER_ENTRY,
-  HOME_LATEST,
-  HOME_TOPICS,
-} from "@/lib/mock-content";
+import { HOME_FILTER_ENTRY, getHomePageData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const data = await getHomePageData();
+
   return (
     <div className="showcase-stack home-stack">
       <section className="showcase-section home-hero-wrap">
@@ -20,7 +16,7 @@ export default function HomePage() {
           <h1>FargeSpace Think Tank</h1>
           <p>精选海外 AI 深度内容，统一整理成可直接浏览的会员资料包。</p>
         </div>
-        <PackageHero item={HOME_FEATURED} />
+        {data.featured ? <PackageHero item={data.featured} /> : null}
       </section>
 
       <section className="showcase-section">
@@ -29,7 +25,7 @@ export default function HomePage() {
           <p>按发布时间排序的最新内容包。</p>
         </div>
         <div className="package-grid">
-          {HOME_LATEST.map((item) => (
+          {data.latest.map((item) => (
             <PackageCard key={item.slug} item={item} />
           ))}
         </div>
@@ -41,7 +37,7 @@ export default function HomePage() {
           <p>从主题进入对应内容集合。</p>
         </div>
         <div className="pill-row">
-          {HOME_TOPICS.map((topic) => (
+          {data.topics.map((topic) => (
             <TopicPill key={topic.slug} topic={topic} />
           ))}
         </div>
@@ -53,7 +49,7 @@ export default function HomePage() {
           <p>按策展合集快速浏览内容包。</p>
         </div>
         <div className="pill-row">
-          {HOME_COLLECTIONS.map((collection) => (
+          {data.collections.map((collection) => (
             <CollectionPill key={collection.slug} collection={collection} />
           ))}
         </div>

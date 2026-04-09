@@ -5,6 +5,7 @@ const adminEmail =
   process.env.DIRECTUS_ADMIN_EMAIL ?? "admin@example.com";
 const adminPassword =
   process.env.DIRECTUS_ADMIN_PASSWORD ?? "phase1-admin-password";
+const staticToken = process.env.DIRECTUS_TOKEN ?? null;
 
 export async function request(
   path,
@@ -31,6 +32,8 @@ export async function request(
 }
 
 export async function loginAdmin() {
+  if (staticToken) return staticToken;
+
   const { payload } = await request("/auth/login", {
     method: "POST",
     body: { email: adminEmail, password: adminPassword },

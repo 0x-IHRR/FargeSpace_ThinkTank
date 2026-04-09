@@ -1,15 +1,15 @@
 import { EmptyState } from "@/components/empty-state";
 import { PackageCard } from "@/components/package-card";
+import { getCollectionPageData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
-import { getCollectionPageData } from "@/lib/mock-content";
 
 type CollectionPageProps = {
   params: { slug: string };
 };
 
-export default function CollectionPage({ params }: CollectionPageProps) {
+export default async function CollectionPage({ params }: CollectionPageProps) {
   const { slug } = params;
-  const data = getCollectionPageData(slug);
+  const data = await getCollectionPageData(slug);
 
   return (
     <div className="showcase-stack collection-stack">
