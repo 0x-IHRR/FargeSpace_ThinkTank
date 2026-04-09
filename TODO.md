@@ -487,6 +487,7 @@ Phase 7 当前已交付：
 目标：
 
 - 完成 V1 的会员浏览能力
+- 当前状态：进行中（T801 已完成）
 
 #### T801 首页
 
@@ -539,6 +540,11 @@ Phase 7 当前已交付：
   - 会员登录
   - Directus 后台入口链接
 - 依赖：T901
+
+Phase 8 当前已交付：
+
+- T801 首页已落地：featured package、latest packages、topic entry、collection entry、basic filter entry
+- 首页实现文档：[FRONTEND_HOME.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_HOME.md)
 
 ### Phase 9：登录与会话
 
