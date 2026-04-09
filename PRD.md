@@ -7,6 +7,7 @@
 关联文档：
 - 设计方案：[ihrr-unknown-design-20260409-113820.md](/Users/ihrr/.gstack/projects/FargeSpace_ThinkTank/ihrr-unknown-design-20260409-113820.md)
 - 线框参考：[gstack-sketch-v2.png](/tmp/gstack-sketch-v2.png)
+- Phase 0 冻结决策：[PHASE0_DECISIONS.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE0_DECISIONS.md)
 
 ## 1. 产品概述
 
@@ -300,7 +301,7 @@ V1 受控值：
 |---|---|
 | difficulty | beginner / intermediate / advanced |
 | use case | awareness / strategy / tooling / workflow / research |
-| signal level | high signal / reference / archive |
+| signal level | high_signal / reference / archive |
 | package type | recap / deep dive / watchlist / toolkit / interview |
 | publication cycle | weekly / monthly / special |
 

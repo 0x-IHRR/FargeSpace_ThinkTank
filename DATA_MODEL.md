@@ -7,6 +7,7 @@
 关联文档：
 - [PRD.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PRD.md)
 - [设计方案](/Users/ihrr/.gstack/projects/FargeSpace_ThinkTank/ihrr-unknown-design-20260409-113820.md)
+- [PHASE0_DECISIONS.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE0_DECISIONS.md)
 
 ## 1. 文档目的
 
@@ -29,6 +30,7 @@
 4. 每个 `Package` 必须至少绑定 1 个 `ProcessedAsset`
 5. V1 的 `ProcessedAsset` 以 `Package` 为单位管理，不做跨包复用
 6. 权限主要通过 Directus 角色控制，不通过复杂自定义权限表实现
+7. `difficulty`、`use_case`、`signal_level` 在 V1 直接作为 `packages` 字段落地，不单独建表
 
 ## 3. V1 核心数据对象
 
@@ -115,6 +117,9 @@ V1 建议使用以下集合：
 | `member_tier_id` | UUID | 是 | 会员层级 | `tier_id` |
 | `package_type` | Enum | 是 | 内容包类型 | `recap` |
 | `publication_cycle` | Enum | 否 | 发布周期 | `weekly` |
+| `difficulty` | Enum | 是 | 阅读难度 | `intermediate` |
+| `use_case` | Enum | 是 | 使用目的 | `research` |
+| `signal_level` | Enum | 是 | 信号等级 | `high_signal` |
 | `workflow_state` | Enum | 是 | 工作流状态 | `draft` |
 | `publish_start_at` | Datetime | 否 | 对会员生效时间 | `2026-04-10 09:00:00` |
 | `publish_end_at` | Datetime | 否 | 下线时间 | `2026-05-01 00:00:00` |
@@ -130,6 +135,9 @@ V1 建议使用以下集合：
 
 - `package_type`: `recap` / `deep_dive` / `watchlist` / `toolkit` / `interview`
 - `publication_cycle`: `weekly` / `monthly` / `special`
+- `difficulty`: `beginner` / `intermediate` / `advanced`
+- `use_case`: `awareness` / `strategy` / `tooling` / `workflow` / `research`
+- `signal_level`: `high_signal` / `reference` / `archive`
 - `workflow_state`: `draft` / `review` / `approved` / `scheduled` / `published` / `archived`
 
 业务规则：
@@ -138,6 +146,7 @@ V1 建议使用以下集合：
 - `summary` 为必填
 - `raw_source_visible` 默认 `true`
 - `member_tier_id` 在 V1 虽然只有一个值，但字段必须保留
+- `difficulty`、`use_case`、`signal_level` 在 V1 为必填
 - `publish_start_at` 为空时不可进入 `published`
 
 ### 5.3 `processed_assets`

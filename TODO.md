@@ -42,6 +42,7 @@
 目标：
 
 - 把后续所有实现依赖的基础规则先锁死
+- 当前状态：已完成，见 [PHASE0_DECISIONS.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE0_DECISIONS.md)
 
 #### T001 冻结受控枚举值
 
