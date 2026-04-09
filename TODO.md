@@ -603,6 +603,7 @@ Phase 9 当前已交付：
 目标：
 
 - 确保不是“能跑”，而是“可交付”
+- 当前状态：进行中（T1001 已完成）
 
 #### T1001 页面级检查
 
@@ -643,6 +644,12 @@ Phase 9 当前已交付：
 #### T1006 预发环境 smoke test
 
 - 依赖：T1001-T1005
+
+Phase 10 当前已交付：
+
+- T1001 页面级检查已落地：覆盖首页、主题页、合集页、搜索页、内容包详情页、登录页
+- 页面检查脚本：[scripts/verify_phase10_pages.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_pages.mjs)
+- 阶段文档：[PHASE10_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE10_SETUP.md)
 
 ## 4. 可平行执行图
 
