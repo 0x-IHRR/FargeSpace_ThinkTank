@@ -3,6 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import { ROUTE_EXAMPLES } from "@/lib/routes";
+import { ANONYMOUS_SESSION_STATE, formatSessionStatus } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "FargeSpace Think Tank",
@@ -23,6 +24,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const year = new Date().getFullYear();
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
+  const sessionState = ANONYMOUS_SESSION_STATE;
 
   return (
     <html lang="zh-CN">
@@ -45,7 +47,7 @@ export default function RootLayout({
               <section className="login-status" aria-label="登录状态区">
                 <div>
                   <p className="status-label">当前状态</p>
-                  <p className="status-value">访客模式</p>
+                  <p className="status-value">{formatSessionStatus(sessionState)}</p>
                 </div>
                 <div className="status-actions">
                   <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>

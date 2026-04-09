@@ -44,7 +44,7 @@ export default function LoginPage() {
               登录
             </button>
           </form>
-          <p className="login-note">登录入口规则已固定，会话对象与鉴权会在 T902 继续接入。</p>
+          <p className="login-note">会话对象标准已冻结，下一步会进入路由保护。</p>
         </article>
 
         <article className="login-panel login-panel-alt">

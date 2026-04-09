@@ -10,6 +10,8 @@
 - [app/layout.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/layout.tsx)
 - [lib/login-entry.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/login-entry.ts)
 - [FRONTEND_LOGIN.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_LOGIN.md)
+- [SESSION_CONTRACT.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/SESSION_CONTRACT.md)
+- [lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
 
 ## 1. Phase 9 目标
 
@@ -29,9 +31,27 @@ Phase 9 要完成两类事情：
 3. 前台共享壳与登录页使用同一入口生成逻辑，避免地址分叉
 4. `NEXT_PUBLIC_DIRECTUS_URL` 为空时，后台入口默认回退 `http://localhost:8055/admin/login`
 
+### 2.2 T902 冻结会话对象
+
+会话对象已冻结为固定字段：
+
+1. `userId`
+2. `role`
+3. `displayName`
+4. `activeMemberTierCode`
+5. `sessionExpiry`
+
+会话状态已冻结为三态：
+
+1. `anonymous`
+2. `authenticated`
+3. `expired`
+
+已形成独立标准文档并落地基础解析逻辑，用于后续 T903/T904 复用。
+
 ## 3. 当前边界
 
-T901 只冻结入口规则，不包含以下内容：
+T901/T902 之后，仍未包含以下内容：
 
 - 用户会话对象写入/读取
 - 受保护路由重定向
@@ -40,10 +60,10 @@ T901 只冻结入口规则，不包含以下内容：
 
 以上内容将进入：
 
-- T902、T903、T904
+- T903、T904
 
 ## 4. 下一步
 
 按计划进入：
 
-- T902 冻结会话对象
+- T903 路由保护

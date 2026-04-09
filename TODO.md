@@ -561,7 +561,7 @@ Phase 8 当前已交付：
 目标：
 
 - 把前台访问控制接起来
-- 当前状态：进行中（T901 已完成）
+- 当前状态：进行中（T901、T902 已完成）
 
 #### T901 冻结登录入口方案
 
@@ -592,7 +592,9 @@ Phase 8 当前已交付：
 Phase 9 当前已交付：
 
 - T901 登录入口方案已冻结：会员走前台登录页，后台用户走 Directus Admin 登录页
+- T902 会话对象已冻结：`userId`、`role`、`displayName`、`activeMemberTierCode`、`sessionExpiry`
 - 阶段文档：[PHASE9_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE9_SETUP.md)
+- 会话标准文档：[SESSION_CONTRACT.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/SESSION_CONTRACT.md)
 
 ### Phase 10：测试与上线准备
 
