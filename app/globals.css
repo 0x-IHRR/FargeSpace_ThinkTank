@@ -398,6 +398,56 @@ body {
   font-size: 14px;
 }
 
+.topic-stack h1 {
+  margin: 10px 0 0;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.topic-count {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-subtle);
+}
+
+.topic-note {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #92400e;
+}
+
+.topic-filter-wrap {
+  display: grid;
+  gap: 16px;
+}
+
+.filter-group h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.filter-chip-row {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  text-decoration: none;
+  color: #334155;
+  font-size: 13px;
+  border: 1px solid var(--frame-border);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 6px 12px;
+}
+
+.filter-chip.active {
+  color: #0c4a6e;
+  border-color: #7dd3fc;
+  background: #e0f2fe;
+}
+
 .state-grid {
   display: grid;
   gap: 14px;

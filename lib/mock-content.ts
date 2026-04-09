@@ -1,5 +1,6 @@
 import { ROUTES } from "./routes";
 import type {
+  AssetType,
   CollectionDisplayItem,
   PackageDisplayItem,
   TopicDisplayItem,
@@ -139,3 +140,174 @@ export const HOME_FILTER_ENTRY = [
     href: ROUTES.search,
   },
 ] as const;
+
+const EXTRA_PACKAGES: PackageDisplayItem[] = [
+  {
+    slug: "openai-agent-builder-guide-digest",
+    title: "OpenAI Agent Builder 指南整理：工作流节点与发布机制",
+    summary: "面向团队复用的 Agent 设计路径，整理成可快速落地的结构。",
+    packageType: "toolkit",
+    displayDate: "2025-05-03",
+    topic: { slug: "agents", name: "Agents" },
+    availableAssetTypes: ["brief", "slides", "audio"],
+    sourceType: "website",
+    sourcePlatform: "OpenAI Docs",
+    featured: true,
+  },
+  {
+    slug: "operator-browser-agent-recap",
+    title: "Operator 回顾：浏览器代理如何进入真实任务",
+    summary: "从真实任务流出发，梳理浏览器代理在业务流程中的落地点。",
+    packageType: "recap",
+    displayDate: "2025-01-24",
+    topic: { slug: "agents", name: "Agents" },
+    availableAssetTypes: ["brief", "audio", "slides"],
+    sourceType: "article",
+    sourcePlatform: "OpenAI",
+  },
+  {
+    slug: "agent-skills-mechanism-breakdown",
+    title: "Agent Skills 机制解读：AI 工作流如何模块化",
+    summary: "聚焦技能化抽象，给出编排复用和扩展边界的拆解框架。",
+    packageType: "deep_dive",
+    displayDate: "2025-10-17",
+    topic: { slug: "agents", name: "Agents" },
+    availableAssetTypes: ["brief", "audio", "slides"],
+    sourceType: "article",
+    sourcePlatform: "Anthropic",
+  },
+  {
+    slug: "gpt-4-1-launch-recap",
+    title: "GPT-4.1 发布回顾：长上下文与编码能力",
+    summary: "围绕能力边界、适用场景和工程落地做一页式对照。",
+    packageType: "recap",
+    displayDate: "2025-04-15",
+    topic: { slug: "models", name: "Models" },
+    availableAssetTypes: ["brief", "audio", "slides"],
+    sourceType: "article",
+    sourcePlatform: "OpenAI",
+  },
+  {
+    slug: "gemini-2-5-launch-recap",
+    title: "Gemini 2.5 首发解读：推理模型与长上下文",
+    summary: "从模型能力与竞品位势两条线并行整理核心变化。",
+    packageType: "recap",
+    displayDate: "2025-03-26",
+    topic: { slug: "models", name: "Models" },
+    availableAssetTypes: ["brief", "audio", "slides"],
+    sourceType: "article",
+    sourcePlatform: "Google",
+  },
+  {
+    slug: "deep-dive-claude-3-7-economic-index",
+    title: "Claude 3.7 使用洞察：AI 如何进入真实工作场景",
+    summary: "围绕真实生产使用行为，整理 AI 渗透路径和组织启发。",
+    packageType: "deep_dive",
+    displayDate: "2025-03-28",
+    topic: { slug: "research", name: "Research" },
+    availableAssetTypes: ["brief", "audio", "slides"],
+    sourceType: "article",
+    sourcePlatform: "Anthropic",
+  },
+];
+
+export const TOPIC_DETAILS: Record<
+  string,
+  { name: string; description: string }
+> = {
+  agents: {
+    name: "Agents",
+    description: "覆盖 Agent 设计、工作流编排、工具调用和真实任务落地案例。",
+  },
+  models: {
+    name: "Models",
+    description: "聚焦模型发布、能力演进和关键差异对比。",
+  },
+  reasoning: {
+    name: "Reasoning",
+    description: "围绕推理能力、方法路线和评测表现的持续追踪。",
+  },
+  tooling: {
+    name: "Tooling",
+    description: "整理与开发效率相关的工具链、SDK 和连接能力。",
+  },
+  workflow: {
+    name: "Workflow",
+    description: "关注流程自动化与协作场景中的可复用方案。",
+  },
+  research: {
+    name: "Research",
+    description: "筛选论文和研究结果，提炼可读、可讨论的核心结论。",
+  },
+  coding: {
+    name: "Coding",
+    description: "围绕代码生成、调试辅助与工程实践整理方法。",
+  },
+  business: {
+    name: "Business",
+    description: "追踪 AI 产品化、商业模式和生态演变。",
+  },
+  voice_ai: {
+    name: "Voice AI",
+    description: "聚焦语音交互、语音代理与行业落地案例。",
+  },
+};
+
+export const TOPIC_FILTER_OPTIONS = {
+  packageType: [
+    { label: "全部类型", value: "all" },
+    { label: "回顾", value: "recap" },
+    { label: "深度解读", value: "deep_dive" },
+    { label: "清单", value: "watchlist" },
+    { label: "工具实践", value: "toolkit" },
+    { label: "访谈", value: "interview" },
+  ] as const,
+  assetType: [
+    { label: "全部形式", value: "all" },
+    { label: "摘要", value: "brief" },
+    { label: "音频", value: "audio" },
+    { label: "幻灯片", value: "slides" },
+    { label: "视频", value: "video" },
+  ] as const,
+};
+
+type TopicFilterInput = {
+  packageType?: PackageDisplayItem["packageType"] | null;
+  assetType?: AssetType | null;
+};
+
+const TOPIC_PACKAGE_POOL: PackageDisplayItem[] = [...HOME_LATEST, ...EXTRA_PACKAGES];
+
+function sortPackagesByDateDesc(items: PackageDisplayItem[]) {
+  return [...items].sort((a, b) => (a.displayDate < b.displayDate ? 1 : -1));
+}
+
+export function getTopicPageData(slug: string, filters: TopicFilterInput = {}) {
+  const topicMeta = TOPIC_DETAILS[slug];
+  const topic = {
+    slug,
+    name: topicMeta?.name ?? slug,
+    description:
+      topicMeta?.description ?? "该主题还在整理中，稍后会补充更完整的主题说明。",
+  };
+
+  const items = sortPackagesByDateDesc(
+    TOPIC_PACKAGE_POOL.filter((item) => item.topic.slug === slug)
+  ).filter((item) => {
+    if (filters.packageType && item.packageType !== filters.packageType) {
+      return false;
+    }
+    if (
+      filters.assetType &&
+      !item.availableAssetTypes.includes(filters.assetType)
+    ) {
+      return false;
+    }
+    return true;
+  });
+
+  return {
+    topic,
+    items,
+  };
+}
