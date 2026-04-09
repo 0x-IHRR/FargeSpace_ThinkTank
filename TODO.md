@@ -345,6 +345,44 @@ Phase 11 已交付内容：
 - 后台操作顺序已写入 [PHASE11_UPLOAD_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE11_UPLOAD_FLOW.md)
 - [scripts/verify_phase11_upload_flow.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase11_upload_flow.mjs) 已通过
 
+### Phase 12：后台内容编辑与发布流程
+
+目标：
+
+- 把后台编辑、审核、排期、发布、归档流程固定成可执行操作
+- 当前状态：已完成，见 [PHASE12_EDITORIAL_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE12_EDITORIAL_FLOW.md)
+
+#### T1201 固定编辑书签
+
+- 范围：`草稿池`、`待审核`、`已归档`
+- 输出：`packages` 编辑入口补齐
+- 依赖：Phase 3、Phase 11 完成
+
+#### T1202 固定集合与字段说明
+
+- 范围：`packages`、`sources`、`processed_assets`、关键关联表
+- 输出：后台关键字段的填写口径可直接查看
+- 依赖：T1201
+
+#### T1203 固定状态切换口径
+
+- 范围：`draft`、`review`、`approved`、`scheduled`、`published`、`archived`
+- 输出：状态含义和下一步动作明确
+- 依赖：T1201、T1202
+
+#### T1204 做可重复校验
+
+- 范围：编辑书签、集合说明、字段说明、状态顺序
+- 输出：校验脚本
+- 依赖：T1201-T1203
+
+Phase 12 已交付内容：
+
+- `packages` 编辑书签已补齐为 `草稿池`、`待补来源`、`待补摘要`、`待审核`、`可排期`、`已排期`、`已发布`、`已归档`
+- 集合说明与关键字段说明已写入 Directus
+- 后台编辑与发布顺序已写入 [PHASE12_EDITORIAL_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE12_EDITORIAL_FLOW.md)
+- [scripts/verify_phase12_editorial_flow.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase12_editorial_flow.mjs) 已通过
+
 ### Phase 5：种子数据与试填验证
 
 目标：
