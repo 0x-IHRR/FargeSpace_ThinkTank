@@ -487,7 +487,7 @@ Phase 7 当前已交付：
 目标：
 
 - 完成 V1 的会员浏览能力
-- 当前状态：进行中（T801、T802、T803、T804、T805 已完成）
+- 当前状态：已完成（T801-T806 全部完成）
 
 #### T801 首页
 
@@ -553,6 +553,8 @@ Phase 8 当前已交付：
 - 搜索页实现文档：[FRONTEND_SEARCH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_SEARCH.md)
 - T805 内容包详情页已落地：标题、摘要、加工资产区、来源区、主题/合集信息
 - 详情页实现文档：[FRONTEND_PACKAGE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_PACKAGE.md)
+- T806 登录页已落地：会员登录表单、Directus 后台入口链接
+- 登录页实现文档：[FRONTEND_LOGIN.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_LOGIN.md)
 
 ### Phase 9：登录与会话
 
@@ -678,6 +680,7 @@ Phase 8 当前已交付：
 #### 并行组 C：详情与媒体组
 
 - T805 内容包详情页
+- T806 登录页
 - brief/audio/slides/video 渲染组件
 
 #### 并行组 D：环境与测试组
@@ -718,6 +721,7 @@ Phase 8 当前已交付：
 
 - T804
 - T805
+- T806
 - 媒体渲染
 
 #### Agent 4：环境与测试
