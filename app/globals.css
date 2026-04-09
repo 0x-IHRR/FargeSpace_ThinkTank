@@ -403,6 +403,11 @@ body {
   font-size: clamp(26px, 4vw, 36px);
 }
 
+.collection-stack h1 {
+  margin: 10px 0 0;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
 .topic-count {
   margin-top: 10px;
   font-size: 13px;

@@ -311,3 +311,94 @@ export function getTopicPageData(slug: string, filters: TopicFilterInput = {}) {
     items,
   };
 }
+
+const COLLECTION_DETAILS: Record<
+  string,
+  { name: string; description: string }
+> = {
+  "agentic-ai-watch": {
+    name: "Agentic AI Watch",
+    description: "持续追踪 Agent 设计、工作流编排与落地能力演进。",
+  },
+  "research-paper-selection": {
+    name: "研究与论文精选",
+    description: "聚焦高价值论文与研究内容，沉淀可复用的阅读线索。",
+  },
+  "developer-tooling-tracker": {
+    name: "开发者工具追踪",
+    description: "围绕 SDK、工具链与连接能力做持续更新与比对。",
+  },
+  "ai-summit-video-selection": {
+    name: "AI 峰会视频精选",
+    description: "按主题整理峰会与访谈视频，便于快速补齐信息面。",
+  },
+  "model-release-observer": {
+    name: "模型发布观察",
+    description: "整理重点模型发布与能力变化，持续维护可对照时间线。",
+  },
+  "ai-product-and-ecosystem": {
+    name: "AI 产品与生态",
+    description: "关注产品策略、生态合作与平台动作的结构化变化。",
+  },
+  "ai-usage-and-trends": {
+    name: "AI 使用与趋势",
+    description: "围绕使用行为与行业变化，提炼趋势级判断素材。",
+  },
+  "ai-industry-applications": {
+    name: "AI 行业应用",
+    description: "聚焦医疗、企业服务等行业落地案例与方法。",
+  },
+};
+
+const COLLECTION_PACKAGE_ORDER: Record<string, string[]> = {
+  "agentic-ai-watch": [
+    "agent-skills-mechanism-breakdown",
+    "openai-agent-builder-guide-digest",
+    "operator-browser-agent-recap",
+    "anthropic-agent-capabilities-api-update",
+  ],
+  "research-paper-selection": [
+    "deepseek-r1-paper-digest",
+    "deep-dive-claude-3-7-economic-index",
+  ],
+  "developer-tooling-tracker": [
+    "gemini-2-5-pro-web-apps-update",
+    "openai-agent-builder-guide-digest",
+    "anthropic-agent-capabilities-api-update",
+  ],
+  "ai-summit-video-selection": ["ai-ascent-2025-video-playlist-digest"],
+  "model-release-observer": [
+    "gpt-4-1-launch-recap",
+    "gemini-2-5-launch-recap",
+  ],
+  "ai-product-and-ecosystem": [
+    "sam-altman-core-ai-subscription-podcast-digest",
+  ],
+  "ai-usage-and-trends": ["deep-dive-claude-3-7-economic-index"],
+  "ai-industry-applications": ["voice-ai-healthcare-podcast-digest"],
+};
+
+const PACKAGE_INDEX_BY_SLUG: Record<string, PackageDisplayItem> = Object.fromEntries(
+  [...HOME_LATEST, ...EXTRA_PACKAGES].map((item) => [item.slug, item])
+);
+
+export function getCollectionPageData(slug: string) {
+  const collectionMeta = COLLECTION_DETAILS[slug];
+  const collection = {
+    slug,
+    name: collectionMeta?.name ?? slug,
+    description:
+      collectionMeta?.description ?? "该合集还在整理中，稍后会补充更完整的合集说明。",
+  };
+
+  const orderedSlugs = COLLECTION_PACKAGE_ORDER[slug] ?? [];
+  const items = orderedSlugs
+    .map((itemSlug) => PACKAGE_INDEX_BY_SLUG[itemSlug])
+    .filter((item): item is PackageDisplayItem => Boolean(item));
+
+  return {
+    collection,
+    items,
+    knownCollection: Boolean(collectionMeta),
+  };
+}
