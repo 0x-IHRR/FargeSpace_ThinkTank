@@ -1,11 +1,17 @@
 import { ROUTES } from "./routes";
 
-const DEFAULT_DIRECTUS_BASE_URL = "http://localhost:8055";
-
 export const MEMBER_LOGIN_ROUTE = ROUTES.login;
 
 export function getDirectusAdminLoginUrl() {
-  const directusBase =
-    process.env.NEXT_PUBLIC_DIRECTUS_URL?.replace(/\/$/, "") ?? DEFAULT_DIRECTUS_BASE_URL;
-  return `${directusBase}/admin/login`;
+  const directusBase = process.env.NEXT_PUBLIC_DIRECTUS_URL?.replace(/\/$/, "");
+
+  if (directusBase) {
+    return `${directusBase}/admin/login`;
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    return "http://localhost:8055/admin/login";
+  }
+
+  return null;
 }

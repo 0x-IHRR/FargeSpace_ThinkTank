@@ -66,9 +66,11 @@ export default function RootLayout({
                   ) : (
                     <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
                   )}
-                  <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
-                    后台入口
-                  </a>
+                  {directusAdminLoginUrl ? (
+                    <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
+                      后台入口
+                    </a>
+                  ) : null}
                 </div>
               </section>
             </div>

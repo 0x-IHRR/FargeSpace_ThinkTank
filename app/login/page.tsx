@@ -80,16 +80,27 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               登录
             </button>
           </form>
-          <p className="login-note">登录、登出与会话过期处理已接入，下一步进入 Phase 10 验证。</p>
+          <p className="login-note">当前登录页用于前台验收，正式会员体系将在后台联通后接入。</p>
         </article>
 
         <article className="login-panel login-panel-alt">
           <h2>Directus 后台入口</h2>
           <p>内容编辑与发布请走后台入口。</p>
-          <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer" className="state-link">
-            打开 Directus Admin
-          </a>
-          <p className="login-meta">后台地址：{directusAdminLoginUrl}</p>
+          {directusAdminLoginUrl ? (
+            <>
+              <a
+                href={directusAdminLoginUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="state-link"
+              >
+                打开 Directus Admin
+              </a>
+              <p className="login-meta">后台地址：{directusAdminLoginUrl}</p>
+            </>
+          ) : (
+            <p className="login-meta">后台测试环境尚未配置，当前预览站仅供前台验收。</p>
+          )}
         </article>
       </section>
     </div>
