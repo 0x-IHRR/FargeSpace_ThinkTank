@@ -12,3 +12,4 @@ storage/uploads/directus-health-file
 storage/backups/
 directus/schema/generated/
 extensions/build/
+artifacts/
