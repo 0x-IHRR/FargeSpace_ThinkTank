@@ -427,7 +427,7 @@ Phase 6 已交付内容：
 目标：
 
 - 把所有页面共用的东西先做完
-- 当前状态：进行中（T701 已完成，见 [FRONTEND_ROUTES.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_ROUTES.md)）
+- 当前状态：进行中（T701、T702 已完成）
 
 #### T701 定路由结构
 
@@ -475,6 +475,8 @@ Phase 7 当前已交付：
 
 - T701 路由结构已落地：`/`、`/topics/[slug]`、`/collections/[slug]`、`/packages/[slug]`、`/search`、`/login`
 - 路由冻结文档：[FRONTEND_ROUTES.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_ROUTES.md)
+- T702 共享壳已落地：页头、导航、登录状态区、页宽规则、页脚
+- 共享壳文档：[FRONTEND_SHELL.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_SHELL.md)
 
 ### Phase 8：前台页面实现
 
