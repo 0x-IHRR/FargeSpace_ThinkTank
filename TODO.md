@@ -131,6 +131,7 @@
 目标：
 
 - 把 `DATA_MODEL.md` 真正映射成后台结构
+- 当前状态：已完成，见 [PHASE2_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE2_SETUP.md)
 
 #### T201 创建 `sources`
 
@@ -186,6 +187,15 @@
 
 - 范围：字段显示、默认排序、搜索字段
 - 依赖：T201-T209
+
+Phase 2 已交付内容：
+
+- Directus 9 个集合已建成
+- 固定枚举已配置为后台下拉字段
+- 13 条基础关系已配置
+- 9 个 `topics`、8 个 `curated_collections`、1 个 `member_tiers` 已写入
+- [directus/schema/schema.yaml](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/directus/schema/schema.yaml) 已导出
+- [directus/schema/phase2-indexes.sql](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/directus/schema/phase2-indexes.sql) 已应用
 
 ### Phase 3：编辑流程与校验规则
 

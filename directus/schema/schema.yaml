@@ -1,0 +1,4496 @@
+version: 1
+directus: 11.17.2
+vendor: postgres
+collections:
+  - collection: curated_collections
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: status
+      archive_value: archived
+      collapse: open
+      collection: curated_collections
+      color: null
+      display_template: '{{name}}'
+      group: null
+      hidden: false
+      icon: collections_bookmark
+      item_duplication_fields: null
+      note: 固定策展合集
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: active
+      versioning: false
+    schema:
+      name: curated_collections
+  - collection: member_tiers
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: status
+      archive_value: archived
+      collapse: open
+      collection: member_tiers
+      color: null
+      display_template: '{{name}}'
+      group: null
+      hidden: false
+      icon: card_membership
+      item_duplication_fields: null
+      note: 会员层级
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: name
+      translations: null
+      unarchive_value: active
+      versioning: false
+    schema:
+      name: member_tiers
+  - collection: package_collections
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: package_collections
+      color: null
+      display_template: '{{package_id.title}} -> {{collection_id.name}}'
+      group: null
+      hidden: true
+      icon: device_hub
+      item_duplication_fields: null
+      note: 内容包与合集的关联
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: package_collections
+  - collection: package_sources
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: package_sources
+      color: null
+      display_template: '{{package_id.title}} -> {{source_id.title}}'
+      group: null
+      hidden: true
+      icon: device_hub
+      item_duplication_fields: null
+      note: 内容包与来源的关联
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: package_sources
+  - collection: package_topics
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: package_topics
+      color: null
+      display_template: '{{package_id.title}} -> {{topic_id.name}}'
+      group: null
+      hidden: true
+      icon: device_hub
+      item_duplication_fields: null
+      note: 内容包与主题的关联
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: package_topics
+  - collection: packages
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: workflow_state
+      archive_value: archived
+      collapse: open
+      collection: packages
+      color: null
+      display_template: '{{title}}'
+      group: null
+      hidden: false
+      icon: auto_stories
+      item_duplication_fields: null
+      note: 会员实际浏览的内容包
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_date
+      translations: null
+      unarchive_value: draft
+      versioning: false
+    schema:
+      name: packages
+  - collection: processed_assets
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: status
+      archive_value: archived
+      collapse: open
+      collection: processed_assets
+      color: null
+      display_template: '{{title}}'
+      group: null
+      hidden: false
+      icon: library_books
+      item_duplication_fields: null
+      note: 会员实际消费的加工内容
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: active
+      versioning: false
+    schema:
+      name: processed_assets
+  - collection: sources
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: status
+      archive_value: archived
+      collapse: open
+      collection: sources
+      color: null
+      display_template: '{{title}}'
+      group: null
+      hidden: false
+      icon: link
+      item_duplication_fields: null
+      note: 原始来源
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: published_at
+      translations: null
+      unarchive_value: active
+      versioning: false
+    schema:
+      name: sources
+  - collection: topics
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: status
+      archive_value: archived
+      collapse: open
+      collection: topics
+      color: null
+      display_template: '{{name}}'
+      group: null
+      hidden: false
+      icon: hub
+      item_duplication_fields: null
+      note: 启动主题
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: sort_order
+      translations: null
+      unarchive_value: active
+      versioning: false
+    schema:
+      name: topics
+fields:
+  - collection: curated_collections
+    field: id
+    type: uuid
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: curated_collections
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: slug
+    type: string
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: slug
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: slug
+      table: curated_collections
+      data_type: character varying
+      default_value: null
+      max_length: 160
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: name
+    type: string
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: name
+      table: curated_collections
+      data_type: character varying
+      default_value: null
+      max_length: 180
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: description
+    type: text
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: description
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: description
+      table: curated_collections
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: collection_type
+    type: string
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: collection_type
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: weekly
+            value: weekly
+          - text: monthly
+            value: monthly
+          - text: special
+            value: special
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: collection_type
+      table: curated_collections
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: cover_file_id
+    type: uuid
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: file
+      display_options: null
+      field: cover_file_id
+      group: null
+      hidden: false
+      interface: file-image
+      note: 合集封面
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 6
+      special:
+        - file
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: cover_file_id
+      table: curated_collections
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_files
+      foreign_key_column: id
+  - collection: curated_collections
+    field: sort_order
+    type: integer
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 7
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: curated_collections
+      data_type: integer
+      default_value: 0
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: status
+    type: string
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: active
+            value: active
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 8
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: status
+      table: curated_collections
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: package_links
+    type: alias
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: package_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{package_id.title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 9
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: curated_collections
+    field: created_at
+    type: timestamp
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 10
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: curated_collections
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: curated_collections
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: curated_collections
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 11
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: curated_collections
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: id
+    type: uuid
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: member_tiers
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: code
+    type: string
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: code
+      group: null
+      hidden: false
+      interface: input
+      note: 会员层级唯一代码
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: code
+      table: member_tiers
+      data_type: character varying
+      default_value: null
+      max_length: 80
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: name
+    type: string
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: name
+      group: null
+      hidden: false
+      interface: input
+      note: 会员层级名称
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: name
+      table: member_tiers
+      data_type: character varying
+      default_value: null
+      max_length: 120
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: description
+    type: text
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: description
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: 会员层级说明
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: description
+      table: member_tiers
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: status
+    type: string
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: 状态
+      options:
+        allowNone: false
+        choices:
+          - text: active
+            value: active
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: status
+      table: member_tiers
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: packages
+    type: alias
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: null
+      display_options: null
+      field: packages
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 6
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: member_tiers
+    field: created_at
+    type: timestamp
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 7
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: member_tiers
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: member_tiers
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: member_tiers
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 8
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: member_tiers
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_collections
+    field: id
+    type: uuid
+    meta:
+      collection: package_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: package_collections
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_collections
+    field: package_id
+    type: uuid
+    meta:
+      collection: package_collections
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{title}}'
+      field: package_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: package_id
+      table: package_collections
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: packages
+      foreign_key_column: id
+  - collection: package_collections
+    field: collection_id
+    type: uuid
+    meta:
+      collection: package_collections
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: collection_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: collection_id
+      table: package_collections
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: curated_collections
+      foreign_key_column: id
+  - collection: package_collections
+    field: sort_order
+    type: integer
+    meta:
+      collection: package_collections
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: package_collections
+      data_type: integer
+      default_value: 1
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_collections
+    field: created_at
+    type: timestamp
+    meta:
+      collection: package_collections
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 5
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: package_collections
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_sources
+    field: id
+    type: uuid
+    meta:
+      collection: package_sources
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: package_sources
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_sources
+    field: package_id
+    type: uuid
+    meta:
+      collection: package_sources
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{title}}'
+      field: package_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: package_id
+      table: package_sources
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: packages
+      foreign_key_column: id
+  - collection: package_sources
+    field: source_id
+    type: uuid
+    meta:
+      collection: package_sources
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{title}}'
+      field: source_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: source_id
+      table: package_sources
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: sources
+      foreign_key_column: id
+  - collection: package_sources
+    field: is_primary
+    type: boolean
+    meta:
+      collection: package_sources
+      conditions: null
+      display: boolean
+      display_options: null
+      field: is_primary
+      group: null
+      hidden: false
+      interface: boolean
+      note: 是否主来源
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 4
+      special:
+        - cast-boolean
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: is_primary
+      table: package_sources
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_sources
+    field: sort_order
+    type: integer
+    meta:
+      collection: package_sources
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: package_sources
+      data_type: integer
+      default_value: 1
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_sources
+    field: created_at
+    type: timestamp
+    meta:
+      collection: package_sources
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 6
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: package_sources
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_topics
+    field: id
+    type: uuid
+    meta:
+      collection: package_topics
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: package_topics
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_topics
+    field: package_id
+    type: uuid
+    meta:
+      collection: package_topics
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{title}}'
+      field: package_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: package_id
+      table: package_topics
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: packages
+      foreign_key_column: id
+  - collection: package_topics
+    field: topic_id
+    type: uuid
+    meta:
+      collection: package_topics
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: topic_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: topic_id
+      table: package_topics
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: topics
+      foreign_key_column: id
+  - collection: package_topics
+    field: sort_order
+    type: integer
+    meta:
+      collection: package_topics
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: package_topics
+      data_type: integer
+      default_value: 1
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: package_topics
+    field: created_at
+    type: timestamp
+    meta:
+      collection: package_topics
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 5
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: package_topics
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: id
+    type: uuid
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: packages
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: slug
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: slug
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: slug
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 180
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: title
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: title
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: title
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: summary
+    type: text
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: summary
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: 内容包摘要
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: summary
+      table: packages
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: cover_file_id
+    type: uuid
+    meta:
+      collection: packages
+      conditions: null
+      display: file
+      display_options: null
+      field: cover_file_id
+      group: null
+      hidden: false
+      interface: file-image
+      note: 内容包封面
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 5
+      special:
+        - file
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: cover_file_id
+      table: packages
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_files
+      foreign_key_column: id
+  - collection: packages
+    field: primary_topic_id
+    type: uuid
+    meta:
+      collection: packages
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: primary_topic_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: 首页和详情页使用的主主题
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 6
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: primary_topic_id
+      table: packages
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: topics
+      foreign_key_column: id
+  - collection: packages
+    field: member_tier_id
+    type: uuid
+    meta:
+      collection: packages
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{name}}'
+      field: member_tier_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: V1 仅有标准会员
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 7
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: member_tier_id
+      table: packages
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: member_tiers
+      foreign_key_column: id
+  - collection: packages
+    field: package_type
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: package_type
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: recap
+            value: recap
+          - text: deep_dive
+            value: deep_dive
+          - text: watchlist
+            value: watchlist
+          - text: toolkit
+            value: toolkit
+          - text: interview
+            value: interview
+      readonly: false
+      required: true
+      searchable: true
+      sort: 8
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: package_type
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: publication_cycle
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: publication_cycle
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: weekly
+            value: weekly
+          - text: monthly
+            value: monthly
+          - text: special
+            value: special
+      readonly: false
+      required: false
+      searchable: true
+      sort: 9
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: publication_cycle
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: difficulty
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: difficulty
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: beginner
+            value: beginner
+          - text: intermediate
+            value: intermediate
+          - text: advanced
+            value: advanced
+      readonly: false
+      required: true
+      searchable: true
+      sort: 10
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: difficulty
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: use_case
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: use_case
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: awareness
+            value: awareness
+          - text: strategy
+            value: strategy
+          - text: tooling
+            value: tooling
+          - text: workflow
+            value: workflow
+          - text: research
+            value: research
+      readonly: false
+      required: true
+      searchable: true
+      sort: 11
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: use_case
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: signal_level
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: signal_level
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: high_signal
+            value: high_signal
+          - text: reference
+            value: reference
+          - text: archive
+            value: archive
+      readonly: false
+      required: true
+      searchable: true
+      sort: 12
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: signal_level
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: workflow_state
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: workflow_state
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: draft
+            value: draft
+          - text: review
+            value: review
+          - text: approved
+            value: approved
+          - text: scheduled
+            value: scheduled
+          - text: published
+            value: published
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 13
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: workflow_state
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: publish_start_at
+    type: timestamp
+    meta:
+      collection: packages
+      conditions: null
+      display: datetime
+      display_options: null
+      field: publish_start_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: 会员可见起始时间
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 14
+      special: []
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: publish_start_at
+      table: packages
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: publish_end_at
+    type: timestamp
+    meta:
+      collection: packages
+      conditions: null
+      display: datetime
+      display_options: null
+      field: publish_end_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: 会员可见结束时间
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 15
+      special: []
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: publish_end_at
+      table: packages
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: is_featured
+    type: boolean
+    meta:
+      collection: packages
+      conditions: null
+      display: boolean
+      display_options: null
+      field: is_featured
+      group: null
+      hidden: false
+      interface: boolean
+      note: 首页重点内容
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 16
+      special:
+        - cast-boolean
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: is_featured
+      table: packages
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: sort_date
+    type: timestamp
+    meta:
+      collection: packages
+      conditions: null
+      display: datetime
+      display_options: null
+      field: sort_date
+      group: null
+      hidden: false
+      interface: datetime
+      note: 前台排序时间
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 17
+      special: []
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_date
+      table: packages
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: raw_source_visible
+    type: boolean
+    meta:
+      collection: packages
+      conditions: null
+      display: boolean
+      display_options: null
+      field: raw_source_visible
+      group: null
+      hidden: false
+      interface: boolean
+      note: 是否显示原始来源信息
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 18
+      special:
+        - cast-boolean
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: raw_source_visible
+      table: packages
+      data_type: boolean
+      default_value: true
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: seo_title
+    type: string
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: seo_title
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 19
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: seo_title
+      table: packages
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: seo_description
+    type: text
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: seo_description
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 20
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: seo_description
+      table: packages
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: assets
+    type: alias
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: assets
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 21
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: packages
+    field: source_links
+    type: alias
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: source_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{source_id.title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 22
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: packages
+    field: topic_links
+    type: alias
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: topic_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{topic_id.name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 23
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: packages
+    field: collection_links
+    type: alias
+    meta:
+      collection: packages
+      conditions: null
+      display: null
+      display_options: null
+      field: collection_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{collection_id.name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 24
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: packages
+    field: created_at
+    type: timestamp
+    meta:
+      collection: packages
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 25
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: packages
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: packages
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: packages
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 26
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: packages
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: id
+    type: uuid
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: processed_assets
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: package_id
+    type: uuid
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{title}}'
+      field: package_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: package_id
+      table: processed_assets
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: packages
+      foreign_key_column: id
+  - collection: processed_assets
+    field: asset_type
+    type: string
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: asset_type
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: brief
+            value: brief
+          - text: audio
+            value: audio
+          - text: slides
+            value: slides
+          - text: video
+            value: video
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: asset_type
+      table: processed_assets
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: title
+    type: string
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: title
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: title
+      table: processed_assets
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: language
+    type: string
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: language
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: zh
+            value: zh
+          - text: en
+            value: en
+          - text: other
+            value: other
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: language
+      table: processed_assets
+      data_type: character varying
+      default_value: null
+      max_length: 16
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: body_markdown
+    type: text
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: body_markdown
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: 文字摘要正文
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 6
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: body_markdown
+      table: processed_assets
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: file_id
+    type: uuid
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: file
+      display_options: null
+      field: file_id
+      group: null
+      hidden: false
+      interface: file
+      note: 上传后的资产文件
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 7
+      special:
+        - file
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: file_id
+      table: processed_assets
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_files
+      foreign_key_column: id
+  - collection: processed_assets
+    field: external_url
+    type: string
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: external_url
+      group: null
+      hidden: false
+      interface: input
+      note: 外部视频或文档链接
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 8
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: external_url
+      table: processed_assets
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: duration_seconds
+    type: integer
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: duration_seconds
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 9
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: duration_seconds
+      table: processed_assets
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: sort_order
+    type: integer
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 10
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: processed_assets
+      data_type: integer
+      default_value: 1
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: is_primary
+    type: boolean
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: boolean
+      display_options: null
+      field: is_primary
+      group: null
+      hidden: false
+      interface: boolean
+      note: 同一个内容包的主要资产
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 11
+      special:
+        - cast-boolean
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: is_primary
+      table: processed_assets
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: status
+    type: string
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: active
+            value: active
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 12
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: status
+      table: processed_assets
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: created_at
+    type: timestamp
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 13
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: processed_assets
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: processed_assets
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: processed_assets
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 14
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: processed_assets
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: id
+    type: uuid
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: sources
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: title
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: title
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: title
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: source_type
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: source_type
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: article
+            value: article
+          - text: video
+            value: video
+          - text: podcast
+            value: podcast
+          - text: paper
+            value: paper
+          - text: website
+            value: website
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: source_type
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: platform
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: platform
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: platform
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: source_url
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: source_url
+      group: null
+      hidden: false
+      interface: input
+      note: 原始来源链接
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: source_url
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: author_name
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: author_name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 6
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: author_name
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 150
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: language
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: language
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: en
+            value: en
+          - text: zh
+            value: zh
+          - text: other
+            value: other
+      readonly: false
+      required: true
+      searchable: true
+      sort: 7
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: language
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 16
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: published_at
+    type: timestamp
+    meta:
+      collection: sources
+      conditions: null
+      display: datetime
+      display_options: null
+      field: published_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 8
+      special: []
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: published_at
+      table: sources
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: thumbnail_file_id
+    type: uuid
+    meta:
+      collection: sources
+      conditions: null
+      display: file
+      display_options: null
+      field: thumbnail_file_id
+      group: null
+      hidden: false
+      interface: file-image
+      note: 来源封面
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 9
+      special:
+        - file
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: thumbnail_file_id
+      table: sources
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_files
+      foreign_key_column: id
+  - collection: sources
+    field: source_summary
+    type: text
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: source_summary
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: 内部摘要，不直接暴露给会员
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 10
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: source_summary
+      table: sources
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: status
+    type: string
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: active
+            value: active
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 11
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: status
+      table: sources
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: package_links
+    type: alias
+    meta:
+      collection: sources
+      conditions: null
+      display: null
+      display_options: null
+      field: package_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{package_id.title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 12
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: sources
+    field: created_at
+    type: timestamp
+    meta:
+      collection: sources
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 13
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: sources
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: sources
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: sources
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 14
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: sources
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: id
+    type: uuid
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 1
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: topics
+      data_type: uuid
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: slug
+    type: string
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: slug
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 2
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: slug
+      table: topics
+      data_type: character varying
+      default_value: null
+      max_length: 120
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: name
+    type: string
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: name
+      table: topics
+      data_type: character varying
+      default_value: null
+      max_length: 120
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: description
+    type: text
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: description
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: null
+      options: null
+      readonly: false
+      required: false
+      searchable: true
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: description
+      table: topics
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: sort_order
+    type: integer
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: sort_order
+      group: null
+      hidden: false
+      interface: numeric
+      note: null
+      options: null
+      readonly: false
+      required: true
+      searchable: true
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: sort_order
+      table: topics
+      data_type: integer
+      default_value: 0
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: status
+    type: string
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input-dropdown
+      note: null
+      options:
+        allowNone: false
+        choices:
+          - text: active
+            value: active
+          - text: archived
+            value: archived
+      readonly: false
+      required: true
+      searchable: true
+      sort: 6
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: status
+      table: topics
+      data_type: character varying
+      default_value: null
+      max_length: 32
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: package_links
+    type: alias
+    meta:
+      collection: topics
+      conditions: null
+      display: null
+      display_options: null
+      field: package_links
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options:
+        template: '{{package_id.title}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: 7
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+  - collection: topics
+    field: created_at
+    type: timestamp
+    meta:
+      collection: topics
+      conditions: null
+      display: datetime
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 8
+      special:
+        - date-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: created_at
+      table: topics
+      data_type: timestamp with time zone
+      default_value: CURRENT_TIMESTAMP
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: topics
+    field: updated_at
+    type: timestamp
+    meta:
+      collection: topics
+      conditions: null
+      display: datetime
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: true
+      required: false
+      searchable: true
+      sort: 9
+      special:
+        - date-updated
+      translations: null
+      validation: null
+      validation_message: null
+      width: half
+    schema:
+      name: updated_at
+      table: topics
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+systemFields:
+  - collection: directus_activity
+    field: timestamp
+    schema:
+      is_indexed: true
+  - collection: directus_revisions
+    field: activity
+    schema:
+      is_indexed: true
+  - collection: directus_revisions
+    field: parent
+    schema:
+      is_indexed: true
+relations:
+  - collection: curated_collections
+    field: cover_file_id
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: curated_collections
+      many_field: cover_file_id
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: curated_collections
+      column: cover_file_id
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: curated_collections_cover_file_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+  - collection: package_collections
+    field: package_id
+    related_collection: packages
+    meta:
+      junction_field: null
+      many_collection: package_collections
+      many_field: package_id
+      one_allowed_collections: null
+      one_collection: packages
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: collection_links
+      sort_field: null
+    schema:
+      table: package_collections
+      column: package_id
+      foreign_key_table: packages
+      foreign_key_column: id
+      constraint_name: package_collections_package_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: package_collections
+    field: collection_id
+    related_collection: curated_collections
+    meta:
+      junction_field: null
+      many_collection: package_collections
+      many_field: collection_id
+      one_allowed_collections: null
+      one_collection: curated_collections
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: package_links
+      sort_field: null
+    schema:
+      table: package_collections
+      column: collection_id
+      foreign_key_table: curated_collections
+      foreign_key_column: id
+      constraint_name: package_collections_collection_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: package_sources
+    field: package_id
+    related_collection: packages
+    meta:
+      junction_field: null
+      many_collection: package_sources
+      many_field: package_id
+      one_allowed_collections: null
+      one_collection: packages
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: source_links
+      sort_field: null
+    schema:
+      table: package_sources
+      column: package_id
+      foreign_key_table: packages
+      foreign_key_column: id
+      constraint_name: package_sources_package_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: package_sources
+    field: source_id
+    related_collection: sources
+    meta:
+      junction_field: null
+      many_collection: package_sources
+      many_field: source_id
+      one_allowed_collections: null
+      one_collection: sources
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: package_links
+      sort_field: null
+    schema:
+      table: package_sources
+      column: source_id
+      foreign_key_table: sources
+      foreign_key_column: id
+      constraint_name: package_sources_source_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: package_topics
+    field: package_id
+    related_collection: packages
+    meta:
+      junction_field: null
+      many_collection: package_topics
+      many_field: package_id
+      one_allowed_collections: null
+      one_collection: packages
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: topic_links
+      sort_field: null
+    schema:
+      table: package_topics
+      column: package_id
+      foreign_key_table: packages
+      foreign_key_column: id
+      constraint_name: package_topics_package_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: package_topics
+    field: topic_id
+    related_collection: topics
+    meta:
+      junction_field: null
+      many_collection: package_topics
+      many_field: topic_id
+      one_allowed_collections: null
+      one_collection: topics
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: package_links
+      sort_field: null
+    schema:
+      table: package_topics
+      column: topic_id
+      foreign_key_table: topics
+      foreign_key_column: id
+      constraint_name: package_topics_topic_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: packages
+    field: primary_topic_id
+    related_collection: topics
+    meta:
+      junction_field: null
+      many_collection: packages
+      many_field: primary_topic_id
+      one_allowed_collections: null
+      one_collection: topics
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: packages
+      column: primary_topic_id
+      foreign_key_table: topics
+      foreign_key_column: id
+      constraint_name: packages_primary_topic_id_foreign
+      on_update: NO ACTION
+      on_delete: RESTRICT
+  - collection: packages
+    field: member_tier_id
+    related_collection: member_tiers
+    meta:
+      junction_field: null
+      many_collection: packages
+      many_field: member_tier_id
+      one_allowed_collections: null
+      one_collection: member_tiers
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: packages
+      sort_field: null
+    schema:
+      table: packages
+      column: member_tier_id
+      foreign_key_table: member_tiers
+      foreign_key_column: id
+      constraint_name: packages_member_tier_id_foreign
+      on_update: NO ACTION
+      on_delete: RESTRICT
+  - collection: packages
+    field: cover_file_id
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: packages
+      many_field: cover_file_id
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: packages
+      column: cover_file_id
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: packages_cover_file_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+  - collection: processed_assets
+    field: package_id
+    related_collection: packages
+    meta:
+      junction_field: null
+      many_collection: processed_assets
+      many_field: package_id
+      one_allowed_collections: null
+      one_collection: packages
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: assets
+      sort_field: null
+    schema:
+      table: processed_assets
+      column: package_id
+      foreign_key_table: packages
+      foreign_key_column: id
+      constraint_name: processed_assets_package_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+  - collection: processed_assets
+    field: file_id
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: processed_assets
+      many_field: file_id
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: processed_assets
+      column: file_id
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: processed_assets_file_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+  - collection: sources
+    field: thumbnail_file_id
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: sources
+      many_field: thumbnail_file_id
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: sources
+      column: thumbnail_file_id
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: sources_thumbnail_file_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL

@@ -8,6 +8,9 @@
 - [PRD.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PRD.md)
 - [设计方案](/Users/ihrr/.gstack/projects/FargeSpace_ThinkTank/ihrr-unknown-design-20260409-113820.md)
 - [PHASE0_DECISIONS.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE0_DECISIONS.md)
+- [PHASE2_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE2_SETUP.md)
+- [directus/schema/schema.yaml](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/directus/schema/schema.yaml)
+- [directus/schema/phase2-indexes.sql](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/directus/schema/phase2-indexes.sql)
 
 ## 1. 文档目的
 
@@ -51,6 +54,7 @@ V1 建议使用以下集合：
 - `curated_collections` 用这个名字，是为了避免和数据库保留语义冲突
 - 用户与角色由 Directus 自带用户体系管理
 - 文件资产优先使用 Directus 文件系统，不单独再建媒体主表
+- Phase 2 已在 Directus 本地环境实现，并导出为 `schema.yaml`
 
 ## 4. 关系总览
 
