@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import "./globals.css";
+import { logoutMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import { ROUTE_EXAMPLES } from "@/lib/routes";
 import {
@@ -56,7 +57,15 @@ export default function RootLayout({
                   <p className="status-value">{formatSessionStatus(sessionState)}</p>
                 </div>
                 <div className="status-actions">
-                  <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
+                  {sessionState.kind === "authenticated" ? (
+                    <form action={logoutMember}>
+                      <button type="submit" className="state-btn">
+                        退出登录
+                      </button>
+                    </form>
+                  ) : (
+                    <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
+                  )}
                   <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
                     后台入口
                   </a>

@@ -2,7 +2,7 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T901 Completed）
+状态：Frozen（T901-T904 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
@@ -13,6 +13,7 @@
 - [SESSION_CONTRACT.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/SESSION_CONTRACT.md)
 - [lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
 - [middleware.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/middleware.ts)
+- [app/session-actions.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts)
 
 ## 1. Phase 9 目标
 
@@ -61,20 +62,22 @@ Phase 9 要完成两类事情：
 
 前台顶部状态区已改为读取会话 cookie，而不是固定显示访客文案。
 
+### 2.4 T904 登出与会话过期处理
+
+已落地并统一规则：
+
+1. 登录成功后写入 `httpOnly` 会话 cookie，默认 8 小时
+2. 勾选“记住登录状态”后，会话时长延长到 30 天
+3. 登录状态下顶部展示“退出登录”，点击后立即清理 cookie 并返回登录页
+4. 会话过期后访问受保护页面，会自动清理 cookie 并跳转登录页，提示“会话已过期”
+5. 登录页支持 `next` 回跳地址，登录后返回原访问页面
+
 ## 3. 当前边界
 
-T901/T902 之后，仍未包含以下内容：
-
-- 用户会话对象写入/读取
-- 登出逻辑
-- 过期处理
-
-以上内容将进入：
-
-- T904
+Phase 9 已完成，当前不再遗留登录与会话边界问题。
 
 ## 4. 下一步
 
 按计划进入：
 
-- T904 登出与会话过期处理
+- Phase 10 测试与上线准备

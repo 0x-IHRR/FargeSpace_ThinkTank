@@ -1,6 +1,9 @@
 export const MEMBER_ROLES = ["member", "editor", "admin"] as const;
 export type MemberRole = (typeof MEMBER_ROLES)[number];
 export const MEMBER_SESSION_COOKIE_NAME = "fargespace_member_session";
+export const DEFAULT_MEMBER_TIER_CODE = "standard_member";
+export const DEFAULT_SESSION_HOURS = 8;
+export const REMEMBER_SESSION_DAYS = 30;
 
 export type MemberSession = {
   userId: string;
@@ -96,4 +99,21 @@ export function formatSessionStatus(state: SessionState): string {
     return `${state.session.displayName}（会话已过期）`;
   }
   return `${state.session.displayName}（${state.session.role} / ${state.session.activeMemberTierCode}）`;
+}
+
+export function encodeMemberSessionCookie(session: MemberSession): string {
+  return encodeURIComponent(JSON.stringify(session));
+}
+
+export function sanitizeNextPath(path: string | null | undefined): string {
+  if (!path) {
+    return "/";
+  }
+  if (!path.startsWith("/")) {
+    return "/";
+  }
+  if (path.startsWith("//")) {
+    return "/";
+  }
+  return path;
 }

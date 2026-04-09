@@ -46,9 +46,13 @@
   - [lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
 - 前台顶部状态文案已接入会话对象标准：
   - [app/layout.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/layout.tsx)
+- 登录写入与登出清理会话：
+  - [app/session-actions.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts)
+- 过期会话自动清理与重定向：
+  - [middleware.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/middleware.ts)
 
 ## 6. 下一步
 
-进入 T904：
+进入 Phase 10：
 
-- 统一登出行为与会话过期处理
+- 执行页面级与权限级测试

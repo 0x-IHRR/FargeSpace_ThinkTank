@@ -33,6 +33,9 @@ export function middleware(request: NextRequest) {
   loginUrl.searchParams.set("next", `${pathname}${search}`);
   if (sessionState.kind === "expired") {
     loginUrl.searchParams.set("reason", "expired");
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete(MEMBER_SESSION_COOKIE_NAME);
+    return response;
   }
   return NextResponse.redirect(loginUrl);
 }

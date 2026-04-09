@@ -1,16 +1,32 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { loginMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl } from "@/lib/login-entry";
+import {
+  MEMBER_SESSION_COOKIE_NAME,
+  getSessionStateFromCookieValue,
+  sanitizeNextPath,
+} from "@/lib/session";
 
 type LoginPageProps = {
   searchParams?: {
     next?: string;
     reason?: string;
+    error?: string;
   };
 };
 
 export default function LoginPage({ searchParams }: LoginPageProps) {
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
-  const nextPath = searchParams?.next ?? "/";
+  const nextPath = sanitizeNextPath(searchParams?.next ?? "/");
   const isExpiredReason = searchParams?.reason === "expired";
+  const hasMissingFieldsError = searchParams?.error === "missing_fields";
+  const sessionCookie = cookies().get(MEMBER_SESSION_COOKIE_NAME)?.value;
+  const sessionState = getSessionStateFromCookieValue(sessionCookie);
+
+  if (sessionState.kind === "authenticated") {
+    redirect(nextPath);
+  }
 
   return (
     <div className="showcase-stack login-stack">
@@ -22,6 +38,9 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           {isExpiredReason ? (
             <p className="login-alert">当前会话已过期，请重新登录。</p>
           ) : null}
+          {hasMissingFieldsError ? (
+            <p className="login-alert">请填写邮箱和密码后再登录。</p>
+          ) : null}
         </div>
       </section>
 
@@ -29,7 +48,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
         <article className="login-panel">
           <h2>会员入口</h2>
           <p>使用会员邮箱和密码登录。</p>
-          <form className="login-form">
+          <form className="login-form" action={loginMember}>
             <label htmlFor="member-email">邮箱</label>
             <input
               id="member-email"
@@ -37,6 +56,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               name="email"
               autoComplete="email"
               placeholder="name@company.com"
+              required
             />
 
             <label htmlFor="member-password">密码</label>
@@ -46,18 +66,21 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               name="password"
               autoComplete="current-password"
               placeholder="输入密码"
+              required
             />
+
+            <input type="hidden" name="next" value={nextPath} />
 
             <label className="login-checkbox">
               <input type="checkbox" name="remember" />
               记住登录状态
             </label>
 
-            <button type="button" className="state-btn">
+            <button type="submit" className="state-btn">
               登录
             </button>
           </form>
-          <p className="login-note">路由保护已接入，下一步会进入登出与过期处理。</p>
+          <p className="login-note">登录、登出与会话过期处理已接入，下一步进入 Phase 10 验证。</p>
         </article>
 
         <article className="login-panel login-panel-alt">

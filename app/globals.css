@@ -123,6 +123,10 @@ body {
   gap: 8px;
 }
 
+.status-actions form {
+  margin: 0;
+}
+
 .status-actions a {
   text-decoration: none;
   font-size: 13px;
