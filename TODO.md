@@ -259,6 +259,7 @@ Phase 3 已交付内容：
 目标：
 
 - 保证后台和前台的可见性不乱
+- 当前状态：已完成，见 [PHASE4_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE4_SETUP.md)
 
 #### T401 创建角色
 
@@ -295,6 +296,15 @@ Phase 3 已交付内容：
   - `member`
   - 未登录用户
 - 依赖：T402-T404
+
+Phase 4 已交付内容：
+
+- `Editor` 和 `Member` 角色已创建并绑定独立 policy
+- `editor` 可管理内容，不可创建用户与修改系统权限
+- `member` 仅可读取已发布且在窗口内的内容包
+- 关联可见性已对 `processed_assets` / `package_sources` / `package_topics` / `package_collections` 生效
+- 原始 `sources` 直接读取已关闭，避免绕过内容包可见边界
+- [scripts/verify_phase4_access.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase4_access.mjs) 已通过
 
 ### Phase 5：种子数据与试填验证
 
