@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301 已完成）
+状态：In Progress（T1301-T1302 已完成）
 
 ## 1. 目标
 
@@ -103,8 +103,99 @@
 
 ### T1302 冻结会员账号字段
 
-- 确认显示名、层级、状态从哪里读
-- 确认哪些字段必须给前台使用
+- 当前状态：已完成
+
+#### 结构选择
+
+| 方案 | 做法 | 优点 | 缺点 |
+|---|---|---|---|
+| A | 直接使用 `directus_users`，只补最少自定义字段 | 结构最简单，和 Directus 登录天然一致 | 自定义会员字段要加在系统用户表上 |
+| B | 另建 `member_profiles`，再和 `directus_users` 关联 | 扩展性更强 | 当前阶段字段太少，成本偏高 |
+
+#### 推荐方案
+
+选择：
+
+- `A：直接使用 directus_users，补最少自定义字段`
+
+原因：
+
+1. 当前正式会员登录的核心只需要账号、角色、层级、状态
+2. Directus 登录本来就是基于 `directus_users`
+3. 先不拆双表，后面实现登录、会话、权限会更直接
+4. 如果以后会员资料变复杂，再拆 `member_profiles` 也来得及
+
+#### 冻结后的最小账号字段
+
+| 字段 | 来源 | 用途 | 备注 |
+|---|---|---|---|
+| `id` | `directus_users.id` | 前台会话主键 | 必填 |
+| `email` | `directus_users.email` | 登录账号 | 必填，唯一 |
+| `role` | `directus_users.role` | 判断 `member` / `editor` / `admin` | 必填 |
+| `status` | `directus_users.status` | 判断账号是否可登录 | 必填，必须是 `active` |
+| `first_name` | `directus_users.first_name` | 显示名组成部分 | 可空 |
+| `last_name` | `directus_users.last_name` | 显示名组成部分 | 可空 |
+| `member_tier_id` | `directus_users` 自定义字段 | 会员层级关联 | `T1303` 新增 |
+| `member_profile_status` | `directus_users` 自定义字段 | 前台会员资格状态 | `T1303` 新增 |
+
+#### 冻结后的字段解释
+
+显示名口径：
+
+1. 优先 `first_name + last_name`
+2. 如果姓名为空，回退到邮箱前缀
+
+会员层级口径：
+
+1. 真实来源固定为 `member_tiers`
+2. 前台会话里继续保留 `activeMemberTierCode`
+3. 该值从 `member_tier_id -> member_tiers.code` 映射得到
+
+账号状态口径：
+
+1. `directus_users.status` 负责判断账号是否可登录
+2. `member_profile_status` 负责判断会员资格是否有效
+
+推荐枚举：
+
+- `member_profile_status = active / paused / expired`
+
+放行条件：
+
+1. `directus_users.status = active`
+2. 角色属于 `member / editor / admin`
+3. `member_profile_status = active`
+4. `member_tier_id` 已绑定有效层级
+
+#### 前台真正需要读取的字段
+
+前台会话只保留这些值：
+
+1. `userId`
+2. `role`
+3. `displayName`
+4. `activeMemberTierCode`
+5. `sessionExpiry`
+
+前台不直接保留：
+
+1. 邮箱
+2. 后台原始 role 记录全文
+3. 后台原始用户对象
+4. 后台 refresh token 明文
+
+#### 对 T1303 的直接要求
+
+下一步必须补的后台字段是：
+
+1. `directus_users.member_tier_id`
+2. `directus_users.member_profile_status`
+
+当前不新增：
+
+1. `member_profiles`
+2. 单独的会员资料表
+3. 单独的前台账号表
 
 ### T1303 配置后台会员账号结构
 
@@ -156,3 +247,11 @@
   [User Directory](https://docs.directus.io/user-guide/user-management/user-directory)
 - Directus 用户系统字段说明：用户记录默认包含 `status`、`role`、`token` 等字段  
   [Users API](https://docs.directus.io/reference/system/users)
+
+## 7. 当前已冻结的会员账号结构
+
+- 账号基础表：`directus_users`
+- 会员层级来源：`member_tiers`
+- 前台显示名：姓名优先，邮箱前缀兜底
+- 会员资格状态：`member_profile_status`
+- 当前不拆独立 `member_profiles`
