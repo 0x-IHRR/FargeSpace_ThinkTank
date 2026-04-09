@@ -2,6 +2,7 @@ import { ROUTES } from "./routes";
 import type {
   AssetType,
   CollectionDisplayItem,
+  PackageDetailData,
   PackageDisplayItem,
   SourceType,
   TopicDisplayItem,
@@ -491,5 +492,147 @@ export function getSearchPageData(filters: SearchFilters = {}) {
   return {
     items,
     total: items.length,
+  };
+}
+
+const SOURCE_URL_BY_SLUG: Record<string, string> = {
+  "openai-agent-builder-guide-digest":
+    "https://developers.openai.com/api/docs/guides/agent-builder",
+  "gemini-2-5-pro-web-apps-update":
+    "https://blog.google/products-and-platforms/products/gemini/gemini-2-5-pro-updates/",
+  "deepseek-r1-paper-digest": "https://arxiv.org/abs/2501.12948",
+  "voice-ai-healthcare-podcast-digest":
+    "https://a16z.com/podcast/voice-ai-solving-healthcares-workforce-challenges-with-ankit-jain/",
+  "anthropic-agent-capabilities-api-update":
+    "https://www.anthropic.com/news/agent-capabilities-api/",
+  "ai-ascent-2025-video-playlist-digest":
+    "https://youtube.com/playlist?list=PLOhHNjZItNnMEqGLRWkKjaMcdSJptkR08",
+  "sam-altman-core-ai-subscription-podcast-digest":
+    "https://sequoiacap.com/podcast/sam-altman-training-data/",
+  "operator-browser-agent-recap":
+    "https://openai.com/index/introducing-operator/",
+  "agent-skills-mechanism-breakdown": "https://claude.com/blog/skills",
+  "gpt-4-1-launch-recap": "https://openai.com/index/gpt-4-1/",
+  "gemini-2-5-launch-recap":
+    "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-model-thinking-updates-march-2025/",
+  "deep-dive-claude-3-7-economic-index":
+    "https://www.anthropic.com/news/anthropic-economic-index-insights-from-claude-sonnet-3-7",
+};
+
+const EXTRA_TOPICS_BY_PACKAGE: Record<string, TopicDisplayItem[]> = {
+  "openai-agent-builder-guide-digest": [
+    { slug: "workflow", name: "Workflow" },
+    { slug: "tooling", name: "Tooling" },
+  ],
+  "gemini-2-5-pro-web-apps-update": [
+    { slug: "agents", name: "Agents" },
+    { slug: "workflow", name: "Workflow" },
+  ],
+  "deepseek-r1-paper-digest": [
+    { slug: "models", name: "Models" },
+    { slug: "reasoning", name: "Reasoning" },
+  ],
+  "ai-ascent-2025-video-playlist-digest": [
+    { slug: "models", name: "Models" },
+    { slug: "agents", name: "Agents" },
+  ],
+};
+
+function toDurationByType(type: AssetType) {
+  if (type === "audio") return 780;
+  if (type === "video") return 1320;
+  return undefined;
+}
+
+function toAssetTitle(type: AssetType) {
+  if (type === "brief") return "精读摘要";
+  if (type === "audio") return "语音版";
+  if (type === "slides") return "关键页幻灯片";
+  return "视频版";
+}
+
+function toAssetBody(type: AssetType, title: string) {
+  if (type !== "brief") return undefined;
+  return `# ${title}\n\n本页为内容包详情页占位摘要。后续接入真实接口后，这里将显示完整摘要正文。`;
+}
+
+function toAssetExternalUrl(type: AssetType, sourceUrl: string) {
+  if (type === "brief") return undefined;
+  const parsed = new URL(sourceUrl);
+  parsed.searchParams.set("asset", type);
+  return parsed.toString();
+}
+
+const PACKAGE_COLLECTIONS_INDEX: Record<string, CollectionDisplayItem[]> = (() => {
+  const index: Record<string, CollectionDisplayItem[]> = {};
+  for (const [collectionSlug, packageSlugs] of Object.entries(COLLECTION_PACKAGE_ORDER)) {
+    const collectionName = COLLECTION_DETAILS[collectionSlug]?.name ?? collectionSlug;
+    for (const packageSlug of packageSlugs) {
+      if (!index[packageSlug]) index[packageSlug] = [];
+      index[packageSlug].push({ slug: collectionSlug, name: collectionName });
+    }
+  }
+  return index;
+})();
+
+function buildPackageDetail(item: PackageDisplayItem): PackageDetailData {
+  const sourceUrl =
+    SOURCE_URL_BY_SLUG[item.slug] ??
+    `https://example.com/sources/${encodeURIComponent(item.slug)}`;
+
+  const assets = item.availableAssetTypes.map((type, index) => ({
+    assetType: type,
+    title: toAssetTitle(type),
+    language: "zh" as const,
+    sortOrder: index + 1,
+    isPrimary: index === 0,
+    bodyMarkdown: toAssetBody(type, item.title),
+    externalUrl: toAssetExternalUrl(type, sourceUrl),
+    durationSeconds: toDurationByType(type),
+  }));
+
+  const relatedTopics = [
+    item.topic,
+    ...(EXTRA_TOPICS_BY_PACKAGE[item.slug] ?? []),
+  ].filter(
+    (topic, index, list) =>
+      list.findIndex((entry) => entry.slug === topic.slug) === index
+  );
+
+  return {
+    slug: item.slug,
+    title: item.title,
+    summary: item.summary,
+    packageType: item.packageType,
+    displayDate: item.displayDate,
+    primaryTopic: item.topic,
+    topics: relatedTopics,
+    collections: PACKAGE_COLLECTIONS_INDEX[item.slug] ?? [],
+    rawSourceVisible: true,
+    assets,
+    sources: [
+      {
+        title: item.title.replace(/：.*/, ""),
+        sourceType: item.sourceType,
+        platform: item.sourcePlatform,
+        sourceUrl,
+        language: "en",
+        publishedAt: item.displayDate,
+        isPrimary: true,
+        sortOrder: 1,
+      },
+    ],
+  };
+}
+
+export function getPackageDetailData(slug: string) {
+  const item = PACKAGE_INDEX_BY_SLUG[slug];
+  if (!item) {
+    return { knownPackage: false, detail: null };
+  }
+
+  return {
+    knownPackage: true,
+    detail: buildPackageDetail(item),
   };
 }
