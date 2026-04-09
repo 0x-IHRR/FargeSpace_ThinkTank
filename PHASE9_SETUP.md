@@ -12,6 +12,7 @@
 - [FRONTEND_LOGIN.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_LOGIN.md)
 - [SESSION_CONTRACT.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/SESSION_CONTRACT.md)
 - [lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
+- [middleware.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/middleware.ts)
 
 ## 1. Phase 9 目标
 
@@ -49,21 +50,31 @@ Phase 9 要完成两类事情：
 
 已形成独立标准文档并落地基础解析逻辑，用于后续 T903/T904 复用。
 
+### 2.3 T903 路由保护
+
+已冻结并上线规则：
+
+1. 受保护页面：`/`、`/search`、`/topics/*`、`/collections/*`、`/packages/*`
+2. 未登录访问受保护页面时，自动跳转 `/login`
+3. 跳转时保留 `next` 参数，登录后可回原页面
+4. 若会话已过期，附带 `reason=expired` 提示登录页展示
+
+前台顶部状态区已改为读取会话 cookie，而不是固定显示访客文案。
+
 ## 3. 当前边界
 
 T901/T902 之后，仍未包含以下内容：
 
 - 用户会话对象写入/读取
-- 受保护路由重定向
 - 登出逻辑
 - 过期处理
 
 以上内容将进入：
 
-- T903、T904
+- T904
 
 ## 4. 下一步
 
 按计划进入：
 
-- T903 路由保护
+- T904 登出与会话过期处理

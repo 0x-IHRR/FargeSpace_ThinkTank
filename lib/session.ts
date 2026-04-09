@@ -1,5 +1,6 @@
 export const MEMBER_ROLES = ["member", "editor", "admin"] as const;
 export type MemberRole = (typeof MEMBER_ROLES)[number];
+export const MEMBER_SESSION_COOKIE_NAME = "fargespace_member_session";
 
 export type MemberSession = {
   userId: string;
@@ -66,6 +67,25 @@ export function buildSessionState(payload: unknown, now = new Date()): SessionSt
     return { kind: "expired", session };
   }
   return { kind: "authenticated", session };
+}
+
+function parseCookiePayload(cookieValue: string): unknown {
+  try {
+    const decoded = decodeURIComponent(cookieValue);
+    return JSON.parse(decoded);
+  } catch {
+    return null;
+  }
+}
+
+export function getSessionStateFromCookieValue(
+  cookieValue: string | null | undefined,
+  now = new Date()
+): SessionState {
+  if (!cookieValue) {
+    return ANONYMOUS_SESSION_STATE;
+  }
+  return buildSessionState(parseCookiePayload(cookieValue), now);
 }
 
 export function formatSessionStatus(state: SessionState): string {

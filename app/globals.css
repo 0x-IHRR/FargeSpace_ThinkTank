@@ -496,6 +496,19 @@ body {
   word-break: break-all;
 }
 
+.login-next {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #0f172a;
+  word-break: break-all;
+}
+
+.login-alert {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #991b1b;
+}
+
 .search-filter-form {
   margin-top: 16px;
   display: grid;

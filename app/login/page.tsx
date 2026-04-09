@@ -1,7 +1,16 @@
 import { getDirectusAdminLoginUrl } from "@/lib/login-entry";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    next?: string;
+    reason?: string;
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
+  const nextPath = searchParams?.next ?? "/";
+  const isExpiredReason = searchParams?.reason === "expired";
 
   return (
     <div className="showcase-stack login-stack">
@@ -9,6 +18,10 @@ export default function LoginPage() {
         <div className="section-head">
           <h1>会员登录</h1>
           <p>登录后可访问会员内容包与专题页。</p>
+          <p className="login-next">登录后将返回：{nextPath}</p>
+          {isExpiredReason ? (
+            <p className="login-alert">当前会话已过期，请重新登录。</p>
+          ) : null}
         </div>
       </section>
 
@@ -44,7 +57,7 @@ export default function LoginPage() {
               登录
             </button>
           </form>
-          <p className="login-note">会话对象标准已冻结，下一步会进入路由保护。</p>
+          <p className="login-note">路由保护已接入，下一步会进入登出与过期处理。</p>
         </article>
 
         <article className="login-panel login-panel-alt">

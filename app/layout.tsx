@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import "./globals.css";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import { ROUTE_EXAMPLES } from "@/lib/routes";
-import { ANONYMOUS_SESSION_STATE, formatSessionStatus } from "@/lib/session";
+import {
+  MEMBER_SESSION_COOKIE_NAME,
+  formatSessionStatus,
+  getSessionStateFromCookieValue,
+} from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "FargeSpace Think Tank",
@@ -24,7 +29,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const year = new Date().getFullYear();
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
-  const sessionState = ANONYMOUS_SESSION_STATE;
+  const sessionCookie = cookies().get(MEMBER_SESSION_COOKIE_NAME)?.value;
+  const sessionState = getSessionStateFromCookieValue(sessionCookie);
 
   return (
     <html lang="zh-CN">
