@@ -311,6 +311,7 @@ Phase 4 已交付内容：
 目标：
 
 - 确保当前结构可以撑住真实内容
+- 当前状态：已完成，见 [PHASE5_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE5_SETUP.md)
 
 #### T501 校验 CSV 结构
 
@@ -348,6 +349,14 @@ Phase 4 已交付内容：
 
 - 条件：只有 dry-run 清洁后才执行
 - 依赖：T505 或 T504 通过
+
+Phase 5 已交付内容：
+
+- 结构校验入口已完成：[scripts/phase5_validate_seed.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase5_validate_seed.mjs)
+- dry-run 全流程已完成：[scripts/phase5_dry_run_import.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase5_dry_run_import.mjs)
+- 正式导入已完成：[scripts/phase5_import_seed.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase5_import_seed.mjs)
+- 导入共享能力已沉淀：[scripts/lib/phase5_seed.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase5_seed.mjs)、[scripts/lib/phase5_directus.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase5_directus.mjs)
+- 20 条真实内容已入库（20 `packages` / 20 `sources` / 56 `processed_assets`）
 
 ### Phase 6：接口合同冻结
 
