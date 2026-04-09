@@ -88,6 +88,7 @@
 目标：
 
 - 把 Directus、数据库、存储、基础配置搭起来
+- 当前状态：已完成，见 [PHASE1_SETUP.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE1_SETUP.md)
 
 #### T101 选定 Directus 版本与部署形态
 
