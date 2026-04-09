@@ -13,3 +13,8 @@ storage/backups/
 directus/schema/generated/
 extensions/build/
 artifacts/
+node_modules/
+.next/
+out/
+.npm-cache/
+tsconfig.tsbuildinfo
