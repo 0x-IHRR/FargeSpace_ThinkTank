@@ -427,7 +427,7 @@ Phase 6 已交付内容：
 目标：
 
 - 把所有页面共用的东西先做完
-- 当前状态：进行中（T701、T702、T703 已完成）
+- 当前状态：已完成（T701-T704 全部完成）
 
 #### T701 定路由结构
 
@@ -479,6 +479,8 @@ Phase 7 当前已交付：
 - 共享壳文档：[FRONTEND_SHELL.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_SHELL.md)
 - T703 共享展示组件已落地：package hero/card、topic/collection pill、source/asset badge
 - 组件文档：[FRONTEND_COMPONENTS.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_COMPONENTS.md)
+- T704 共享状态组件已落地：loading、empty、error、expired、unauthorized、not found
+- 状态组件文档：[FRONTEND_STATES.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/FRONTEND_STATES.md)
 
 ### Phase 8：前台页面实现
 
