@@ -2,13 +2,14 @@
 
 版本：V1  
 日期：2026-04-09  
-状态：In Progress（T1001-T1003 Completed）
+状态：In Progress（T1001-T1004 Completed）
 
 关联文件：
 - [TODO.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/TODO.md)
 - [scripts/verify_phase10_pages.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_pages.mjs)
 - [scripts/verify_phase10_roles.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_roles.mjs)
 - [scripts/verify_phase10_publish_visibility.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_publish_visibility.mjs)
+- [scripts/verify_phase10_media_mix.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase10_media_mix.mjs)
 
 ## 1. Phase 10 目标
 
@@ -64,6 +65,19 @@ Phase 10 聚焦可交付验证，不再扩展新功能。
 - 会员看不到 `draft`
 - 会员看不到 `scheduled`
 
+### 2.4 T1004 媒体组合检查
+
+已落地媒体组合检查脚本，覆盖以下维度：
+
+1. 来源类型：`article`、`video`、`podcast`、`paper`、`website`
+2. 加工资产：`brief`、`audio`、`slides`、`video`
+
+检查点包含：
+
+- 上述 5 类来源在内容包中全部出现
+- 上述 4 类加工资产在内容包中全部出现
+- 输出来源 × 资产的组合矩阵，便于后续回归对比
+
 ## 3. 执行方式
 
 执行前先完成构建：
@@ -90,8 +104,14 @@ node scripts/verify_phase10_roles.mjs
 node scripts/verify_phase10_publish_visibility.mjs
 ```
 
+执行媒体组合检查：
+
+```bash
+node scripts/verify_phase10_media_mix.mjs
+```
+
 ## 4. 下一步
 
 按计划进入：
 
-- T1004 媒体组合检查
+- T1005 移动端检查
