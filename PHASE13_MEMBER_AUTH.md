@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1302 已完成）
+状态：In Progress（T1301-T1303 已完成）
 
 ## 1. 目标
 
@@ -199,7 +199,52 @@
 
 ### T1303 配置后台会员账号结构
 
-- 把会员层级和账号状态真正挂到账号体系
+- 当前状态：已完成
+
+#### 当前已完成的后台账号结构
+
+已写入 `directus_users` 的自定义字段：
+
+1. `member_tier_id`
+2. `member_profile_status`
+
+已建立的真实关系：
+
+1. `directus_users.member_tier_id -> member_tiers`
+
+已补好的后台管理入口：
+
+1. `有效会员`
+2. `待补层级`
+3. `已停用会员`
+
+#### 当前固定的后台管理口径
+
+有效会员：
+
+1. 角色是 `Member`
+2. `status = active`
+3. `member_profile_status = active`
+4. 已绑定 `member_tier_id`
+
+待补层级：
+
+1. 角色是 `Member`
+2. `member_tier_id` 为空
+
+已停用会员：
+
+1. 角色是 `Member`
+2. 账号状态不是 `active`，或会员资格不是 `active`
+
+#### 当前结果
+
+到这一步为止，后台已经能把“可登录账号”和“有效会员账号”分开管理。
+
+后续真实登录时：
+
+1. 可以直接从账号读取会员层级
+2. 可以直接挡住没有层级或资格失效的账号
 
 ### T1304 实现真实登录动作
 
@@ -255,3 +300,17 @@
 - 前台显示名：姓名优先，邮箱前缀兜底
 - 会员资格状态：`member_profile_status`
 - 当前不拆独立 `member_profiles`
+
+## 8. 当前可执行脚本
+
+应用后台会员账号结构：
+
+```bash
+node scripts/apply_phase13_account_structure.mjs
+```
+
+验证后台会员账号结构：
+
+```bash
+node scripts/verify_phase13_account_structure.mjs
+```

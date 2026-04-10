@@ -388,7 +388,7 @@ Phase 12 已交付内容：
 目标：
 
 - 把当前演示登录替换成真实会员登录
-- 当前状态：进行中（T1301-T1302 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
+- 当前状态：进行中（T1301-T1303 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 #### T1301 冻结登录方案
 
@@ -479,6 +479,11 @@ Phase 13 当前已交付内容：
 - 会话口径已冻结：前台会员会话与服务端 refresh token 分离保存
 - 会员账号最小模型已冻结：直接使用 `directus_users`，补 `member_tier_id` 与 `member_profile_status`
 - 前台真正使用的账号字段已冻结：`userId`、`role`、`displayName`、`activeMemberTierCode`、`sessionExpiry`
+- `directus_users.member_tier_id` 与 `directus_users.member_profile_status` 已写入后台
+- `directus_users.member_tier_id -> member_tiers` 关系已建立
+- 后台会员管理书签已补齐：`有效会员`、`待补层级`、`已停用会员`
+- [scripts/apply_phase13_account_structure.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/apply_phase13_account_structure.mjs) 已可重复执行
+- [scripts/verify_phase13_account_structure.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_account_structure.mjs) 已通过
 - 方案说明已写入 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 ### Phase 5：种子数据与试填验证
