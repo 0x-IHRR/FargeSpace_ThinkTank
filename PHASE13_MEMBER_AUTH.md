@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1306 已完成）
+状态：In Progress（T1301-T1307 已完成）
 
 ## 1. 目标
 
@@ -323,7 +323,31 @@
 
 ### T1307 完成登出与密码重置入口
 
-- 登录闭环补齐
+- 当前状态：已完成
+
+#### 当前已完成的登录闭环
+
+1. 前台“退出登录”现在会同步注销后台 refresh token
+2. 退出后会清掉本站会话，并回到登录页
+3. 登录页已增加“忘记密码”入口
+4. 前台已新增“忘记密码”页，用来发起重置邮件
+5. 前台已新增“重置密码”页，用来提交新密码
+6. 密码重置成功后，会回到登录页并提示使用新密码重新登录
+
+#### 当前测试环境已确认的结果
+
+1. 后台 refresh token 注销后，旧会话不能继续刷新
+2. 无效重置令牌会被拦下
+3. 当前测试环境还没有放行前台重置链接地址，所以发起重置邮件会提示需要补环境配置
+
+#### 当前结果
+
+到这一步为止：
+
+1. 登录闭环已经有完整入口
+2. 退出登录不再只是清本地 cookie
+3. 忘记密码和重置密码页面都已就绪
+4. 还差测试环境放行前台重置链接，这一项放到 `T1309`
 
 ### T1308 做端到端验证
 
@@ -390,3 +414,5 @@ DIRECTUS_URL=... DIRECTUS_TOKEN=... node scripts/verify_phase13_member_tier.mjs
 - Directus 认证封装：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts)
 - 会话常量：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
 - 真实会话读取：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts)
+- 忘记密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx)
+- 重置密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx)

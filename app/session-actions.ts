@@ -2,8 +2,21 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { authenticateMemberCredentials, type MemberLoginErrorCode } from "@/lib/directus-member-auth";
-import { MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
+import {
+  authenticateMemberCredentials,
+  logoutMemberRefreshToken,
+  requestMemberPasswordReset,
+  resetMemberPassword,
+  type MemberLoginErrorCode,
+  type PasswordResetConfirmErrorCode,
+  type PasswordResetRequestErrorCode,
+} from "@/lib/directus-member-auth";
+import {
+  getMemberPasswordResetUrl,
+  MEMBER_FORGOT_PASSWORD_ROUTE,
+  MEMBER_LOGIN_ROUTE,
+  MEMBER_RESET_PASSWORD_ROUTE,
+} from "@/lib/login-entry";
 import {
   DEFAULT_SESSION_HOURS,
   MEMBER_REFRESH_COOKIE_NAME,
@@ -17,6 +30,22 @@ function redirectWithError(nextPath: string, code: MemberLoginErrorCode): never 
   redirect(
     `${MEMBER_LOGIN_ROUTE}?next=${encodeURIComponent(nextPath)}&error=${encodeURIComponent(code)}`
   );
+}
+
+function redirectForgotPassword(code?: PasswordResetRequestErrorCode, status?: string): never {
+  const params = new URLSearchParams();
+  if (code) params.set("error", code);
+  if (status) params.set("status", status);
+  const query = params.toString();
+  redirect(query ? `${MEMBER_FORGOT_PASSWORD_ROUTE}?${query}` : MEMBER_FORGOT_PASSWORD_ROUTE);
+}
+
+function redirectResetPassword(token: string, code?: PasswordResetConfirmErrorCode): never {
+  const params = new URLSearchParams();
+  if (token) params.set("token", token);
+  if (code) params.set("error", code);
+  const query = params.toString();
+  redirect(query ? `${MEMBER_RESET_PASSWORD_ROUTE}?${query}` : MEMBER_RESET_PASSWORD_ROUTE);
 }
 
 export async function loginMember(formData: FormData) {
@@ -74,7 +103,46 @@ export async function loginMember(formData: FormData) {
 }
 
 export async function logoutMember() {
+  const refreshToken = cookies().get(MEMBER_REFRESH_COOKIE_NAME)?.value ?? null;
+  await logoutMemberRefreshToken(refreshToken);
   cookies().delete(MEMBER_SESSION_COOKIE_NAME);
   cookies().delete(MEMBER_REFRESH_COOKIE_NAME);
-  redirect(MEMBER_LOGIN_ROUTE);
+  redirect(`${MEMBER_LOGIN_ROUTE}?status=signed_out`);
+}
+
+export async function requestMemberPasswordResetAction(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const resetUrl = getMemberPasswordResetUrl();
+
+  const result = await requestMemberPasswordReset(email, resetUrl);
+  if (!result.ok) {
+    redirectForgotPassword(result.code);
+  }
+
+  redirectForgotPassword(undefined, "sent");
+}
+
+export async function resetMemberPasswordAction(formData: FormData) {
+  const token = String(formData.get("token") ?? "").trim();
+  const password = String(formData.get("password") ?? "").trim();
+  const confirmPassword = String(formData.get("confirmPassword") ?? "").trim();
+
+  if (!token) {
+    redirectResetPassword("", "missing_token");
+  }
+
+  if (!password || !confirmPassword) {
+    redirectResetPassword(token, "missing_password");
+  }
+
+  if (password !== confirmPassword) {
+    redirectResetPassword(token, "password_mismatch");
+  }
+
+  const result = await resetMemberPassword(token, password);
+  if (!result.ok) {
+    redirectResetPassword(token, result.code);
+  }
+
+  redirect(`${MEMBER_LOGIN_ROUTE}?status=reset_success`);
 }

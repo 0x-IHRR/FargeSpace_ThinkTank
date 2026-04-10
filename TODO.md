@@ -388,7 +388,7 @@ Phase 12 已交付内容：
 目标：
 
 - 把当前演示登录替换成真实会员登录
-- 当前状态：进行中（T1301-T1306 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
+- 当前状态：进行中（T1301-T1307 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 #### T1301 冻结登录方案
 
@@ -491,6 +491,9 @@ Phase 13 当前已交付内容：
 - refresh token 缺失或失效时，受保护页面会要求重新登录
 - 会员层级现在必须真实有效，缺失层级或失效层级账号不会进入会员区
 - [scripts/verify_phase13_member_tier.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_member_tier.mjs) 已通过
+- 退出登录现在会同步注销后台 refresh token，旧会话不能继续刷新
+- `/forgot-password` 与 `/reset-password` 已补齐
+- 当前测试环境仍需放行前台重置链接地址，这一项保留到 `T1309`
 - 方案说明已写入 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 ### Phase 5：种子数据与试填验证

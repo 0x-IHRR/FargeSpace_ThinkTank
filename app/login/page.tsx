@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { loginMember } from "@/app/session-actions";
-import { getDirectusAdminLoginUrl } from "@/lib/login-entry";
+import { getDirectusAdminLoginUrl, MEMBER_FORGOT_PASSWORD_ROUTE } from "@/lib/login-entry";
 import { getCurrentMemberSessionState } from "@/lib/member-session-server";
 import { sanitizeNextPath } from "@/lib/session";
 
@@ -9,6 +10,7 @@ type LoginPageProps = {
     next?: string;
     reason?: string;
     error?: string;
+    status?: string;
   };
 };
 
@@ -29,6 +31,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const errorMessage = searchParams?.error
     ? errorMessageByCode[searchParams.error] ?? "登录失败，请稍后再试。"
     : null;
+  const statusMessageByCode: Record<string, string> = {
+    signed_out: "当前账号已退出登录。",
+    reset_success: "密码已重置完成，请使用新密码重新登录。",
+  };
+  const statusMessage = searchParams?.status
+    ? statusMessageByCode[searchParams.status] ?? null
+    : null;
   const sessionState = await getCurrentMemberSessionState();
 
   if (sessionState.kind === "authenticated") {
@@ -45,6 +54,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           {isExpiredReason ? (
             <p className="login-alert">当前会话已过期，请重新登录。</p>
           ) : null}
+          {statusMessage ? <p className="login-success">{statusMessage}</p> : null}
           {errorMessage ? <p className="login-alert">{errorMessage}</p> : null}
         </div>
       </section>
@@ -85,6 +95,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               登录
             </button>
           </form>
+          <div className="login-link-row">
+            <Link href={MEMBER_FORGOT_PASSWORD_ROUTE}>忘记密码</Link>
+          </div>
           <p className="login-note">当前登录页已接入真实账号认证，只有后台已配置的有效会员账号可登录。</p>
         </article>
 

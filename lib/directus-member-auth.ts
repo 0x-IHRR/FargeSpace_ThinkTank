@@ -51,6 +51,17 @@ export type MemberLoginErrorCode =
   | "profile_unavailable"
   | "invalid_member_tier";
 
+export type PasswordResetRequestErrorCode =
+  | "missing_email"
+  | "reset_unavailable"
+  | "reset_url_not_allowed";
+export type PasswordResetConfirmErrorCode =
+  | "missing_token"
+  | "missing_password"
+  | "password_mismatch"
+  | "invalid_token"
+  | "reset_unavailable";
+
 export type AuthenticatedMember = {
   userId: string;
   role: MemberRole;
@@ -345,4 +356,89 @@ export async function authenticateMemberRefreshToken(
         typeof response.data.expires === "number" ? response.data.expires : null,
     },
   };
+}
+
+export async function logoutMemberRefreshToken(refreshToken: string | null | undefined) {
+  if (!refreshToken) {
+    return;
+  }
+
+  try {
+    await directusRequest("/auth/logout", {
+      method: "POST",
+      body: {
+        refresh_token: refreshToken,
+        mode: "json",
+      },
+    });
+  } catch {
+    return;
+  }
+}
+
+export async function requestMemberPasswordReset(
+  email: string,
+  resetUrl: string | null
+): Promise<{ ok: true } | { ok: false; code: PasswordResetRequestErrorCode }> {
+  if (!email) {
+    return { ok: false, code: "missing_email" };
+  }
+
+  try {
+    const response = await directusRequest("/auth/password/request", {
+      method: "POST",
+      body: {
+        email,
+        ...(resetUrl ? { reset_url: resetUrl } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      if (
+        response.status === 400 &&
+        response.rawText.includes("can't be used to reset passwords")
+      ) {
+        return { ok: false, code: "reset_url_not_allowed" };
+      }
+      return { ok: false, code: "reset_unavailable" };
+    }
+
+    return { ok: true };
+  } catch {
+    return { ok: false, code: "reset_unavailable" };
+  }
+}
+
+export async function resetMemberPassword(
+  token: string,
+  password: string
+): Promise<{ ok: true } | { ok: false; code: PasswordResetConfirmErrorCode }> {
+  if (!token) {
+    return { ok: false, code: "missing_token" };
+  }
+
+  if (!password) {
+    return { ok: false, code: "missing_password" };
+  }
+
+  try {
+    const response = await directusRequest("/auth/password/reset", {
+      method: "POST",
+      body: {
+        token,
+        password,
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 400 || response.status === 401 || response.status === 403) {
+        return { ok: false, code: "invalid_token" };
+      }
+      return { ok: false, code: "reset_unavailable" };
+    }
+
+    return { ok: true };
+  } catch {
+    return { ok: false, code: "reset_unavailable" };
+  }
 }

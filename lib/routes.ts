@@ -5,6 +5,8 @@ export const ROUTES = {
   packageDetail: (slug: string) => `/packages/${slug}`,
   search: "/search",
   login: "/login",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
 } as const;
 
 export const ROUTE_EXAMPLES = [

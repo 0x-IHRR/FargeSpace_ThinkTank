@@ -428,6 +428,10 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.login-layout-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .login-panel {
   border: 1px solid var(--frame-border);
   border-radius: 16px;
@@ -493,6 +497,19 @@ body {
   color: #0f766e;
 }
 
+.login-link-row {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.login-link-row a {
+  text-decoration: none;
+  font-size: 13px;
+  color: #075985;
+}
+
 .login-meta {
   margin-top: 10px;
   font-size: 13px;
@@ -511,6 +528,12 @@ body {
   margin-top: 8px;
   font-size: 13px;
   color: #991b1b;
+}
+
+.login-success {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #166534;
 }
 
 .search-filter-form {
