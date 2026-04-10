@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：Ready
+状态：Ready（T1309 已补齐）
 
 关联文件：
 - [docker-compose.yml](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/docker-compose.yml)
@@ -12,10 +12,11 @@
 
 ## 1. 目标
 
-测试环境只解决两件事：
+测试环境当前重点解决三件事：
 
 - 给团队一个可以直接打开验收的前台链接
 - 给内容团队一个独立的后台入口用于上传和发布
+- 让会员登录、退出登录、重置密码在测试环境可重复验证
 
 ## 2. 当前推荐组合
 
@@ -79,7 +80,7 @@ Vercel 官方文档说明，环境变量要分别绑定到 Preview、Production 
 |---|---|
 | `DIRECTUS_URL` | Directus 测试环境域名 |
 | `DIRECTUS_TOKEN` | Directus Static Token |
-| `NEXT_PUBLIC_APP_URL` | 预览站域名 |
+| `NEXT_PUBLIC_APP_URL` | `https://farge-space-think-tank.vercel.app` |
 | `NEXT_PUBLIC_DIRECTUS_URL` | Directus 测试环境域名 |
 | `NEXT_PUBLIC_ASSET_BASE_URL` | `Directus 域名/assets` |
 
@@ -102,9 +103,18 @@ Directus 官方文档说明：
 | 用途 | 建议值 |
 |---|---|
 | `DIRECTUS_PUBLIC_URL` | Directus 测试环境域名 |
+| `PASSWORD_RESET_URL_ALLOW_LIST` | `https://farge-space-think-tank.vercel.app/reset-password` |
 | `POSTGRES_*` | 托管 PostgreSQL 提供的连接信息 |
-| `S3_*` | 对象存储提供的连接信息 |
 | `CORS_ORIGIN` | 前台预览站域名 |
+| `EMAIL_TRANSPORT` | `smtp` |
+| `EMAIL_FROM` | 发信邮箱 |
+| `EMAIL_SMTP_*` | SMTP 服务提供的连接信息 |
+
+说明：
+
+- `PASSWORD_RESET_URL_ALLOW_LIST` 必须包含前台重置密码页地址，否则 `/auth/password/request` 会拒绝自定义重置链接
+- Directus 官方配置项明确要求：自定义 `reset_url` 只有在 `PASSWORD_RESET_URL_ALLOW_LIST` 放行后才能使用
+- 密码重置邮件依赖 `EMAIL_TRANSPORT`、`EMAIL_FROM` 与 `EMAIL_SMTP_*`
 
 完整模板见：
 
@@ -115,8 +125,9 @@ Directus 官方文档说明：
 1. 先创建前台预览链接
 2. 再准备 Directus 测试环境域名
 3. 接 PostgreSQL
-4. 接 S3 兼容存储
-5. 最后再把前台改成真实接口读取
+4. 在 Directus 里补 `PASSWORD_RESET_URL_ALLOW_LIST`
+5. 在 Directus 里补 `EMAIL_TRANSPORT`、`EMAIL_FROM` 与 `EMAIL_SMTP_*`
+6. 最后再把前台改成真实接口读取
 
 ## 7. 当前完成标准
 
@@ -126,15 +137,27 @@ Directus 官方文档说明：
 2. 预览站不再显示错误的后台地址
 3. 测试环境变量模板已整理完
 4. 后台、数据库、文件存储的变量口径已固定
+5. Directus 已放行前台重置密码页地址
+6. Directus 已具备发送密码重置邮件的邮件配置
 
 ## 8. 现在还缺什么
 
-当前还缺的不是代码，而是云端账号信息：
+当前还缺的不是代码，而是测试环境里的最后几项云端配置：
 
-- Vercel 项目归属
-- Directus 托管位置
-- PostgreSQL 实例
-- S3 存储桶
+- `PASSWORD_RESET_URL_ALLOW_LIST`
+- `EMAIL_TRANSPORT`
+- `EMAIL_FROM`
+- `EMAIL_SMTP_HOST`
+- `EMAIL_SMTP_PORT`
+- `EMAIL_SMTP_USER`
+- `EMAIL_SMTP_PASSWORD`
+
+如果要在 Railway 的 Directus 服务里补齐，直接去：
+
+1. `directus` 服务
+2. `Variables`
+3. 填入上面这组值
+4. 保存后等待重启
 
 一旦这些账号可用，就可以按这份文档直接补齐第二段。
 
@@ -142,3 +165,26 @@ Directus 官方文档说明：
 
 - 最新预览链接不写入仓库文档
 - 预览链接与认领链接以当次部署结果为准
+- 当前正式测试前台地址固定为：[farge-space-think-tank.vercel.app](https://farge-space-think-tank.vercel.app)
+
+## 10. 测试账号建议
+
+建议长期保留 3 类测试账号：
+
+| 用途 | 建议条件 | 预期结果 |
+|---|---|---|
+| 有效会员 | `status=active`、`member_profile_status=active`、已绑定有效 `member_tier_id` | 可以登录并进入会员页 |
+| 缺少层级账号 | `status=active`、`member_profile_status=active`、`member_tier_id` 为空 | 登录时被拦下 |
+| 无前台权限账号 | 使用非 `Member / Editor / Administrator` 角色 | 登录时被拦下 |
+
+说明：
+
+- 这 3 类账号足够覆盖 `T1308` 的主要验收场景
+- 密码重置验收建议单独使用“有效会员”账号
+- 不建议长期保留临时失效层级账号，需要时可按测试脚本临时生成
+
+## 11. 参考依据
+
+- Directus 配置项：[`PASSWORD_RESET_URL_ALLOW_LIST`、`EMAIL_TRANSPORT`、`EMAIL_SMTP_*`](https://docs.directus.io/self-hosted/config-options)
+- Directus Cloud / 环境变量说明：[`PASSWORD_RESET_URL_ALLOW_LIST`](https://docs.directus.io/user-guide/cloud/variables)
+- Directus 旧版 SDK 文档中对重置链接放行有明确说明：[`PASSWORD_RESET_URL_ALLOW_LIST`](https://docs.directus.io/reference/old-sdk)

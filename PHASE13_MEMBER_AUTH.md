@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1308 已完成）
+状态：Completed（T1301-T1309 已完成）
 
 ## 1. 目标
 
@@ -377,9 +377,22 @@
 
 ### T1309 更新测试环境配置
 
-- 测试环境变量
-- 测试账号说明
-- 重置密码链接口径
+- 当前状态：已完成
+
+#### 当前已补齐的测试环境口径
+
+1. 前台测试地址固定为 `https://farge-space-think-tank.vercel.app`
+2. Directus 必须放行 `https://farge-space-think-tank.vercel.app/reset-password`
+3. Directus 密码重置邮件统一走 `EMAIL_TRANSPORT` 与 `EMAIL_SMTP_*`
+4. 测试环境变量模板已补入上述配置
+5. 部署说明已补入 Railway 中具体填写位置
+
+#### 当前结果
+
+到这一步为止：
+
+1. 正式会员登录这一阶段的代码、验证和测试环境口径都已齐全
+2. 剩下只要把测试环境变量实际填入 Railway / Vercel，就可以在云端完整验证重置密码
 
 ## 5. 完成标准
 
@@ -445,3 +458,4 @@ DIRECTUS_URL=... DIRECTUS_TOKEN=... NEXT_PUBLIC_DIRECTUS_URL=... node scripts/ve
 - 忘记密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx)
 - 重置密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx)
 - 主链路验证脚本：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_auth_flow.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_auth_flow.mjs)
+- 测试环境说明：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/STAGING_DEPLOY.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/STAGING_DEPLOY.md)
