@@ -38,6 +38,7 @@ type DirectusUserProfile = {
 type DirectusLoginSuccess = {
   access_token: string;
   refresh_token?: string | null;
+  expires?: number | null;
 };
 
 export type MemberLoginErrorCode =
@@ -55,6 +56,7 @@ export type AuthenticatedMember = {
   displayName: string;
   activeMemberTierCode: string;
   refreshToken: string | null;
+  expiresInMs: number | null;
 };
 
 type AuthenticatedMemberResult =
@@ -255,6 +257,66 @@ export async function authenticateMemberCredentials(
       displayName: toDisplayName(profile),
       activeMemberTierCode: resolveTierCode(profile.member_tier_id),
       refreshToken: loginResult.payload.refresh_token ?? null,
+      expiresInMs:
+        typeof loginResult.payload.expires === "number"
+          ? loginResult.payload.expires
+          : null,
+    },
+  };
+}
+
+export async function authenticateMemberRefreshToken(
+  refreshToken: string
+): Promise<AuthenticatedMemberResult> {
+  if (!refreshToken) {
+    return { ok: false, code: "auth_unavailable" };
+  }
+
+  let response;
+  try {
+    response = await directusRequest<DirectusLoginSuccess>("/auth/refresh", {
+      method: "POST",
+      body: {
+        refresh_token: refreshToken,
+        mode: "json",
+      },
+    });
+  } catch {
+    return { ok: false, code: "auth_unavailable" };
+  }
+
+  if (!response.ok || !response.data?.access_token) {
+    return { ok: false, code: "invalid_credentials" };
+  }
+
+  const profile = await fetchMemberProfileByEmail("", response.data.access_token);
+  if (!profile) {
+    return { ok: false, code: "profile_unavailable" };
+  }
+
+  if (profile.status !== "active") {
+    return { ok: false, code: "inactive_account" };
+  }
+
+  if (profile.member_profile_status && profile.member_profile_status !== "active") {
+    return { ok: false, code: "member_inactive" };
+  }
+
+  const role = mapRoleNameToMemberRole(profile.role);
+  if (!role) {
+    return { ok: false, code: "unsupported_role" };
+  }
+
+  return {
+    ok: true,
+    member: {
+      userId: profile.id,
+      role,
+      displayName: toDisplayName(profile),
+      activeMemberTierCode: resolveTierCode(profile.member_tier_id),
+      refreshToken: response.data.refresh_token ?? refreshToken,
+      expiresInMs:
+        typeof response.data.expires === "number" ? response.data.expires : null,
     },
   };
 }

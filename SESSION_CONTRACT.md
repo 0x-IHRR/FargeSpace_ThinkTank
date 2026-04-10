@@ -48,10 +48,22 @@
   - [app/layout.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/layout.tsx)
 - 登录写入与登出清理会话：
   - [app/session-actions.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts)
+- 服务端 refresh token 读取与当前用户校验：
+  - [lib/member-session-server.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts)
 - 过期会话自动清理与重定向：
   - [middleware.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/middleware.ts)
 
-## 6. 下一步
+## 6. 服务端附加凭证
+
+前台会话对象仍然只有上面 5 个字段。
+
+另外存在一份仅服务端可读的附加凭证：
+
+| 名称 | 用途 |
+|---|---|
+| `fargespace_member_refresh` | 用来向 Directus 换取当前有效会话，并读取真实当前用户 |
+
+## 7. 下一步
 
 进入 Phase 10：
 

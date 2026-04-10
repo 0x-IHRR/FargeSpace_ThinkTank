@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import "./globals.css";
 import { logoutMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
+import { getCurrentMemberSessionState, isProtectedAppPath } from "@/lib/member-session-server";
 import { ROUTE_EXAMPLES } from "@/lib/routes";
 import {
-  MEMBER_SESSION_COOKIE_NAME,
   formatSessionStatus,
-  getSessionStateFromCookieValue,
 } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -25,13 +25,18 @@ const LABELS = [
   "登录页",
 ] as const;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const year = new Date().getFullYear();
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
-  const sessionCookie = cookies().get(MEMBER_SESSION_COOKIE_NAME)?.value;
-  const sessionState = getSessionStateFromCookieValue(sessionCookie);
+  const requestHeaders = headers();
+  const currentPath = requestHeaders.get("x-fargespace-next-path") ?? "/";
+  const sessionState = await getCurrentMemberSessionState();
+
+  if (sessionState.kind === "expired" && isProtectedAppPath(currentPath)) {
+    redirect(`${MEMBER_LOGIN_ROUTE}?next=${encodeURIComponent(currentPath)}&reason=expired`);
+  }
 
   return (
     <html lang="zh-CN">

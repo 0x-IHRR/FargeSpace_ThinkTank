@@ -1,12 +1,8 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { loginMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl } from "@/lib/login-entry";
-import {
-  MEMBER_SESSION_COOKIE_NAME,
-  getSessionStateFromCookieValue,
-  sanitizeNextPath,
-} from "@/lib/session";
+import { getCurrentMemberSessionState } from "@/lib/member-session-server";
+import { sanitizeNextPath } from "@/lib/session";
 
 type LoginPageProps = {
   searchParams?: {
@@ -16,7 +12,7 @@ type LoginPageProps = {
   };
 };
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
   const nextPath = sanitizeNextPath(searchParams?.next ?? "/");
   const isExpiredReason = searchParams?.reason === "expired";
@@ -32,8 +28,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
   const errorMessage = searchParams?.error
     ? errorMessageByCode[searchParams.error] ?? "登录失败，请稍后再试。"
     : null;
-  const sessionCookie = cookies().get(MEMBER_SESSION_COOKIE_NAME)?.value;
-  const sessionState = getSessionStateFromCookieValue(sessionCookie);
+  const sessionState = await getCurrentMemberSessionState();
 
   if (sessionState.kind === "authenticated") {
     redirect(nextPath);

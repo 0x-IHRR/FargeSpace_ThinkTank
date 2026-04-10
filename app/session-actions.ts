@@ -45,7 +45,9 @@ export async function loginMember(formData: FormData) {
     role: authResult.member.role,
     displayName: authResult.member.displayName,
     activeMemberTierCode: authResult.member.activeMemberTierCode,
-    sessionExpiry: expiryDate.toISOString(),
+    sessionExpiry: authResult.member.expiresInMs
+      ? new Date(Date.now() + authResult.member.expiresInMs).toISOString()
+      : expiryDate.toISOString(),
   };
 
   cookies().set(MEMBER_SESSION_COOKIE_NAME, encodeMemberSessionCookie(session), {

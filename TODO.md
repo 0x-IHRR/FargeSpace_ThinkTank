@@ -388,7 +388,7 @@ Phase 12 已交付内容：
 目标：
 
 - 把当前演示登录替换成真实会员登录
-- 当前状态：进行中（T1301-T1304 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
+- 当前状态：进行中（T1301-T1305 已完成），见 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 #### T1301 冻结登录方案
 
@@ -487,6 +487,8 @@ Phase 13 当前已交付内容：
 - `/login` 已改为真实 Directus 账号认证，不再接受任意邮箱密码直接通过
 - 登录失败提示已补齐：错误密码、停用账号、无权限账号都会明确提示
 - 登录成功时已写入真实会员会话与服务端 refresh token
+- 顶部状态区与登录页已改为读取真实后台当前用户
+- refresh token 缺失或失效时，受保护页面会要求重新登录
 - 方案说明已写入 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
 ### Phase 5：种子数据与试填验证

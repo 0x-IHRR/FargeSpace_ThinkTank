@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1304 已完成）
+状态：In Progress（T1301-T1305 已完成）
 
 ## 1. 目标
 
@@ -279,8 +279,27 @@
 
 ### T1305 实现真实会话写入与读取
 
-- 前台读取真实登录用户
-- 处理会话过期
+- 当前状态：已完成
+
+#### 当前已完成的真实会话读取
+
+1. 前台顶部状态区现在会按 refresh token 读取后台当前用户
+2. 登录页也会按真实后台会话判断是否已登录
+3. 保护页访问时，如果 refresh token 缺失，会直接回登录页
+
+#### 当前已完成的过期收口
+
+1. 后台 refresh token 失效时，前台状态会被视为已过期
+2. 受保护页面会带着原始返回地址跳回 `/login`
+3. 仅有本地会员 cookie、没有 refresh token 的情况也会被判定为过期
+
+#### 当前结果
+
+到这一步为止：
+
+1. 前台不再只信任本地 cookie 文案
+2. 当前登录用户已经能从真实后台会话读出来
+3. 会话失效后，受保护页面会要求重新登录
 
 ### T1306 接入会员层级校验
 
@@ -348,3 +367,4 @@ node scripts/verify_phase13_account_structure.mjs
 - 真实登录动作：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts)
 - Directus 认证封装：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts)
 - 会话常量：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)
+- 真实会话读取：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts)
