@@ -21,6 +21,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     invalid_credentials: "邮箱或密码错误，请重新输入。",
     inactive_account: "当前账号不可用，请联系管理员确认账号状态。",
     member_inactive: "当前会员资格不可用，请联系管理员确认会员状态。",
+    invalid_member_tier: "当前账号还没有有效会员层级，请联系管理员补齐会员层级。",
     unsupported_role: "当前账号没有前台访问权限。",
     profile_unavailable: "当前账号资料不完整，请联系管理员补齐会员资料。",
     auth_unavailable: "登录服务暂时不可用，请稍后再试。",

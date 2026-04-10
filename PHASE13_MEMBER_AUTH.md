@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1305 已完成）
+状态：In Progress（T1301-T1306 已完成）
 
 ## 1. 目标
 
@@ -303,7 +303,23 @@
 
 ### T1306 接入会员层级校验
 
-- 层级无效或状态异常时不放行
+- 当前状态：已完成
+
+#### 当前已完成的会员层级校验
+
+1. 登录成功后，前台会直接读取真实 `member_tier_id -> member_tiers.code`
+2. 只有已绑定且仍然有效的会员层级才会被写入前台会话
+3. 没有绑定会员层级的账号会在登录时被拦下
+4. 会员层级状态异常的账号会在登录时被拦下
+5. refresh token 换新会话时，会再次检查会员层级，避免旧会话继续放行
+
+#### 当前结果
+
+到这一步为止：
+
+1. 前台会员放行口径已经和后台 `member_tiers` 一致
+2. 后台补齐会员层级后，前台才能正常进入会员区
+3. 层级被移除或失效后，旧会话不会继续保留访问资格
 
 ### T1307 完成登出与密码重置入口
 
@@ -359,6 +375,12 @@ node scripts/apply_phase13_account_structure.mjs
 
 ```bash
 node scripts/verify_phase13_account_structure.mjs
+```
+
+验证会员层级校验：
+
+```bash
+DIRECTUS_URL=... DIRECTUS_TOKEN=... node scripts/verify_phase13_member_tier.mjs
 ```
 
 ## 9. 当前已完成的登录基础

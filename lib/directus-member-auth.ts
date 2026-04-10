@@ -1,4 +1,4 @@
-import { DEFAULT_MEMBER_TIER_CODE, type MemberRole } from "@/lib/session";
+import type { MemberRole } from "@/lib/session";
 
 const directusBaseUrl =
   process.env.DIRECTUS_URL?.replace(/\/$/, "") ??
@@ -48,7 +48,8 @@ export type MemberLoginErrorCode =
   | "inactive_account"
   | "unsupported_role"
   | "member_inactive"
-  | "profile_unavailable";
+  | "profile_unavailable"
+  | "invalid_member_tier";
 
 export type AuthenticatedMember = {
   userId: string;
@@ -142,11 +143,17 @@ function mapRoleNameToMemberRole(role: DirectusRole): MemberRole | null {
   }
 }
 
-function resolveTierCode(tier: DirectusTier): string {
-  if (tier && typeof tier === "object" && typeof tier.code === "string" && tier.code.trim()) {
+function resolveTierCode(tier: DirectusTier): string | null {
+  if (
+    tier &&
+    typeof tier === "object" &&
+    typeof tier.code === "string" &&
+    tier.code.trim() &&
+    (tier.status == null || tier.status === "active")
+  ) {
     return tier.code;
   }
-  return DEFAULT_MEMBER_TIER_CODE;
+  return null;
 }
 
 async function loginWithDirectus(email: string, password: string) {
@@ -180,32 +187,44 @@ async function loginWithDirectus(email: string, password: string) {
   };
 }
 
-async function fetchMemberProfileByEmail(email: string, accessToken: string) {
+async function fetchCurrentMemberProfile(accessToken: string) {
   try {
-    if (directusStaticToken) {
-      const response = await directusRequest<DirectusUserProfile[]>(
-        `/users?limit=1&filter[email][_eq]=${encodeURIComponent(
-          email
-        )}&fields=id,email,status,first_name,last_name,role.id,role.name,member_profile_status,member_tier_id.id,member_tier_id.code,member_tier_id.status`,
-        {
-          staticToken: directusStaticToken,
-        }
-      );
-
-      if (response.ok && Array.isArray(response.data) && response.data[0]) {
-        return response.data[0];
-      }
-    }
-
     const meResponse = await directusRequest<DirectusUserProfile>(
-      "/users/me?fields=id,email,status,first_name,last_name,role,member_profile_status,member_tier_id",
+      "/users/me?fields=id,email,status,first_name,last_name,role.id,role.name,member_profile_status,member_tier_id.id,member_tier_id.code,member_tier_id.status",
       {
         accessToken,
       }
     );
 
-    if (meResponse.ok && meResponse.data) {
+    if (
+      meResponse.ok &&
+      meResponse.data &&
+      typeof meResponse.data.status === "string" &&
+      meResponse.data.role
+    ) {
       return meResponse.data;
+    }
+
+    const meIdentityResponse = await directusRequest<Pick<DirectusUserProfile, "id">>(
+      "/users/me?fields=id",
+      {
+        accessToken,
+      }
+    );
+
+    if (!meIdentityResponse.ok || !meIdentityResponse.data?.id || !directusStaticToken) {
+      return null;
+    }
+
+    const userResponse = await directusRequest<DirectusUserProfile>(
+      `/users/${meIdentityResponse.data.id}?fields=id,email,status,first_name,last_name,role.id,role.name,member_profile_status,member_tier_id.id,member_tier_id.code,member_tier_id.status`,
+      {
+        staticToken: directusStaticToken,
+      }
+    );
+
+    if (userResponse.ok && userResponse.data) {
+      return userResponse.data;
     }
   } catch {
     return null;
@@ -227,10 +246,7 @@ export async function authenticateMemberCredentials(
     return loginResult;
   }
 
-  const profile = await fetchMemberProfileByEmail(
-    email,
-    loginResult.payload.access_token
-  );
+  const profile = await fetchCurrentMemberProfile(loginResult.payload.access_token);
 
   if (!profile) {
     return { ok: false, code: "profile_unavailable" };
@@ -249,13 +265,18 @@ export async function authenticateMemberCredentials(
     return { ok: false, code: "unsupported_role" };
   }
 
+  const activeMemberTierCode = resolveTierCode(profile.member_tier_id);
+  if (!activeMemberTierCode) {
+    return { ok: false, code: "invalid_member_tier" };
+  }
+
   return {
     ok: true,
     member: {
       userId: profile.id,
       role,
       displayName: toDisplayName(profile),
-      activeMemberTierCode: resolveTierCode(profile.member_tier_id),
+      activeMemberTierCode,
       refreshToken: loginResult.payload.refresh_token ?? null,
       expiresInMs:
         typeof loginResult.payload.expires === "number"
@@ -289,7 +310,7 @@ export async function authenticateMemberRefreshToken(
     return { ok: false, code: "invalid_credentials" };
   }
 
-  const profile = await fetchMemberProfileByEmail("", response.data.access_token);
+  const profile = await fetchCurrentMemberProfile(response.data.access_token);
   if (!profile) {
     return { ok: false, code: "profile_unavailable" };
   }
@@ -307,13 +328,18 @@ export async function authenticateMemberRefreshToken(
     return { ok: false, code: "unsupported_role" };
   }
 
+  const activeMemberTierCode = resolveTierCode(profile.member_tier_id);
+  if (!activeMemberTierCode) {
+    return { ok: false, code: "invalid_member_tier" };
+  }
+
   return {
     ok: true,
     member: {
       userId: profile.id,
       role,
       displayName: toDisplayName(profile),
-      activeMemberTierCode: resolveTierCode(profile.member_tier_id),
+      activeMemberTierCode,
       refreshToken: response.data.refresh_token ?? refreshToken,
       expiresInMs:
         typeof response.data.expires === "number" ? response.data.expires : null,
