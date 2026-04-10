@@ -498,6 +498,58 @@ Phase 13 当前已交付内容：
 - [STAGING_DEPLOY.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/STAGING_DEPLOY.md) 已补入 Railway / Vercel 的填写说明
 - 方案说明已写入 [PHASE13_MEMBER_AUTH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE13_MEMBER_AUTH.md)
 
+### Phase 14：前台 UI 精修
+
+目标：
+
+- 在不改产品结构的前提下，把前台做成更安静、更像会员智库的视觉体验
+- 当前状态：已规划，见 [PHASE14_UI_POLISH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE14_UI_POLISH.md)
+
+#### T1401 冻结视觉基线
+
+- 输出：视觉方向、颜色基线、字体层级、间距规则
+- 依赖：Phase 13 完成
+
+#### T1402 收敛全局设计 token
+
+- 输出：全站颜色、边框、按钮、标签统一
+- 依赖：T1401
+
+#### T1403 精修共享壳
+
+- 输出：顶部品牌区、导航、状态区、页脚改版
+- 依赖：T1402
+
+#### T1404 精修首页首屏
+
+- 输出：首屏主推荐重排，形成唯一主视觉
+- 依赖：T1403
+
+#### T1405 精修首页次级区
+
+- 输出：最新内容、主题、合集、搜索入口重排
+- 依赖：T1404
+
+#### T1406 精修会员入口页
+
+- 输出：登录页、忘记密码页、重置密码页风格统一，并改成人工重置口径
+- 依赖：T1403
+
+#### T1407 精修内容阅读页
+
+- 输出：详情页阅读体验与信息层级优化
+- 依赖：T1402
+
+#### T1408 精修浏览页
+
+- 输出：主题页、合集页、搜索页视觉统一
+- 依赖：T1405、T1407
+
+#### T1409 做桌面端与移动端视觉回归
+
+- 输出：视觉回归记录与修正清单
+- 依赖：T1403-T1408
+
 ### Phase 5：种子数据与试填验证
 
 目标：
