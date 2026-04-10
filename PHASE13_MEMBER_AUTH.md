@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1307 已完成）
+状态：In Progress（T1301-T1308 已完成）
 
 ## 1. 目标
 
@@ -351,7 +351,29 @@
 
 ### T1308 做端到端验证
 
-- 覆盖成功、失败、过期、登出、无权限
+- 当前状态：已完成
+
+#### 当前已完成的验证范围
+
+1. 正确会员账号可以登录
+2. 错误密码会被拦下
+3. 无前台权限角色会被拦下
+4. 过期会话访问会员页时会回登录页
+5. 退出登录后，原会话无法继续访问会员页
+
+#### 当前验证方式
+
+1. 使用临时测试账号做真实 Directus 登录
+2. 使用本地构建后的站点访问受保护页面
+3. 验证通过后自动删除临时账号与临时角色
+
+#### 当前结果
+
+到这一步为止：
+
+1. 会员登录主链路已经完整跑通
+2. 登录成功、登录失败、会话过期、无权限、退出后失效都已验证
+3. 剩下只差测试环境配置补齐
 
 ### T1309 更新测试环境配置
 
@@ -407,6 +429,12 @@ node scripts/verify_phase13_account_structure.mjs
 DIRECTUS_URL=... DIRECTUS_TOKEN=... node scripts/verify_phase13_member_tier.mjs
 ```
 
+验证会员登录主链路：
+
+```bash
+DIRECTUS_URL=... DIRECTUS_TOKEN=... NEXT_PUBLIC_DIRECTUS_URL=... node scripts/verify_phase13_auth_flow.mjs
+```
+
 ## 9. 当前已完成的登录基础
 
 - 真实登录入口：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/login/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/login/page.tsx)
@@ -416,3 +444,4 @@ DIRECTUS_URL=... DIRECTUS_TOKEN=... node scripts/verify_phase13_member_tier.mjs
 - 真实会话读取：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/member-session-server.ts)
 - 忘记密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/forgot-password/page.tsx)
 - 重置密码页：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/reset-password/page.tsx)
+- 主链路验证脚本：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_auth_flow.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase13_auth_flow.mjs)
