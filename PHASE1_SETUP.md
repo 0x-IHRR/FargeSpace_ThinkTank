@@ -120,7 +120,7 @@ docker compose up -d
 
 ### 6.2 会变化的部分
 
-- `DIRECTUS_PUBLIC_URL`
+- `PUBLIC_URL`
 - 数据库连接信息
 - 存储从本地目录切到 S3 兼容存储
 - CORS 域名

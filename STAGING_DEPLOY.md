@@ -102,7 +102,7 @@ Directus 官方文档说明：
 
 | 用途 | 建议值 |
 |---|---|
-| `DIRECTUS_PUBLIC_URL` | Directus 测试环境域名 |
+| `PUBLIC_URL` | Directus 测试环境域名 |
 | `PASSWORD_RESET_URL_ALLOW_LIST` | `https://farge-space-think-tank.vercel.app/reset-password` |
 | `POSTGRES_*` | 托管 PostgreSQL 提供的连接信息 |
 | `CORS_ORIGIN` | 前台预览站域名 |
