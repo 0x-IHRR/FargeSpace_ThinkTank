@@ -2,22 +2,21 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { authenticateMemberCredentials, type MemberLoginErrorCode } from "@/lib/directus-member-auth";
 import { MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import {
-  DEFAULT_MEMBER_TIER_CODE,
   DEFAULT_SESSION_HOURS,
+  MEMBER_REFRESH_COOKIE_NAME,
   MEMBER_SESSION_COOKIE_NAME,
   REMEMBER_SESSION_DAYS,
   encodeMemberSessionCookie,
   sanitizeNextPath,
 } from "@/lib/session";
 
-function toDisplayName(email: string) {
-  const localPart = email.split("@")[0]?.trim();
-  if (!localPart) {
-    return "FargeSpace Member";
-  }
-  return localPart;
+function redirectWithError(nextPath: string, code: MemberLoginErrorCode): never {
+  redirect(
+    `${MEMBER_LOGIN_ROUTE}?next=${encodeURIComponent(nextPath)}&error=${encodeURIComponent(code)}`
+  );
 }
 
 export async function loginMember(formData: FormData) {
@@ -27,7 +26,12 @@ export async function loginMember(formData: FormData) {
   const nextPath = sanitizeNextPath(String(formData.get("next") ?? "/"));
 
   if (!email || !password) {
-    redirect(`${MEMBER_LOGIN_ROUTE}?next=${encodeURIComponent(nextPath)}&error=missing_fields`);
+    redirectWithError(nextPath, "missing_fields");
+  }
+
+  const authResult = await authenticateMemberCredentials(email, password);
+  if (!authResult.ok) {
+    redirectWithError(nextPath, authResult.code);
   }
 
   const now = Date.now();
@@ -37,10 +41,10 @@ export async function loginMember(formData: FormData) {
   const expiryDate = new Date(now + ttlMs);
 
   const session = {
-    userId: crypto.randomUUID(),
-    role: "member" as const,
-    displayName: toDisplayName(email),
-    activeMemberTierCode: DEFAULT_MEMBER_TIER_CODE,
+    userId: authResult.member.userId,
+    role: authResult.member.role,
+    displayName: authResult.member.displayName,
+    activeMemberTierCode: authResult.member.activeMemberTierCode,
     sessionExpiry: expiryDate.toISOString(),
   };
 
@@ -52,10 +56,23 @@ export async function loginMember(formData: FormData) {
     expires: expiryDate,
   });
 
+  if (authResult.member.refreshToken) {
+    cookies().set(MEMBER_REFRESH_COOKIE_NAME, authResult.member.refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      expires: expiryDate,
+    });
+  } else {
+    cookies().delete(MEMBER_REFRESH_COOKIE_NAME);
+  }
+
   redirect(nextPath);
 }
 
 export async function logoutMember() {
   cookies().delete(MEMBER_SESSION_COOKIE_NAME);
+  cookies().delete(MEMBER_REFRESH_COOKIE_NAME);
   redirect(MEMBER_LOGIN_ROUTE);
 }

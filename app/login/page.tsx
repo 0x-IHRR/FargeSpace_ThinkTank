@@ -20,7 +20,18 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
   const nextPath = sanitizeNextPath(searchParams?.next ?? "/");
   const isExpiredReason = searchParams?.reason === "expired";
-  const hasMissingFieldsError = searchParams?.error === "missing_fields";
+  const errorMessageByCode: Record<string, string> = {
+    missing_fields: "请填写邮箱和密码后再登录。",
+    invalid_credentials: "邮箱或密码错误，请重新输入。",
+    inactive_account: "当前账号不可用，请联系管理员确认账号状态。",
+    member_inactive: "当前会员资格不可用，请联系管理员确认会员状态。",
+    unsupported_role: "当前账号没有前台访问权限。",
+    profile_unavailable: "当前账号资料不完整，请联系管理员补齐会员资料。",
+    auth_unavailable: "登录服务暂时不可用，请稍后再试。",
+  };
+  const errorMessage = searchParams?.error
+    ? errorMessageByCode[searchParams.error] ?? "登录失败，请稍后再试。"
+    : null;
   const sessionCookie = cookies().get(MEMBER_SESSION_COOKIE_NAME)?.value;
   const sessionState = getSessionStateFromCookieValue(sessionCookie);
 
@@ -38,9 +49,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           {isExpiredReason ? (
             <p className="login-alert">当前会话已过期，请重新登录。</p>
           ) : null}
-          {hasMissingFieldsError ? (
-            <p className="login-alert">请填写邮箱和密码后再登录。</p>
-          ) : null}
+          {errorMessage ? <p className="login-alert">{errorMessage}</p> : null}
         </div>
       </section>
 
@@ -80,7 +89,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               登录
             </button>
           </form>
-          <p className="login-note">当前登录页用于前台验收，正式会员体系将在后台联通后接入。</p>
+          <p className="login-note">当前登录页已接入真实账号认证，只有后台已配置的有效会员账号可登录。</p>
         </article>
 
         <article className="login-panel login-panel-alt">

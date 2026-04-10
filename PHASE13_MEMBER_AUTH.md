@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-09
-状态：In Progress（T1301-T1303 已完成）
+状态：In Progress（T1301-T1304 已完成）
 
 ## 1. 目标
 
@@ -248,7 +248,34 @@
 
 ### T1304 实现真实登录动作
 
-- 把演示登录替换成真实登录
+- 当前状态：已完成
+
+#### 当前已完成的登录动作
+
+1. 前台 `/login` 不再接受任意邮箱密码直接通过
+2. 前台表单现在会真实调用 Directus 邮箱密码认证
+3. 登录成功后写入真实会员会话
+4. 登录成功时会同时保存服务端可读的 refresh token
+
+#### 当前已完成的失败提示
+
+前台已能区分这些失败情况：
+
+1. 缺少邮箱或密码
+2. 邮箱或密码错误
+3. 账号状态不可用
+4. 会员资格不可用
+5. 当前账号没有前台访问权限
+6. 后台资料不完整
+7. 后台认证暂时不可用
+
+#### 当前结果
+
+到这一步为止：
+
+1. 只有真实后台账号可以登录
+2. 错误密码会被明确拦下
+3. 登录页文案已经从“前台验收入口”改成“真实账号认证入口”
 
 ### T1305 实现真实会话写入与读取
 
@@ -314,3 +341,10 @@ node scripts/apply_phase13_account_structure.mjs
 ```bash
 node scripts/verify_phase13_account_structure.mjs
 ```
+
+## 9. 当前已完成的登录基础
+
+- 真实登录入口：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/login/page.tsx](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/login/page.tsx)
+- 真实登录动作：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/app/session-actions.ts)
+- Directus 认证封装：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/directus-member-auth.ts)
+- 会话常量：[/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/lib/session.ts)

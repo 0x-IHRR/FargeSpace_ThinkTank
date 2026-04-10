@@ -1,6 +1,7 @@
 export const MEMBER_ROLES = ["member", "editor", "admin"] as const;
 export type MemberRole = (typeof MEMBER_ROLES)[number];
 export const MEMBER_SESSION_COOKIE_NAME = "fargespace_member_session";
+export const MEMBER_REFRESH_COOKIE_NAME = "fargespace_member_refresh";
 export const DEFAULT_MEMBER_TIER_CODE = "standard_member";
 export const DEFAULT_SESSION_HOURS = 8;
 export const REMEMBER_SESSION_DAYS = 30;

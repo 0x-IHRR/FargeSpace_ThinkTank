@@ -1,0 +1,260 @@
+import { DEFAULT_MEMBER_TIER_CODE, type MemberRole } from "@/lib/session";
+
+const directusBaseUrl =
+  process.env.DIRECTUS_URL?.replace(/\/$/, "") ??
+  process.env.NEXT_PUBLIC_DIRECTUS_URL?.replace(/\/$/, "") ??
+  "http://localhost:8055";
+
+const directusStaticToken = process.env.DIRECTUS_TOKEN ?? null;
+
+type DirectusRole =
+  | string
+  | null
+  | {
+      id?: string | null;
+      name?: string | null;
+    };
+
+type DirectusTier =
+  | string
+  | null
+  | {
+      id?: string | null;
+      code?: string | null;
+      status?: string | null;
+    };
+
+type DirectusUserProfile = {
+  id: string;
+  email: string;
+  status: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  role: DirectusRole;
+  member_profile_status: string | null;
+  member_tier_id: DirectusTier;
+};
+
+type DirectusLoginSuccess = {
+  access_token: string;
+  refresh_token?: string | null;
+};
+
+export type MemberLoginErrorCode =
+  | "missing_fields"
+  | "invalid_credentials"
+  | "auth_unavailable"
+  | "inactive_account"
+  | "unsupported_role"
+  | "member_inactive"
+  | "profile_unavailable";
+
+export type AuthenticatedMember = {
+  userId: string;
+  role: MemberRole;
+  displayName: string;
+  activeMemberTierCode: string;
+  refreshToken: string | null;
+};
+
+type AuthenticatedMemberResult =
+  | { ok: true; member: AuthenticatedMember }
+  | { ok: false; code: MemberLoginErrorCode };
+
+function buildDirectusUrl(path: string) {
+  return `${directusBaseUrl}${path}`;
+}
+
+async function directusRequest<T>(
+  path: string,
+  {
+    method = "GET",
+    accessToken,
+    staticToken,
+    body,
+  }: {
+    method?: "GET" | "POST";
+    accessToken?: string | null;
+    staticToken?: string | null;
+    body?: Record<string, unknown>;
+  } = {}
+): Promise<{ ok: boolean; status: number; data: T | null; rawText: string }> {
+  const headers: Record<string, string> = {};
+  const authToken = accessToken ?? staticToken ?? null;
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
+  if (body) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  const response = await fetch(buildDirectusUrl(path), {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+    cache: "no-store",
+  });
+
+  const rawText = await response.text();
+  const parsed = rawText ? JSON.parse(rawText) : null;
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    data: parsed?.data ?? null,
+    rawText,
+  };
+}
+
+function toDisplayName(profile: Pick<DirectusUserProfile, "first_name" | "last_name" | "email">) {
+  const name = [profile.first_name, profile.last_name]
+    .map((part) => part?.trim() ?? "")
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+
+  if (name) {
+    return name;
+  }
+
+  const localPart = profile.email.split("@")[0]?.trim();
+  if (localPart) {
+    return localPart;
+  }
+
+  return "FargeSpace Member";
+}
+
+function mapRoleNameToMemberRole(role: DirectusRole): MemberRole | null {
+  const roleName = typeof role === "string" ? role : role?.name ?? null;
+
+  switch (roleName) {
+    case "Member":
+      return "member";
+    case "Editor":
+      return "editor";
+    case "Administrator":
+      return "admin";
+    default:
+      return null;
+  }
+}
+
+function resolveTierCode(tier: DirectusTier): string {
+  if (tier && typeof tier === "object" && typeof tier.code === "string" && tier.code.trim()) {
+    return tier.code;
+  }
+  return DEFAULT_MEMBER_TIER_CODE;
+}
+
+async function loginWithDirectus(email: string, password: string) {
+  let response;
+  try {
+    response = await directusRequest<DirectusLoginSuccess>("/auth/login", {
+      method: "POST",
+      body: {
+        email,
+        password,
+      },
+    });
+  } catch {
+    return { ok: false as const, code: "auth_unavailable" as const };
+  }
+
+  if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      return { ok: false as const, code: "invalid_credentials" as const };
+    }
+    return { ok: false as const, code: "auth_unavailable" as const };
+  }
+
+  if (!response.data?.access_token) {
+    return { ok: false as const, code: "auth_unavailable" as const };
+  }
+
+  return {
+    ok: true as const,
+    payload: response.data,
+  };
+}
+
+async function fetchMemberProfileByEmail(email: string, accessToken: string) {
+  try {
+    if (directusStaticToken) {
+      const response = await directusRequest<DirectusUserProfile[]>(
+        `/users?limit=1&filter[email][_eq]=${encodeURIComponent(
+          email
+        )}&fields=id,email,status,first_name,last_name,role.id,role.name,member_profile_status,member_tier_id.id,member_tier_id.code,member_tier_id.status`,
+        {
+          staticToken: directusStaticToken,
+        }
+      );
+
+      if (response.ok && Array.isArray(response.data) && response.data[0]) {
+        return response.data[0];
+      }
+    }
+
+    const meResponse = await directusRequest<DirectusUserProfile>(
+      "/users/me?fields=id,email,status,first_name,last_name,role,member_profile_status,member_tier_id",
+      {
+        accessToken,
+      }
+    );
+
+    if (meResponse.ok && meResponse.data) {
+      return meResponse.data;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+export async function authenticateMemberCredentials(
+  email: string,
+  password: string
+): Promise<AuthenticatedMemberResult> {
+  if (!email || !password) {
+    return { ok: false, code: "missing_fields" };
+  }
+
+  const loginResult = await loginWithDirectus(email, password);
+  if (!loginResult.ok) {
+    return loginResult;
+  }
+
+  const profile = await fetchMemberProfileByEmail(
+    email,
+    loginResult.payload.access_token
+  );
+
+  if (!profile) {
+    return { ok: false, code: "profile_unavailable" };
+  }
+
+  if (profile.status !== "active") {
+    return { ok: false, code: "inactive_account" };
+  }
+
+  if (profile.member_profile_status && profile.member_profile_status !== "active") {
+    return { ok: false, code: "member_inactive" };
+  }
+
+  const role = mapRoleNameToMemberRole(profile.role);
+  if (!role) {
+    return { ok: false, code: "unsupported_role" };
+  }
+
+  return {
+    ok: true,
+    member: {
+      userId: profile.id,
+      role,
+      displayName: toDisplayName(profile),
+      activeMemberTierCode: resolveTierCode(profile.member_tier_id),
+      refreshToken: loginResult.payload.refresh_token ?? null,
+    },
+  };
+}
