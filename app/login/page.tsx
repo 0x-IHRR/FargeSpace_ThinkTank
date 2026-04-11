@@ -46,21 +46,27 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <div className="showcase-stack login-stack">
-      <section className="showcase-section">
-        <div className="section-head">
-          <h1>会员登录</h1>
-          <p>登录后可访问会员内容包与专题页。</p>
-          <p className="login-next">登录后将返回：{nextPath}</p>
+      <section className="showcase-section login-hero-section">
+        <div className="login-hero-copy">
+          <p className="section-kicker">Member access</p>
+          <h1>进入 FargeSpace 会员资料库。</h1>
+          <p>登录后可访问精选内容包、主题页、合集页和搜索工作台。</p>
           {isExpiredReason ? (
             <p className="login-alert">当前会话已过期，请重新登录。</p>
           ) : null}
           {statusMessage ? <p className="login-success">{statusMessage}</p> : null}
           {errorMessage ? <p className="login-alert">{errorMessage}</p> : null}
         </div>
+        <div className="login-hero-meta" aria-label="登录说明">
+          <p>登录后返回</p>
+          <strong>{nextPath}</strong>
+          <span>仅后台已配置的有效会员账号可访问前台资料库。</span>
+        </div>
       </section>
 
-      <section className="showcase-section login-layout">
-        <article className="login-panel">
+      <section className="showcase-section login-layout login-access-layout">
+        <article className="login-panel login-panel-primary">
+          <p className="section-kicker">Member sign in</p>
           <h2>会员入口</h2>
           <p>使用会员邮箱和密码登录。</p>
           <form className="login-form" action={loginMember}>
@@ -98,10 +104,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <div className="login-link-row">
             <Link href={MEMBER_FORGOT_PASSWORD_ROUTE}>忘记密码</Link>
           </div>
-          <p className="login-note">当前登录页已接入真实账号认证，只有后台已配置的有效会员账号可登录。</p>
         </article>
 
         <article className="login-panel login-panel-alt">
+          <p className="section-kicker">Editorial admin</p>
           <h2>Directus 后台入口</h2>
           <p>内容编辑与发布请走后台入口。</p>
           {directusAdminLoginUrl ? (
