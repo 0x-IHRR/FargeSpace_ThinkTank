@@ -95,26 +95,36 @@ Vercel 官方文档说明，环境变量要分别绑定到 Preview、Production 
 Directus 官方文档说明：
 
 - `PUBLIC_URL` 用于后台对外访问地址
-- 文件存储支持 S3 兼容方案
-- S3 配置需要 `STORAGE_<LOCATION>_KEY`、`SECRET`、`BUCKET`、`REGION`、`ENDPOINT`
+- 测试环境当前先使用 Railway Volume
+- 后续如果要迁移到 S3，再切换到 S3 兼容存储变量
 
-本项目建议统一成单一命名：
+本项目当前建议按 Railway Directus 服务实际读取的变量名填写：
 
 | 用途 | 建议值 |
 |---|---|
+| `KEY` | 一串长随机字符串 |
+| `SECRET` | 一串长随机字符串 |
 | `PUBLIC_URL` | Directus 测试环境域名 |
-| `PASSWORD_RESET_URL_ALLOW_LIST` | `https://farge-space-think-tank.vercel.app/reset-password` |
-| `POSTGRES_*` | 托管 PostgreSQL 提供的连接信息 |
+| `ADMIN_EMAIL` | 后台管理员邮箱 |
+| `ADMIN_PASSWORD` | 后台管理员密码 |
+| `DB_CLIENT` | `pg` |
+| `DB_HOST` | Railway PostgreSQL host |
+| `DB_PORT` | `5432` |
+| `DB_DATABASE` | Railway PostgreSQL database |
+| `DB_USER` | Railway PostgreSQL user |
+| `DB_PASSWORD` | Railway PostgreSQL password |
 | `CORS_ORIGIN` | 前台预览站域名 |
-| `EMAIL_TRANSPORT` | `smtp` |
-| `EMAIL_FROM` | 发信邮箱 |
-| `EMAIL_SMTP_*` | SMTP 服务提供的连接信息 |
+| `STORAGE_LOCATIONS` | `local` |
+| `STORAGE_LOCAL_DRIVER` | `local` |
+| `STORAGE_LOCAL_ROOT` | `/directus/uploads` |
+| `PASSWORD_RESET_URL_ALLOW_LIST` | `https://farge-space-think-tank.vercel.app/reset-password` |
 
 说明：
 
-- `PASSWORD_RESET_URL_ALLOW_LIST` 必须包含前台重置密码页地址，否则 `/auth/password/request` 会拒绝自定义重置链接
-- Directus 官方配置项明确要求：自定义 `reset_url` 只有在 `PASSWORD_RESET_URL_ALLOW_LIST` 放行后才能使用
-- 密码重置邮件依赖 `EMAIL_TRANSPORT`、`EMAIL_FROM` 与 `EMAIL_SMTP_*`
+- 当前先采用人工重置密码，所以 SMTP 可以暂时不填
+- `PASSWORD_RESET_URL_ALLOW_LIST` 先保留，后续如果启用邮件重置可以直接使用
+- Railway PostgreSQL 的 `PGHOST`、`PGPORT`、`PGDATABASE`、`PGUSER`、`PGPASSWORD` 需要对应填到 Directus 的 `DB_HOST`、`DB_PORT`、`DB_DATABASE`、`DB_USER`、`DB_PASSWORD`
+- 当前已确认的 Railway Volume 路径是 `/directus/uploads`
 
 完整模板见：
 
@@ -126,7 +136,7 @@ Directus 官方文档说明：
 2. 再准备 Directus 测试环境域名
 3. 接 PostgreSQL
 4. 在 Directus 里补 `PASSWORD_RESET_URL_ALLOW_LIST`
-5. 在 Directus 里补 `EMAIL_TRANSPORT`、`EMAIL_FROM` 与 `EMAIL_SMTP_*`
+5. 确认 Railway Volume 路径是 `/directus/uploads`
 6. 最后再把前台改成真实接口读取
 
 ## 7. 当前完成标准
@@ -138,25 +148,23 @@ Directus 官方文档说明：
 3. 测试环境变量模板已整理完
 4. 后台、数据库、文件存储的变量口径已固定
 5. Directus 已放行前台重置密码页地址
-6. Directus 已具备发送密码重置邮件的邮件配置
+6. Directus 已具备人工重置密码的后台流程
 
 ## 8. 现在还缺什么
 
-当前还缺的不是代码，而是测试环境里的最后几项云端配置：
+当前还缺的不是代码，而是测试环境里的云端配置与验收：
 
-- `PASSWORD_RESET_URL_ALLOW_LIST`
-- `EMAIL_TRANSPORT`
-- `EMAIL_FROM`
-- `EMAIL_SMTP_HOST`
-- `EMAIL_SMTP_PORT`
-- `EMAIL_SMTP_USER`
-- `EMAIL_SMTP_PASSWORD`
+- Vercel 前台变量是否已填：`DIRECTUS_URL`、`DIRECTUS_TOKEN`、`NEXT_PUBLIC_DIRECTUS_URL`
+- Railway Directus 变量是否已按 Directus 实际变量名填写
+- Railway Volume 是否已挂载到 `/directus/uploads`
+- Directus 后台是否可以上传文件
+- 会员账号是否可以登录并访问受保护页面
 
 如果要在 Railway 的 Directus 服务里补齐，直接去：
 
 1. `directus` 服务
 2. `Variables`
-3. 填入上面这组值
+3. 填入 `.env.staging.example` 里的 Railway Directus 变量
 4. 保存后等待重启
 
 一旦这些账号可用，就可以按这份文档直接补齐第二段。

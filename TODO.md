@@ -569,6 +569,47 @@ Phase 14 当前已交付内容：
 - 桌面端与移动端视觉回归已完成，当前未发现 T1409 必须修复的问题
 - 详细口径已写入 [PHASE14_UI_POLISH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE14_UI_POLISH.md)
 
+### Phase 15：测试环境验收与发布收口
+
+目标：
+
+- 把测试环境从“可以部署”推进到“可以按真实流程验收”
+- 当前状态：进行中（T1501 已完成），见 [PHASE15_STAGING_ACCEPTANCE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE15_STAGING_ACCEPTANCE.md)
+
+#### T1501 统一测试环境变量清单
+
+- 输出：Vercel 与 Railway 变量清单、命名收敛、变量检查脚本
+- 依赖：Phase 14 完成
+
+#### T1502 做线上前台页面验收
+
+- 输出：首页、登录页、搜索页、主题页、合集页、详情页线上可访问记录
+- 依赖：T1501
+
+#### T1503 做真实会员登录验收
+
+- 输出：有效会员、无效会员、退出登录三类验收记录
+- 依赖：T1501、T1502
+
+#### T1504 做后台发布到前台展示链路验收
+
+- 输出：后台创建/编辑/发布内容后，前台列表与详情页可见
+- 依赖：T1501、T1502、T1503
+
+#### T1505 记录测试环境问题清单
+
+- 输出：必须修复问题、可后置优化问题、已验证通过项目
+- 依赖：T1502-T1504
+
+Phase 15 当前已交付内容：
+
+- 测试环境变量清单已从 S3 优先改成当前实际使用的 Railway Volume 优先
+- `.env.staging.example` 已改为 Vercel frontend、Railway Directus、Railway PostgreSQL、Railway Volume 四组
+- Railway Directus 使用 `KEY`、`SECRET`、`ADMIN_EMAIL`、`DB_HOST` 等实际运行变量名
+- 本地 `docker-compose.yml` 已统一使用 `PUBLIC_URL`
+- SMTP 已改为可选项，当前继续采用人工重置密码
+- 变量检查脚本已新增：[scripts/verify_phase15_env.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase15_env.mjs)
+
 ### Phase 5：种子数据与试填验证
 
 目标：
