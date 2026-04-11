@@ -574,7 +574,7 @@ Phase 14 当前已交付内容：
 目标：
 
 - 把测试环境从“可以部署”推进到“可以按真实流程验收”
-- 当前状态：进行中（T1501-T1502 已完成），见 [PHASE15_STAGING_ACCEPTANCE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE15_STAGING_ACCEPTANCE.md)
+- 当前状态：进行中（T1501-T1503 已完成），见 [PHASE15_STAGING_ACCEPTANCE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE15_STAGING_ACCEPTANCE.md)
 
 #### T1501 统一测试环境变量清单
 
@@ -611,6 +611,8 @@ Phase 15 当前已交付内容：
 - 变量检查脚本已新增：[scripts/verify_phase15_env.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase15_env.mjs)
 - 线上前台页面验收已完成：未登录访问会员区页面会跳转登录页，并保留正确 `next` 返回路径
 - 桌面端 `1280x900` 与移动端 `390x844` 均未发现横向溢出或应用错误页
+- 真实会员登录验收已完成：有效会员可进入会员区，无效会员会被拦截，退出后不能继续访问受保护页面
+- T1503 临时创建的 2 个 Directus 测试账号已在验收后删除
 
 ### Phase 5：种子数据与试填验证
 
