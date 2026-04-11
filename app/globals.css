@@ -57,25 +57,44 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(168, 159, 145, 0.45);
-  background: rgba(244, 239, 230, 0.84);
+  background:
+    linear-gradient(180deg, rgba(247, 242, 234, 0.94) 0%, rgba(244, 239, 230, 0.82) 100%);
 }
 
 .header-inner {
-  padding: var(--space-4) 0;
+  padding: var(--space-4) 0 var(--space-3);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-6);
 }
 
 .brand-block {
   min-width: 220px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--accent-line);
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  color: var(--accent-ink);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  background: rgba(255, 252, 246, 0.72);
 }
 
 .brand-kicker {
-  margin: 0;
+  display: block;
   font-size: 11px;
   color: var(--text-muted);
   letter-spacing: 0.16em;
@@ -83,7 +102,8 @@ body {
 }
 
 .brand-title {
-  margin: 2px 0 0;
+  display: block;
+  margin-top: 1px;
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 650;
@@ -100,42 +120,45 @@ body {
 .header-right {
   flex: 1;
   min-width: 0;
+  display: grid;
+  gap: var(--space-3);
+  justify-items: end;
 }
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: flex-start;
+  gap: var(--space-1);
+  justify-content: flex-end;
 }
 
 .site-nav a {
   text-decoration: none;
   color: var(--accent-ink);
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 8px 12px;
+  padding: 7px 11px;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--border-soft);
-  background: rgba(255, 252, 246, 0.55);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: border-color 160ms ease, background 160ms ease;
 }
 
 .site-nav a:hover {
   border-color: var(--accent-line);
+  background: rgba(255, 252, 246, 0.58);
 }
 
 .login-status {
-  margin-top: var(--space-3);
   border: 1px solid var(--border-soft);
-  background: rgba(255, 252, 246, 0.72);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 252, 246, 0.56);
+  border-radius: var(--radius-pill);
+  padding: 7px 8px 7px var(--space-4);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-3);
-  box-shadow: var(--shadow-soft);
+  gap: var(--space-4);
 }
 
 .status-label {
@@ -148,7 +171,7 @@ body {
 
 .status-value {
   margin: 3px 0 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--accent-ink);
 }
@@ -165,12 +188,14 @@ body {
 
 .status-actions a {
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--accent-ink);
   border: 1px solid var(--border-soft);
-  background: rgba(255, 252, 246, 0.65);
+  background: rgba(255, 252, 246, 0.75);
   border-radius: var(--radius-pill);
-  padding: 7px 12px;
+  padding: 8px 12px;
 }
 
 .page-container {
@@ -862,11 +887,11 @@ body {
 }
 
 .footer-inner {
-  padding: 16px 0 24px;
+  padding: var(--space-5) 0 var(--space-6);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 
 .footer-inner p {
@@ -875,16 +900,39 @@ body {
   color: var(--text-muted);
 }
 
+.footer-title {
+  color: var(--accent-ink);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.footer-meta {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 840px) {
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .header-right {
+    width: 100%;
+    justify-items: start;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+  }
+
   .login-status {
     width: 100%;
+    border-radius: var(--radius-md);
     flex-direction: column;
     align-items: flex-start;
+    padding: var(--space-3);
   }
 
   .footer-inner {

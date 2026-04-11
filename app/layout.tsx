@@ -6,23 +6,22 @@ import "./globals.css";
 import { logoutMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import { getCurrentMemberSessionState, isProtectedAppPath } from "@/lib/member-session-server";
-import { ROUTE_EXAMPLES } from "@/lib/routes";
+import { ROUTES } from "@/lib/routes";
 import {
   formatSessionStatus,
 } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "FargeSpace Think Tank",
-  description: "AI 资料平台前台路由骨架",
+  description: "人工筛选与整理后的 AI 深度资料库",
 };
 
-const LABELS = [
-  "首页",
-  "主题页示例",
-  "合集页示例",
-  "内容包页示例",
-  "搜索页",
-  "登录页",
+const NAV_ITEMS = [
+  { label: "首页", href: ROUTES.home },
+  { label: "主题", href: ROUTES.topicDetail("agents") },
+  { label: "合集", href: ROUTES.collectionDetail("agentic-ai-watch") },
+  { label: "内容包", href: ROUTES.packageDetail("openai-agent-builder-guide-digest") },
+  { label: "搜索", href: ROUTES.search },
 ] as const;
 
 export default async function RootLayout({
@@ -43,21 +42,23 @@ export default async function RootLayout({
       <body>
         <header className="site-header">
           <div className="site-width header-inner">
-            <div className="brand-block">
-              <p className="brand-kicker">FargeSpace Member Hub</p>
-              <p className="brand-title">Think Tank</p>
-              <p className="brand-subtitle">人工筛选与整理后的 AI 深度资料库</p>
-            </div>
+            <Link className="brand-block" href={ROUTES.home} aria-label="返回首页">
+              <span className="brand-mark" aria-hidden="true">FS</span>
+              <span>
+                <span className="brand-kicker">Member Intelligence Desk</span>
+                <span className="brand-title">FargeSpace</span>
+              </span>
+            </Link>
             <div className="header-right">
               <nav className="site-nav" aria-label="全站导航">
-                {ROUTE_EXAMPLES.map((route, index) => (
-                  <Link key={route} href={route}>
-                    {LABELS[index]}
+                {NAV_ITEMS.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    {item.label}
                   </Link>
                 ))}
               </nav>
               <section className="login-status" aria-label="登录状态区">
-                <div>
+                <div className="status-copy">
                   <p className="status-label">当前状态</p>
                   <p className="status-value">{formatSessionStatus(sessionState)}</p>
                 </div>
@@ -84,8 +85,11 @@ export default async function RootLayout({
         <main className="site-width page-container">{children}</main>
         <footer className="site-footer">
           <div className="site-width footer-inner">
-            <p>FargeSpace Think Tank</p>
-            <p>会员内容库 · 路由与共享壳基础已就绪 · {year}</p>
+            <div>
+              <p className="footer-title">FargeSpace Think Tank</p>
+              <p>精选 AI 资料、来源与加工内容的会员资料库。</p>
+            </div>
+            <p className="footer-meta">Member desk · {year}</p>
           </div>
         </footer>
       </body>
