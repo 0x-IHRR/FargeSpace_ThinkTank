@@ -56,10 +56,24 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="showcase-stack search-stack">
-      <section className="showcase-section">
+      <section className="showcase-section browse-hero search-head">
+        <div className="browse-hero-copy">
+          <p className="section-kicker">Search desk</p>
+          <h1>搜索资料库</h1>
+          <p>通过关键词、主题、来源和内容形式组合筛选，快速定位需要的内容包。</p>
+        </div>
+        <aside className="browse-meta" aria-label="搜索结果信息">
+          <p>当前命中</p>
+          <strong>{data.total} 条</strong>
+          <span>{q ? `关键词：${q}` : "未输入关键词"}</span>
+        </aside>
+      </section>
+
+      <section className="showcase-section browse-filter-section">
         <div className="section-head">
-          <h1>搜索</h1>
-          <p>通过 URL 参数组合筛选条件，快速定位需要的内容包。</p>
+          <p className="section-kicker">Filters</p>
+          <h2>筛选条件</h2>
+          <p>保留常用条件，避免在列表里重复翻找。</p>
         </div>
         <form className="search-filter-form" action={ROUTES.search} method="get">
           <div className="search-field">
@@ -142,10 +156,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </form>
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>结果</h2>
-          <p>当前命中 {data.total} 条内容。</p>
+      <section className="showcase-section browse-results-section">
+        <div className="section-head section-head-row">
+          <div>
+            <p className="section-kicker">Results</p>
+            <h2>结果</h2>
+            <p>当前命中 {data.total} 条内容。</p>
+          </div>
+          <span className="section-count">{data.total} items</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState
@@ -153,9 +171,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             description="请调整筛选条件或关键词后重试。"
           />
         ) : (
-          <div className="package-grid">
+          <div className="home-latest-list">
             {data.items.map((item) => (
-              <PackageCard key={item.slug} item={item} />
+              <PackageCard key={item.slug} item={item} variant="line" />
             ))}
           </div>
         )}

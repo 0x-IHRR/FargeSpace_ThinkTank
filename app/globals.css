@@ -709,19 +709,76 @@ body {
   font-size: 14px;
 }
 
-.topic-stack h1 {
-  margin: 10px 0 0;
-  font-size: clamp(26px, 4vw, 36px);
+.browse-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.38fr);
+  gap: var(--space-7);
+  align-items: end;
+  min-height: 360px;
+  padding: clamp(30px, 5vw, 58px);
+  background:
+    linear-gradient(130deg, rgba(255, 252, 246, 0.94) 0%, rgba(246, 239, 226, 0.84) 54%, rgba(228, 217, 198, 0.68) 100%);
 }
 
-.collection-stack h1 {
-  margin: 10px 0 0;
-  font-size: clamp(26px, 4vw, 36px);
+.browse-hero-copy {
+  max-width: 720px;
 }
 
+.browse-hero-copy .section-kicker {
+  margin-bottom: var(--space-4);
+}
+
+.topic-stack h1,
+.collection-stack h1,
 .search-stack h1 {
   margin: 0;
-  font-size: clamp(26px, 4vw, 36px);
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.browse-hero-copy > p:not(.section-kicker):not(.topic-note) {
+  margin: var(--space-5) 0 0;
+  color: var(--text-subtle);
+  max-width: 48ch;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.75;
+}
+
+.browse-meta {
+  border-left: 1px solid var(--border-strong);
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.browse-meta p,
+.browse-meta strong,
+.browse-meta span {
+  margin: 0;
+}
+
+.browse-meta p {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.browse-meta strong {
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.browse-meta span {
+  color: var(--text-subtle);
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-all;
 }
 
 .login-stack h1 {
@@ -934,16 +991,35 @@ body {
   color: var(--accent-highlight);
 }
 
-.search-filter-form {
-  margin-top: 16px;
+.browse-filter-section {
   display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.browse-filter-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.browse-results-section .home-latest-list {
+  margin-top: var(--space-5);
+}
+
+.search-filter-form {
+  margin-top: 0;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border-soft);
+  background: var(--border-soft);
 }
 
 .search-field {
   display: grid;
-  gap: 6px;
+  gap: 8px;
+  padding: var(--space-3);
+  background: rgba(255, 252, 246, 0.82);
 }
 
 .search-field label {
@@ -954,11 +1030,13 @@ body {
 .search-field input,
 .search-field select {
   width: 100%;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-sm);
-  padding: 11px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--border-soft);
+  border-radius: 0;
+  padding: 8px 0;
   font-size: 14px;
-  background: rgba(255, 252, 246, 0.96);
+  background: transparent;
+  color: var(--text-main);
 }
 
 .search-actions {
@@ -967,6 +1045,8 @@ body {
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
+  padding: var(--space-3);
+  background: rgba(255, 252, 246, 0.82);
 }
 
 .package-detail-hero {
@@ -1161,6 +1241,9 @@ body {
 .filter-group h3 {
   margin: 0;
   font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
 .filter-chip-row {
@@ -1176,7 +1259,7 @@ body {
   font-size: 13px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-pill);
-  background: rgba(255, 252, 246, 0.72);
+  background: rgba(255, 252, 246, 0.68);
   padding: 6px 12px;
 }
 
@@ -1406,6 +1489,25 @@ body {
   .quick-filter-item {
     grid-template-columns: 1fr;
     gap: var(--space-1);
+  }
+
+  .browse-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: var(--space-5);
+    padding: var(--space-5);
+  }
+
+  .browse-meta {
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+    padding-left: 0;
+    padding-top: var(--space-4);
+  }
+
+  .browse-filter-grid,
+  .search-filter-form {
+    grid-template-columns: 1fr;
   }
 
   .login-hero-section {

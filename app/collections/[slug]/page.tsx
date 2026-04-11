@@ -13,20 +13,31 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
 
   return (
     <div className="showcase-stack collection-stack">
-      <section className="showcase-section collection-head">
-        <p className="route-path">{ROUTES.collectionDetail(slug)}</p>
-        <h1>{data.collection.name}</h1>
-        <p>{data.collection.description}</p>
-        <p className="topic-count">当前结果：{data.items.length} 条（按合集内顺序）</p>
-        {!data.knownCollection ? (
-          <p className="topic-note">这个合集 slug 不在预设列表中，当前显示的是占位说明。</p>
-        ) : null}
+      <section className="showcase-section browse-hero collection-head">
+        <div className="browse-hero-copy">
+          <p className="section-kicker">Curated collection</p>
+          <h1>{data.collection.name}</h1>
+          <p>{data.collection.description}</p>
+          {!data.knownCollection ? (
+            <p className="topic-note">这个合集 slug 不在预设列表中，当前显示的是占位说明。</p>
+          ) : null}
+        </div>
+        <aside className="browse-meta" aria-label="合集信息">
+          <p>当前结果</p>
+          <strong>{data.items.length} 条</strong>
+          <span>按合集内顺序</span>
+          <span>{ROUTES.collectionDetail(slug)}</span>
+        </aside>
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>内容包列表</h2>
-          <p>列表顺序由合集定义决定，不按时间自动重排。</p>
+      <section className="showcase-section browse-results-section">
+        <div className="section-head section-head-row">
+          <div>
+            <p className="section-kicker">Packages</p>
+            <h2>内容包列表</h2>
+            <p>列表顺序由合集定义决定，不按时间自动重排。</p>
+          </div>
+          <span className="section-count">{data.items.length} items</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState
@@ -34,9 +45,9 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
             description="这个合集还没有配置内容包，请稍后查看。"
           />
         ) : (
-          <div className="package-grid">
+          <div className="home-latest-list">
             {data.items.map((item) => (
-              <PackageCard key={item.slug} item={item} />
+              <PackageCard key={item.slug} item={item} variant="line" />
             ))}
           </div>
         )}

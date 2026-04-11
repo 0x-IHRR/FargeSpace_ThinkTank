@@ -50,67 +50,82 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
 
   return (
     <div className="showcase-stack topic-stack">
-      <section className="showcase-section topic-head">
-        <p className="route-path">{ROUTES.topicDetail(slug)}</p>
-        <h1>{data.topic.name}</h1>
-        <p>{data.topic.description}</p>
-        <p className="topic-count">当前结果：{data.items.length} 条</p>
-        {!data.knownTopic ? (
-          <p className="topic-note">这个主题 slug 不在预设列表中，当前显示的是占位说明。</p>
-        ) : null}
+      <section className="showcase-section browse-hero topic-head">
+        <div className="browse-hero-copy">
+          <p className="section-kicker">Topic shelf</p>
+          <h1>{data.topic.name}</h1>
+          <p>{data.topic.description}</p>
+          {!data.knownTopic ? (
+            <p className="topic-note">这个主题 slug 不在预设列表中，当前显示的是占位说明。</p>
+          ) : null}
+        </div>
+        <aside className="browse-meta" aria-label="主题信息">
+          <p>当前结果</p>
+          <strong>{data.items.length} 条</strong>
+          <span>{ROUTES.topicDetail(slug)}</span>
+        </aside>
       </section>
 
-      <section className="showcase-section topic-filter-wrap">
-        <div className="section-head">
-          <h2>筛选</h2>
-          <p>按内容包类型和可消费形式过滤当前主题下的内容。</p>
-        </div>
-        <div className="filter-group">
-          <h3>内容包类型</h3>
-          <div className="filter-chip-row">
-            {TOPIC_FILTER_OPTIONS.packageType.map((option) => {
-              const active = packageTypeRaw === option.value;
-              return (
-                <Link
-                  key={option.value}
-                  className={`filter-chip ${active ? "active" : ""}`}
-                  href={toTopicHref(slug, {
-                    packageType: option.value,
-                    assetType: assetTypeRaw,
-                  })}
-                >
-                  {option.label}
-                </Link>
-              );
-            })}
+      <section className="showcase-section browse-filter-section">
+        <div className="section-head section-head-row">
+          <div>
+            <p className="section-kicker">Refine shelf</p>
+            <h2>筛选</h2>
+            <p>按内容包类型和可消费形式过滤当前主题下的内容。</p>
           </div>
         </div>
-        <div className="filter-group">
-          <h3>内容形式</h3>
-          <div className="filter-chip-row">
-            {TOPIC_FILTER_OPTIONS.assetType.map((option) => {
-              const active = assetTypeRaw === option.value;
-              return (
-                <Link
-                  key={option.value}
-                  className={`filter-chip ${active ? "active" : ""}`}
-                  href={toTopicHref(slug, {
-                    packageType: packageTypeRaw,
-                    assetType: option.value,
-                  })}
-                >
-                  {option.label}
-                </Link>
-              );
-            })}
+        <div className="browse-filter-grid">
+          <div className="filter-group">
+            <h3>内容包类型</h3>
+            <div className="filter-chip-row">
+              {TOPIC_FILTER_OPTIONS.packageType.map((option) => {
+                const active = packageTypeRaw === option.value;
+                return (
+                  <Link
+                    key={option.value}
+                    className={`filter-chip ${active ? "active" : ""}`}
+                    href={toTopicHref(slug, {
+                      packageType: option.value,
+                      assetType: assetTypeRaw,
+                    })}
+                  >
+                    {option.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+          <div className="filter-group">
+            <h3>内容形式</h3>
+            <div className="filter-chip-row">
+              {TOPIC_FILTER_OPTIONS.assetType.map((option) => {
+                const active = assetTypeRaw === option.value;
+                return (
+                  <Link
+                    key={option.value}
+                    className={`filter-chip ${active ? "active" : ""}`}
+                    href={toTopicHref(slug, {
+                      packageType: packageTypeRaw,
+                      assetType: option.value,
+                    })}
+                  >
+                    {option.label}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>内容包列表</h2>
-          <p>当前主题下按时间倒序显示内容包。</p>
+      <section className="showcase-section browse-results-section">
+        <div className="section-head section-head-row">
+          <div>
+            <p className="section-kicker">Packages</p>
+            <h2>内容包列表</h2>
+            <p>当前主题下按时间倒序显示内容包。</p>
+          </div>
+          <span className="section-count">{data.items.length} items</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState
@@ -118,9 +133,9 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
             description="请切换筛选条件，或返回该主题的全部内容。"
           />
         ) : (
-          <div className="package-grid">
+          <div className="home-latest-list">
             {data.items.map((item) => (
-              <PackageCard key={item.slug} item={item} />
+              <PackageCard key={item.slug} item={item} variant="line" />
             ))}
           </div>
         )}
