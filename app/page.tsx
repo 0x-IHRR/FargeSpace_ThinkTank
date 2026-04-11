@@ -32,57 +32,65 @@ export default async function HomePage() {
         {data.featured ? <PackageHero item={data.featured} /> : null}
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>最新内容</h2>
-          <p>按发布时间排序的最新内容包。</p>
+      <section className="showcase-section home-latest-section">
+        <div className="section-head section-head-row">
+          <div>
+            <p className="section-kicker">Latest additions</p>
+            <h2>最新整理</h2>
+            <p>按发布时间进入最近加入资料库的内容包。</p>
+          </div>
+          <Link className="section-quiet-link" href={ROUTES.search}>
+            查看全部
+          </Link>
         </div>
-        <div className="package-grid">
+        <div className="home-latest-list">
           {data.latest.map((item) => (
-            <PackageCard key={item.slug} item={item} />
+            <PackageCard key={item.slug} item={item} variant="line" />
           ))}
         </div>
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>主题入口</h2>
-          <p>从主题进入对应内容集合。</p>
-        </div>
-        <div className="pill-row">
-          {data.topics.map((topic) => (
-            <TopicPill key={topic.slug} topic={topic} />
-          ))}
+      <section className="showcase-section home-index-section">
+        <div className="home-index-grid">
+          <div className="home-index-group">
+            <p className="section-kicker">Topic shelves</p>
+            <h2>主题入口</h2>
+            <p>按研究方向进入对应内容。</p>
+            <div className="pill-row">
+              {data.topics.map((topic) => (
+                <TopicPill key={topic.slug} topic={topic} />
+              ))}
+            </div>
+          </div>
+          <div className="home-index-group">
+            <p className="section-kicker">Curated collections</p>
+            <h2>合集入口</h2>
+            <p>按策展线索快速浏览内容包。</p>
+            <div className="pill-row">
+              {data.collections.map((collection) => (
+                <CollectionPill key={collection.slug} collection={collection} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>合集入口</h2>
-          <p>按策展合集快速浏览内容包。</p>
+      <section className="showcase-section home-search-section">
+        <div className="home-search-copy">
+          <p className="section-kicker">Search desk</p>
+          <h2>需要更快找到资料时，从这里开始。</h2>
+          <p>保留几个常用入口，也可以进入完整搜索组合更多条件。</p>
+          <Link className="primary-link" href={ROUTES.search}>
+            进入完整搜索
+          </Link>
         </div>
-        <div className="pill-row">
-          {data.collections.map((collection) => (
-            <CollectionPill key={collection.slug} collection={collection} />
-          ))}
-        </div>
-      </section>
-
-      <section className="showcase-section">
-        <div className="section-head">
-          <h2>基础筛选入口</h2>
-          <p>常用筛选条件的一键入口。</p>
-        </div>
-        <div className="quick-filter-grid">
+        <div className="quick-filter-list">
           {HOME_FILTER_ENTRY.map((item) => (
             <Link key={item.title} className="quick-filter-item" href={item.href}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
             </Link>
           ))}
-        </div>
-        <div className="section-inline-link">
-          <Link href={ROUTES.search}>查看完整搜索页</Link>
         </div>
       </section>
     </div>

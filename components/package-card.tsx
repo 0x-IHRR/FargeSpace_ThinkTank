@@ -5,9 +5,15 @@ import { AssetBadge } from "./asset-badge";
 import { SourceBadge } from "./source-badge";
 import { TopicPill } from "./topic-pill";
 
-export function PackageCard({ item }: { item: PackageDisplayItem }) {
+export function PackageCard({
+  item,
+  variant = "grid",
+}: {
+  item: PackageDisplayItem;
+  variant?: "grid" | "line";
+}) {
   return (
-    <article className="package-card">
+    <article className={`package-card package-card-${variant}`}>
       <div className="package-card-head">
         <p className="package-date">{item.displayDate}</p>
         <TopicPill topic={item.topic} />
