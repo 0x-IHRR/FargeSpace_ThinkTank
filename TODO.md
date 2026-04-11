@@ -503,7 +503,7 @@ Phase 13 当前已交付内容：
 目标：
 
 - 在不改产品结构的前提下，把前台做成更安静、更像会员智库的视觉体验
-- 当前状态：进行中（T1401-T1406 已完成），见 [PHASE14_UI_POLISH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE14_UI_POLISH.md)
+- 当前状态：进行中（T1401-T1407 已完成），见 [PHASE14_UI_POLISH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE14_UI_POLISH.md)
 
 #### T1401 冻结视觉基线
 
@@ -564,6 +564,7 @@ Phase 14 当前已交付内容：
 - 首页首屏已精修：改成左侧说明、右侧本期内容包的单一主推荐结构
 - 首页次级区已精修：最新内容、主题、合集和搜索入口已降噪重排
 - 会员入口页已精修：登录、忘记密码、重置密码页已统一视觉，忘记密码保留人工重置口径
+- 内容阅读页已精修：标题区、资产清单、来源区和主题/合集附属区已降噪重排
 - 详细口径已写入 [PHASE14_UI_POLISH.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE14_UI_POLISH.md)
 
 ### Phase 5：种子数据与试填验证
