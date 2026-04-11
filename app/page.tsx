@@ -12,9 +12,22 @@ export default async function HomePage() {
   return (
     <div className="showcase-stack home-stack">
       <section className="showcase-section home-hero-wrap">
-        <div className="section-head">
-          <h1>FargeSpace Think Tank</h1>
-          <p>精选海外 AI 深度内容，统一整理成可直接浏览的会员资料包。</p>
+        <div className="home-hero-copy">
+          <p className="section-kicker">Member dossier / This week</p>
+          <h1>一份更安静的 AI 信号入口。</h1>
+          <p>
+            人工筛选海外深度内容，把文章、视频、播客和文档整理成可直接浏览的会员资料包。
+          </p>
+          <div className="home-hero-actions">
+            {data.featured ? (
+              <Link className="primary-link" href={ROUTES.packageDetail(data.featured.slug)}>
+                进入本期资料包
+              </Link>
+            ) : null}
+            <Link className="secondary-link" href={ROUTES.search}>
+              浏览全部资料
+            </Link>
+          </div>
         </div>
         {data.featured ? <PackageHero item={data.featured} /> : null}
       </section>
