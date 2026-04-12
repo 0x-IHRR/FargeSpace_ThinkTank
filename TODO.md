@@ -574,7 +574,7 @@ Phase 14 当前已交付内容：
 目标：
 
 - 把测试环境从“可以部署”推进到“可以按真实流程验收”
-- 当前状态：已完成但有阻塞项（T1501-T1505 已完成，Directus 文件上传待修复），见 [PHASE15_STAGING_ACCEPTANCE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE15_STAGING_ACCEPTANCE.md)
+- 当前状态：已完成（T1501-T1505 已完成，Directus 文件上传已修复），见 [PHASE15_STAGING_ACCEPTANCE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE15_STAGING_ACCEPTANCE.md)
 
 #### T1501 统一测试环境变量清单
 
@@ -616,10 +616,9 @@ Phase 15 当前已交付内容：
 - 后台发布到前台展示链路已完成：临时发布的测试内容包可在搜索页和详情页看到，验收后已清理
 - T1504 发现并修复会员页连续访问时会话被误判过期的问题
 - T1505 已完成测试环境问题清单：已通过项、必须修复项、可后置优化项均已写入验收文档
-- 必须修复项：Directus 文件上传接口当前返回 `500 INTERNAL_SERVER_ERROR`
-- 当前影响：后台不能稳定上传封面、音频、视频、PPT、PDF 等文件；只使用文字摘要和外部链接的内容包发布链路仍可用
-- 已定位原因：Directus 对 `/directus/uploads` 没有写入权限，健康检查返回 `EACCES`
-- 建议下一步：在 Railway Directus 服务变量里补 `RAILWAY_RUN_UID=0` 并重新部署，修复后重新跑 `/files` 上传探测
+- Directus 文件上传问题已修复：Railway Directus 服务补 `RAILWAY_RUN_UID=0` 后，测试文件上传与删除均已通过
+- 当前无已知必须修复问题
+- 可后置项：Directus 健康检查仍提示 `email:connection` 为 `ESOCKET`，当前人工重置密码流程不依赖邮件发送
 
 ### Phase 5：种子数据与试填验证
 

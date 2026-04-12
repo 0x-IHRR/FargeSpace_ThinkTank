@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-11
-状态：Completed with blocker（T1501-T1505 已完成，Directus 文件上传待修复）
+状态：Completed（T1501-T1505 已完成，Directus 文件上传已修复）
 
 ## 1. 目标
 
@@ -172,15 +172,18 @@
 
 必须修复问题：
 
-1. Directus `/files` 上传接口当前返回 `500 INTERNAL_SERVER_ERROR`
-2. 影响范围：后台不能稳定上传封面、音频、视频、PPT、PDF 等文件；只使用文字摘要和外部链接的内容包发布链路仍可用
-3. 已定位原因：Directus `/server/health` 返回 `storage:local:responseTime` 错误，具体为 `EACCES`，路径是 `/directus/uploads/directus-health-file`
-4. 建议处理：Railway Directus 服务补 `RAILWAY_RUN_UID=0`，确认 `STORAGE_LOCATIONS=local`、`STORAGE_LOCAL_DRIVER=local`、`STORAGE_LOCAL_ROOT=/directus/uploads`，以及 Railway Volume 挂载到 `/directus/uploads`
-5. 修复后需要重新跑一次 `/files` 上传探测，再验证后台上传文件后前台资产入口是否可见
+1. 当前无已知必须修复问题
+
+已修复问题：
+
+1. Directus `/files` 上传接口此前返回 `500 INTERNAL_SERVER_ERROR`
+2. 已定位原因：Directus `/server/health` 返回 `storage:local:responseTime` 错误，具体为 `EACCES`，路径是 `/directus/uploads/directus-health-file`
+3. 已处理：Railway Directus 服务补 `RAILWAY_RUN_UID=0` 后重新部署
+4. 已复测：`/files` 测试文件上传成功，随后删除测试文件成功；`storage:local:responseTime` 已恢复为 `ok`
 
 可后置优化问题：
 
-1. 密码重置邮件继续后置，当前按“请联系管理员重置密码”处理
+1. 密码重置邮件继续后置，当前按“请联系管理员重置密码”处理；Directus `/server/health` 仍显示 `email:connection` 为 `ESOCKET`
 2. S3 或对象存储迁移继续后置，当前优先修通 Railway Volume
 3. 更细的 UI 精修和动效调整可在文件上传问题修复后继续
 4. 更完整的 QA 用例可以在测试环境文件上传链路修复后再扩展
