@@ -2,7 +2,7 @@
 
 版本：V1
 日期：2026-04-11
-状态：In Progress（T1501-T1504 已完成）
+状态：Completed with blocker（T1501-T1505 已完成，Directus 文件上传待修复）
 
 ## 1. 目标
 
@@ -155,4 +155,31 @@
 
 依赖：T1502-T1504
 
-当前状态：未开始
+当前状态：已完成
+
+已验证通过：
+
+1. 测试环境变量清单已统一，Vercel frontend、Railway Directus、Railway PostgreSQL、Railway Volume 的变量边界已拆开
+2. 前台线上地址 `https://farge-space-think-tank.vercel.app` 可访问
+3. 未登录访问会员区页面会跳转到 `/login`，并保留正确的 `next` 返回路径
+4. 桌面端 `1280x900` 与移动端 `390x844` 未发现横向溢出或应用错误页
+5. 有效会员可以登录并进入会员区
+6. 缺少会员层级的无效会员会被拦截
+7. 退出登录后不能继续访问受保护页面
+8. 后台创建并发布的测试内容包可以在前台搜索页和详情页看到
+9. T1503 与 T1504 创建的临时会员账号、测试内容包和测试来源均已清理
+10. 会员页连续访问时会话被误判过期的问题已修复并部署，提交为 `37e5653 fix: preserve member session across pages`
+
+必须修复问题：
+
+1. Directus `/files` 上传接口当前返回 `500 INTERNAL_SERVER_ERROR`
+2. 影响范围：后台不能稳定上传封面、音频、视频、PPT、PDF 等文件；只使用文字摘要和外部链接的内容包发布链路仍可用
+3. 建议检查范围：Railway Directus 文件存储变量与 Volume 挂载是否一致，包括 `STORAGE_LOCATIONS=local`、`STORAGE_LOCAL_DRIVER=local`、`STORAGE_LOCAL_ROOT=/directus/uploads`，以及 Railway Volume 是否挂载到 `/directus/uploads`
+4. 修复后需要重新跑一次 `/files` 上传探测，再验证后台上传文件后前台资产入口是否可见
+
+可后置优化问题：
+
+1. 密码重置邮件继续后置，当前按“请联系管理员重置密码”处理
+2. S3 或对象存储迁移继续后置，当前优先修通 Railway Volume
+3. 更细的 UI 精修和动效调整可在文件上传问题修复后继续
+4. 更完整的 QA 用例可以在测试环境文件上传链路修复后再扩展
