@@ -618,7 +618,8 @@ Phase 15 当前已交付内容：
 - T1505 已完成测试环境问题清单：已通过项、必须修复项、可后置优化项均已写入验收文档
 - 必须修复项：Directus 文件上传接口当前返回 `500 INTERNAL_SERVER_ERROR`
 - 当前影响：后台不能稳定上传封面、音频、视频、PPT、PDF 等文件；只使用文字摘要和外部链接的内容包发布链路仍可用
-- 建议下一步：检查 Railway Directus 文件存储变量与 Volume 挂载是否一致，修复后重新跑 `/files` 上传探测
+- 已定位原因：Directus 对 `/directus/uploads` 没有写入权限，健康检查返回 `EACCES`
+- 建议下一步：在 Railway Directus 服务变量里补 `RAILWAY_RUN_UID=0` 并重新部署，修复后重新跑 `/files` 上传探测
 
 ### Phase 5：种子数据与试填验证
 

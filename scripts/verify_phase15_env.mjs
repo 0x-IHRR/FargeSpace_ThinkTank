@@ -35,6 +35,7 @@ const requiredGroups = [
       "STORAGE_LOCATIONS",
       "STORAGE_LOCAL_DRIVER",
       "STORAGE_LOCAL_ROOT",
+      "RAILWAY_RUN_UID",
     ],
   },
 ];

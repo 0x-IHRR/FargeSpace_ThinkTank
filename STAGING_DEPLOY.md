@@ -117,6 +117,7 @@ Directus 官方文档说明：
 | `STORAGE_LOCATIONS` | `local` |
 | `STORAGE_LOCAL_DRIVER` | `local` |
 | `STORAGE_LOCAL_ROOT` | `/directus/uploads` |
+| `RAILWAY_RUN_UID` | `0` |
 | `PASSWORD_RESET_URL_ALLOW_LIST` | `https://farge-space-think-tank.vercel.app/reset-password` |
 
 说明：
@@ -125,6 +126,7 @@ Directus 官方文档说明：
 - `PASSWORD_RESET_URL_ALLOW_LIST` 先保留，后续如果启用邮件重置可以直接使用
 - Railway PostgreSQL 的 `PGHOST`、`PGPORT`、`PGDATABASE`、`PGUSER`、`PGPASSWORD` 需要对应填到 Directus 的 `DB_HOST`、`DB_PORT`、`DB_DATABASE`、`DB_USER`、`DB_PASSWORD`
 - 当前已确认的 Railway Volume 路径是 `/directus/uploads`
+- 当前线上上传失败的直接原因是 Directus 对 `/directus/uploads` 没有写入权限，Railway Volume 需要给 Directus 服务补 `RAILWAY_RUN_UID=0` 后重新部署
 
 完整模板见：
 
@@ -137,7 +139,8 @@ Directus 官方文档说明：
 3. 接 PostgreSQL
 4. 在 Directus 里补 `PASSWORD_RESET_URL_ALLOW_LIST`
 5. 确认 Railway Volume 路径是 `/directus/uploads`
-6. 最后再把前台改成真实接口读取
+6. 在 Railway Directus 服务里补 `RAILWAY_RUN_UID=0` 后重新部署
+7. 最后再把前台改成真实接口读取
 
 ## 7. 当前完成标准
 

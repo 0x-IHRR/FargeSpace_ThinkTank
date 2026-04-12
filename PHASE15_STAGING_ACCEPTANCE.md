@@ -174,8 +174,9 @@
 
 1. Directus `/files` 上传接口当前返回 `500 INTERNAL_SERVER_ERROR`
 2. 影响范围：后台不能稳定上传封面、音频、视频、PPT、PDF 等文件；只使用文字摘要和外部链接的内容包发布链路仍可用
-3. 建议检查范围：Railway Directus 文件存储变量与 Volume 挂载是否一致，包括 `STORAGE_LOCATIONS=local`、`STORAGE_LOCAL_DRIVER=local`、`STORAGE_LOCAL_ROOT=/directus/uploads`，以及 Railway Volume 是否挂载到 `/directus/uploads`
-4. 修复后需要重新跑一次 `/files` 上传探测，再验证后台上传文件后前台资产入口是否可见
+3. 已定位原因：Directus `/server/health` 返回 `storage:local:responseTime` 错误，具体为 `EACCES`，路径是 `/directus/uploads/directus-health-file`
+4. 建议处理：Railway Directus 服务补 `RAILWAY_RUN_UID=0`，确认 `STORAGE_LOCATIONS=local`、`STORAGE_LOCAL_DRIVER=local`、`STORAGE_LOCAL_ROOT=/directus/uploads`，以及 Railway Volume 挂载到 `/directus/uploads`
+5. 修复后需要重新跑一次 `/files` 上传探测，再验证后台上传文件后前台资产入口是否可见
 
 可后置优化问题：
 
