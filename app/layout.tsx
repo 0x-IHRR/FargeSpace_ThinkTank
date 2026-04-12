@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 };
 
 const NAV_ITEMS = [
-  { label: "Issue", href: ROUTES.home },
-  { label: "Topics", href: ROUTES.topicDetail("agents") },
-  { label: "Sets", href: ROUTES.collectionDetail("agentic-ai-watch") },
-  { label: "Package", href: ROUTES.packageDetail("openai-agent-builder-guide-digest") },
-  { label: "Search", href: ROUTES.search },
+  { label: "本期", href: ROUTES.home },
+  { label: "主题", href: ROUTES.topicDetail("agents") },
+  { label: "合集", href: ROUTES.collectionDetail("agentic-ai-watch") },
+  { label: "内容包", href: ROUTES.packageDetail("openai-agent-builder-guide-digest") },
+  { label: "搜索", href: ROUTES.search },
 ] as const;
 
 export default async function RootLayout({
