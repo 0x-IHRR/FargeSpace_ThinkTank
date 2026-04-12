@@ -32,7 +32,7 @@ export default async function HomePage() {
         {data.featured ? <PackageHero item={data.featured} /> : null}
       </section>
 
-      <section className="showcase-section home-latest-section">
+      <section className="showcase-section home-latest-section home-split-section">
         <div className="section-head section-head-row">
           <div>
             <p className="section-kicker">Latest additions</p>
@@ -50,7 +50,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="showcase-section home-index-section">
+      <section className="showcase-section home-index-section home-split-section">
         <div className="home-index-grid">
           <div className="home-index-group">
             <p className="section-kicker">Topic shelves</p>
@@ -75,7 +75,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="showcase-section home-search-section">
+      <section className="showcase-section home-search-section home-split-section">
         <div className="home-search-copy">
           <p className="section-kicker">Search desk</p>
           <h2>需要更快找到资料时，从这里开始。</h2>
