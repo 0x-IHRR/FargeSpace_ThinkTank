@@ -4,7 +4,13 @@ import type { PackageDisplayItem } from "@/lib/ui-models";
 import { SourceBadge } from "./source-badge";
 import { TopicPill } from "./topic-pill";
 
+function getCompactTitle(title: string) {
+  return title.split(/[：:]/)[0]?.trim() ?? title;
+}
+
 export function PackageHero({ item }: { item: PackageDisplayItem }) {
+  const compactTitle = getCompactTitle(item.title);
+
   return (
     <article className="package-hero">
       <div className="hero-copy">
@@ -13,7 +19,9 @@ export function PackageHero({ item }: { item: PackageDisplayItem }) {
           <p className="package-date">{item.displayDate}</p>
         </div>
         <h2>
-          <Link href={ROUTES.packageDetail(item.slug)}>{item.title}</Link>
+          <Link href={ROUTES.packageDetail(item.slug)} title={item.title}>
+            {compactTitle}
+          </Link>
         </h2>
         <p>{item.summary}</p>
         <div className="hero-pills">

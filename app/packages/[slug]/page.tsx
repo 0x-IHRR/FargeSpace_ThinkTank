@@ -20,6 +20,16 @@ const PACKAGE_TYPE_LABELS = {
   interview: "访谈",
 } satisfies Record<PackageDetailData["packageType"], string>;
 
+function splitDisplayTitle(title: string) {
+  const match = title.match(/^(.+?[：:])\s*(.+)$/);
+
+  if (!match) {
+    return { lead: title, tail: "" };
+  }
+
+  return { lead: match[1], tail: match[2] };
+}
+
 export default async function PackagePage({ params }: PackagePageProps) {
   const { slug } = params;
   const data = await getPackageDetailData(slug);
@@ -41,13 +51,17 @@ export default async function PackagePage({ params }: PackagePageProps) {
   }
 
   const detail = data.detail;
+  const displayTitle = splitDisplayTitle(detail.title);
 
   return (
     <div className="showcase-stack package-detail-stack">
       <section className="showcase-section package-detail-hero">
         <div className="package-detail-copy">
           <p className="section-kicker">会员资料包 / {detail.displayDate}</p>
-          <h1>{detail.title}</h1>
+          <h1>
+            <span>{displayTitle.lead}</span>
+            {displayTitle.tail ? <span className="title-tail">{displayTitle.tail}</span> : null}
+          </h1>
           <p className="package-summary">{detail.summary}</p>
           <div className="pill-row">
             <TopicPill topic={detail.primaryTopic} />
