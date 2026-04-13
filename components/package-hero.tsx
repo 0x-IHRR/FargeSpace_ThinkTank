@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ROUTES } from "@/lib/routes";
 import type { PackageDisplayItem } from "@/lib/ui-models";
-import { AssetBadge } from "./asset-badge";
 import { SourceBadge } from "./source-badge";
 import { TopicPill } from "./topic-pill";
 
@@ -23,11 +22,6 @@ export function PackageHero({ item }: { item: PackageDisplayItem }) {
         </div>
       </div>
       <div className="hero-footer">
-        <div className="asset-row">
-          {item.availableAssetTypes.map((type) => (
-            <AssetBadge key={`${item.slug}-${type}`} type={type} />
-          ))}
-        </div>
         <Link className="hero-read-link" href={ROUTES.packageDetail(item.slug)}>
           打开资料包
         </Link>
