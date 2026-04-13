@@ -102,7 +102,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
                   <AssetBadge type={asset.assetType} />
                 </div>
                 <h3>{asset.title}</h3>
-                <p className="asset-language">语言：{asset.language}</p>
                 {asset.bodyMarkdown ? (
                   <p className="asset-body-preview">{asset.bodyMarkdown}</p>
                 ) : null}
