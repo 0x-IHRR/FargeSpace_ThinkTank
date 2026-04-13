@@ -6,10 +6,19 @@ import { SourceBadge } from "@/components/source-badge";
 import { TopicPill } from "@/components/topic-pill";
 import { getPackageDetailData } from "@/lib/content-data";
 import { ROUTES } from "@/lib/routes";
+import type { PackageDetailData } from "@/lib/ui-models";
 
 type PackagePageProps = {
   params: { slug: string };
 };
+
+const PACKAGE_TYPE_LABELS = {
+  recap: "快讯回顾",
+  deep_dive: "深度解读",
+  watchlist: "观察清单",
+  toolkit: "工具包",
+  interview: "访谈",
+} satisfies Record<PackageDetailData["packageType"], string>;
 
 export default async function PackagePage({ params }: PackagePageProps) {
   const { slug } = params;
@@ -45,8 +54,8 @@ export default async function PackagePage({ params }: PackagePageProps) {
           </div>
         </div>
         <aside className="package-detail-meta" aria-label="内容包信息">
-          <p>Package path</p>
-          <strong>{ROUTES.packageDetail(slug)}</strong>
+          <p>内容包状态</p>
+          <strong>{PACKAGE_TYPE_LABELS[detail.packageType]}</strong>
           <span>{detail.assets.length} 个加工资产</span>
           <span>{detail.sources.length} 个原始来源</span>
           <span>{detail.rawSourceVisible ? "来源对会员可见" : "来源仅作内部引用"}</span>
@@ -105,8 +114,8 @@ export default async function PackagePage({ params }: PackagePageProps) {
                       <p className="package-date">{source.publishedAt}</p>
                     ) : null}
                   </div>
-                  <a href={source.sourceUrl} target="_blank" rel="noreferrer">
-                    {source.sourceUrl}
+                  <a className="state-link" href={source.sourceUrl} target="_blank" rel="noreferrer">
+                    打开原始来源
                   </a>
                 </article>
               ))}
