@@ -136,7 +136,7 @@ function toDisplayName(profile: Pick<DirectusUserProfile, "first_name" | "last_n
     return localPart;
   }
 
-  return "FargeSpace Member";
+  return "AI-FORGE Member";
 }
 
 function mapRoleNameToMemberRole(role: DirectusRole): MemberRole | null {

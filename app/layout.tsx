@@ -13,7 +13,7 @@ import {
 } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "FargeSpace Think Tank",
+  title: "AI-FORGE",
   description: "人工筛选与整理后的 AI 深度资料库",
 };
 
@@ -45,10 +45,10 @@ export default async function RootLayout({
         <header className="site-header">
           <div className="site-width header-inner">
             <Link className="brand-block" href={ROUTES.home} aria-label="返回首页">
-              <span className="brand-mark" aria-hidden="true">FS</span>
+              <span className="brand-mark" aria-hidden="true">AF</span>
               <span>
                 <span className="brand-kicker">Member Intelligence Desk</span>
-                <span className="brand-title">FargeSpace</span>
+                <span className="brand-title">AI-FORGE</span>
                 <span className="brand-subtitle">AI Signal Library</span>
               </span>
             </Link>
@@ -97,7 +97,7 @@ export default async function RootLayout({
         <footer className="site-footer">
           <div className="site-width footer-inner">
             <div>
-              <p className="footer-title">FargeSpace Think Tank</p>
+              <p className="footer-title">AI-FORGE</p>
               <p>精选 AI 资料、来源与加工内容的会员资料库。</p>
             </div>
             <p className="footer-meta">Member desk · {year}</p>

@@ -52,7 +52,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <section className="showcase-section login-hero-section">
         <div className="login-hero-copy">
           <p className="section-kicker">会员入口</p>
-          <h1>进入 FargeSpace 会员资料库。</h1>
+          <h1>进入 AI-FORGE 会员资料库。</h1>
           <p>
             {openPreviewMode
               ? "当前先开放前端页面，方便完整检查产品结构和 UI。"
