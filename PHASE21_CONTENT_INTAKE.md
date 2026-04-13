@@ -143,3 +143,56 @@ Phase 21 只解决一个后台体验问题：
 
 这些由后续生成逻辑自动处理。
 
+## 5. T2102 状态流
+
+统一上传台有自己的状态，不直接替换 `packages.workflow_state`。
+
+### 5.1 状态定义
+
+| 状态 | 后台展示名 | 含义 | 运营者下一步 |
+|---|---|---|---|
+| `draft` | 草稿 | 资料还在填写，系统不会生成前台内容包 | 继续补字段 |
+| `ready` | 可生成 | 最小字段已齐，可以生成资料包 | 点击生成或等待自动生成 |
+| `generated` | 已生成 | 已经生成到底层内容包 | 打开生成的资料包检查 |
+| `failed` | 生成失败 | 生成过程失败，错误会写入 `generation_error` | 按错误提示修改后重新生成 |
+| `archived` | 已归档 | 这条上传记录不再处理 | 保留记录，不继续生成 |
+
+### 5.2 推荐状态顺序
+
+1. 新建记录默认是 `draft`
+2. 必填字段齐全后改为 `ready`
+3. 生成成功后系统改为 `generated`
+4. 生成失败后系统改为 `failed`
+5. 不再处理时人工改为 `archived`
+
+### 5.3 允许的状态变化
+
+| 当前状态 | 允许变为 |
+|---|---|
+| `draft` | `ready`、`archived` |
+| `ready` | `generated`、`failed`、`archived` |
+| `failed` | `ready`、`archived` |
+| `generated` | `archived` |
+| `archived` | 不建议恢复；如需恢复，复制一条新记录 |
+
+### 5.4 与前台发布状态的关系
+
+`content_intake.generation_status` 只代表“统一上传台这条记录是否已经生成成功”。
+
+`packages.workflow_state` 才代表“前台内容包能否被会员看到”。
+
+生成时的映射规则：
+
+| 上传台发布方式 | 生成后的 `packages.workflow_state` |
+|---|---|
+| 保存草稿 | `draft` |
+| 直接发布 | `published` |
+
+### 5.5 失败处理
+
+生成失败时必须回写：
+
+- `generation_status = failed`
+- `generation_error = 具体失败原因`
+
+运营者看到错误后，只需要回到统一上传台修改当前记录，不需要去底层集合手动修。
