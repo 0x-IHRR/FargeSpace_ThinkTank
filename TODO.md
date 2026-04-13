@@ -745,7 +745,7 @@ Phase 17 后置待办：
 目标：
 
 - 解决“有结构但内容显乱”的问题，让页面更像清晰的会员资料库，而不是每页都像视觉海报
-- 当前状态：待开始，详见 [PHASE18_UI_CONSOLIDATION.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE18_UI_CONSOLIDATION.md)
+- 当前状态：已完成（T1801-T1812 全部完成），详见 [PHASE18_UI_CONSOLIDATION.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE18_UI_CONSOLIDATION.md)
 
 #### T1801 冻结 UI 收敛原则
 
@@ -813,6 +813,15 @@ Phase 18 完成标准：
 - 页面仍保留米白、细线、会员资料库的视觉方向
 - 列表和详情优先服务阅读与查找，不再用过强装饰压过内容
 - 桌面端和移动端都通过浏览器检查
+
+Phase 18 当前已交付内容：
+
+- 卡片结构已改成标题、摘要、元信息、操作的单一阅读流
+- 全局标题、正文、标签、按钮的层级已降低
+- 背景网格、斜切装饰、重边框和状态区已降噪
+- 首页、主题页、合集页、搜索页、详情页、登录相关页的小标题已统一为中文功能标签
+- 桌面端和移动端浏览器检查已通过
+- 当前未发现错误覆盖层或横向溢出
 
 ### Phase 5：种子数据与试填验证
 
