@@ -14,20 +14,24 @@ export function PackageCard({
 }) {
   return (
     <article className={`package-card package-card-${variant}`}>
-      <div className="package-card-head">
-        <p className="package-date">{item.displayDate}</p>
-        <TopicPill topic={item.topic} />
+      <div className="package-card-main">
+        <h3>
+          <Link href={ROUTES.packageDetail(item.slug)}>{item.title}</Link>
+        </h3>
+        <p>{item.summary}</p>
       </div>
-      <h3>
-        <Link href={ROUTES.packageDetail(item.slug)}>{item.title}</Link>
-      </h3>
-      <p>{item.summary}</p>
-      <div className="package-card-foot">
-        <SourceBadge sourceType={item.sourceType} platform={item.sourcePlatform} />
-        <div className="asset-row">
-          {item.availableAssetTypes.map((type) => (
-            <AssetBadge key={`${item.slug}-${type}`} type={type} />
-          ))}
+      <div className="package-card-meta">
+        <div className="package-card-head">
+          <p className="package-date">{item.displayDate}</p>
+          <TopicPill topic={item.topic} />
+        </div>
+        <div className="package-card-foot">
+          <SourceBadge sourceType={item.sourceType} platform={item.sourcePlatform} />
+          <div className="asset-row">
+            {item.availableAssetTypes.map((type) => (
+              <AssetBadge key={`${item.slug}-${type}`} type={type} />
+            ))}
+          </div>
         </div>
       </div>
     </article>
