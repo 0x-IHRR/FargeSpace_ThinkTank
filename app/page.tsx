@@ -34,8 +34,7 @@ export default async function HomePage() {
       <section className="showcase-section home-latest-section home-split-section">
         <div className="section-head section-head-row">
           <div>
-            <p className="section-kicker">最新入库</p>
-            <h2>最新整理</h2>
+            <h2>最新入库</h2>
             <p>按发布时间进入最近加入资料库的内容包。</p>
           </div>
           <Link className="section-quiet-link" href={ROUTES.search}>
