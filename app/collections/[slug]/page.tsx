@@ -1,7 +1,6 @@
 import { EmptyState } from "@/components/empty-state";
 import { PackageCard } from "@/components/package-card";
 import { getCollectionPageData } from "@/lib/content-data";
-import { ROUTES } from "@/lib/routes";
 
 type CollectionPageProps = {
   params: { slug: string };
@@ -26,7 +25,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
           <p>当前结果</p>
           <strong>{data.items.length} 条</strong>
           <span>按合集内顺序</span>
-          <span>{ROUTES.collectionDetail(slug)}</span>
+          <span>{data.knownCollection ? "合集页" : "临时合集页"}</span>
         </aside>
       </section>
 

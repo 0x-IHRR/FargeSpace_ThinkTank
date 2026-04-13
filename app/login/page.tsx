@@ -66,7 +66,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </div>
         <div className="login-hero-meta" aria-label="登录说明">
           <p>登录后返回</p>
-          <strong>{nextPath}</strong>
+          <strong>继续浏览资料库</strong>
           <span>
             {openPreviewMode
               ? "会员权限暂时后置，当前可以直接浏览前端页面。"
@@ -142,7 +142,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 >
                   打开 Directus Admin
                 </a>
-                <p className="login-meta">后台地址：{directusAdminLoginUrl}</p>
+                <p className="login-meta">后台地址已配置，仅供内容编辑使用。</p>
               </>
             ) : (
               <p className="login-meta">后台测试环境尚未配置，当前预览站仅供前台验收。</p>

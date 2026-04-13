@@ -62,7 +62,7 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
         <aside className="browse-meta" aria-label="主题信息">
           <p>当前结果</p>
           <strong>{data.items.length} 条</strong>
-          <span>{ROUTES.topicDetail(slug)}</span>
+          <span>{data.knownTopic ? "主题页" : "临时主题页"}</span>
         </aside>
       </section>
 
