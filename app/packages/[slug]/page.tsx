@@ -94,7 +94,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
               >
                 <div className="asset-detail-head">
                   <AssetBadge type={asset.assetType} />
-                  <p className="package-date">排序 {asset.sortOrder}</p>
                 </div>
                 <h3>{asset.title}</h3>
                 <p className="asset-language">语言：{asset.language}</p>
