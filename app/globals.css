@@ -225,9 +225,9 @@ body {
 .home-stack h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(34px, 4.4vw, 54px);
-  line-height: 1.04;
-  letter-spacing: -0.045em;
+  font-size: clamp(32px, 3.5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
   text-wrap: balance;
 }
 
@@ -311,7 +311,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 560px;
+  max-width: 720px;
 }
 
 .section-kicker {
@@ -1672,7 +1672,7 @@ body {
 
   .home-hero-wrap {
     min-height: clamp(430px, calc(100svh - 180px), 600px);
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+    grid-template-columns: minmax(0, 1.18fr) minmax(250px, 0.44fr);
     padding: clamp(42px, 5vw, 58px);
   }
 
