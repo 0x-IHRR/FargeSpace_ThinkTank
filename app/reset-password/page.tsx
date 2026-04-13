@@ -27,13 +27,13 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
     <div className="showcase-stack login-stack">
       <section className="showcase-section login-hero-section login-help-section">
         <div className="login-hero-copy">
-          <p className="section-kicker">Password reset</p>
+          <p className="section-kicker">密码重置</p>
           <h1>设置新的会员密码。</h1>
           <p>设置新密码后，可直接返回会员登录页重新登录。</p>
           {errorMessage ? <p className="login-alert">{errorMessage}</p> : null}
         </div>
         <article className="login-panel login-panel-primary">
-          <p className="section-kicker">New password</p>
+          <p className="section-kicker">新密码</p>
           <h2>设置新密码</h2>
           {token ? (
             <form className="login-form" action={resetMemberPasswordAction}>

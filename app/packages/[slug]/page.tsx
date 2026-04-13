@@ -46,7 +46,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
     <div className="showcase-stack package-detail-stack">
       <section className="showcase-section package-detail-hero">
         <div className="package-detail-copy">
-          <p className="section-kicker">Member package / {detail.displayDate}</p>
+          <p className="section-kicker">会员资料包 / {detail.displayDate}</p>
           <h1>{detail.title}</h1>
           <p className="package-summary">{detail.summary}</p>
           <div className="pill-row">
@@ -66,11 +66,11 @@ export default async function PackagePage({ params }: PackagePageProps) {
         <section className="showcase-section package-reading-section">
           <div className="section-head section-head-row">
             <div>
-              <p className="section-kicker">Prepared assets</p>
+              <p className="section-kicker">加工内容</p>
               <h2>加工资产</h2>
               <p>按阅读顺序展示会员可消费内容。</p>
             </div>
-            <span className="section-count">{detail.assets.length} items</span>
+            <span className="section-count">{detail.assets.length} 项</span>
           </div>
           <div className="asset-detail-list">
             {detail.assets.map((asset) => (
@@ -100,7 +100,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         <aside className="package-side-rail">
           <section className="package-side-panel">
             <div className="section-head">
-              <p className="section-kicker">Sources</p>
+              <p className="section-kicker">来源</p>
               <h2>来源</h2>
               <p>内容包引用的原始来源。</p>
             </div>
@@ -124,7 +124,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
           <section className="package-side-panel">
             <div className="section-head">
-              <p className="section-kicker">Navigation</p>
+              <p className="section-kicker">继续浏览</p>
               <h2>主题与合集</h2>
               <p>用于继续浏览相关资料。</p>
             </div>

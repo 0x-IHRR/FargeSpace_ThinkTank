@@ -51,7 +51,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <div className="showcase-stack login-stack">
       <section className="showcase-section login-hero-section">
         <div className="login-hero-copy">
-          <p className="section-kicker">Member access</p>
+          <p className="section-kicker">会员入口</p>
           <h1>进入 FargeSpace 会员资料库。</h1>
           <p>
             {openPreviewMode
@@ -77,7 +77,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
       <section className="showcase-section login-layout login-access-layout">
         <article className="login-panel login-panel-primary">
-          <p className="section-kicker">Member sign in</p>
+          <p className="section-kicker">登录</p>
           <h2>会员入口</h2>
           <p>使用会员邮箱和密码登录。</p>
           <form className="login-form" action={loginMember}>
@@ -119,7 +119,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
         {openPreviewMode ? (
           <article className="login-panel login-panel-alt">
-            <p className="section-kicker">Open preview</p>
+            <p className="section-kicker">开放预览</p>
             <h2>先直接浏览产品页面</h2>
             <p>当前先不强制会员登录，便于继续精修首页、主题、合集、搜索和详情页。</p>
             <div className="login-link-row">
@@ -129,7 +129,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </article>
         ) : (
           <article className="login-panel login-panel-alt">
-            <p className="section-kicker">Editorial admin</p>
+            <p className="section-kicker">内容后台</p>
             <h2>Directus 后台入口</h2>
             <p>内容编辑与发布请走后台入口。</p>
             {directusAdminLoginUrl ? (

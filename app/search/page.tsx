@@ -58,7 +58,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     <div className="showcase-stack search-stack">
       <section className="showcase-section browse-hero search-head">
         <div className="browse-hero-copy">
-          <p className="section-kicker">Search desk</p>
+          <p className="section-kicker">检索入口</p>
           <h1>搜索资料库</h1>
           <p>通过关键词、主题、来源和内容形式组合筛选，快速定位需要的内容包。</p>
         </div>
@@ -71,7 +71,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
       <section className="showcase-section browse-filter-section">
         <div className="section-head">
-          <p className="section-kicker">Filters</p>
+          <p className="section-kicker">筛选条件</p>
           <h2>筛选条件</h2>
           <p>保留常用条件，避免在列表里重复翻找。</p>
         </div>
@@ -159,11 +159,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <section className="showcase-section browse-results-section">
         <div className="section-head section-head-row">
           <div>
-            <p className="section-kicker">Results</p>
+            <p className="section-kicker">搜索结果</p>
             <h2>结果</h2>
             <p>当前命中 {data.total} 条内容。</p>
           </div>
-          <span className="section-count">{data.total} items</span>
+          <span className="section-count">{data.total} 项</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState

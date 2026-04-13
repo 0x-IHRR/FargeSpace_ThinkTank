@@ -14,7 +14,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
     <div className="showcase-stack collection-stack">
       <section className="showcase-section browse-hero collection-head">
         <div className="browse-hero-copy">
-          <p className="section-kicker">Curated collection</p>
+          <p className="section-kicker">精选合集</p>
           <h1>{data.collection.name}</h1>
           <p>{data.collection.description}</p>
           {!data.knownCollection ? (
@@ -32,11 +32,11 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
       <section className="showcase-section browse-results-section">
         <div className="section-head section-head-row">
           <div>
-            <p className="section-kicker">Packages</p>
+            <p className="section-kicker">内容包</p>
             <h2>内容包列表</h2>
             <p>列表顺序由合集定义决定，不按时间自动重排。</p>
           </div>
-          <span className="section-count">{data.items.length} items</span>
+          <span className="section-count">{data.items.length} 项</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState

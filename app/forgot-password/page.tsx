@@ -13,12 +13,12 @@ export default async function ForgotPasswordPage() {
     <div className="showcase-stack login-stack">
       <section className="showcase-section login-hero-section login-help-section">
         <div className="login-hero-copy">
-          <p className="section-kicker">Password help</p>
+          <p className="section-kicker">密码协助</p>
           <h1>密码需要人工重置。</h1>
           <p>当前阶段不开放自动邮件重置，避免测试环境误发邮件或造成入口混乱。</p>
         </div>
         <article className="login-panel login-panel-primary">
-          <p className="section-kicker">Manual reset</p>
+          <p className="section-kicker">人工重置</p>
           <h2>请联系管理员重置密码</h2>
           <p>如果你忘记了会员密码，请直接联系管理员手动重置。</p>
           <p className="login-note">

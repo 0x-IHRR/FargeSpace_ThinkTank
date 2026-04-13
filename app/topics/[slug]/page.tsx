@@ -52,7 +52,7 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
     <div className="showcase-stack topic-stack">
       <section className="showcase-section browse-hero topic-head">
         <div className="browse-hero-copy">
-          <p className="section-kicker">Topic shelf</p>
+          <p className="section-kicker">主题书架</p>
           <h1>{data.topic.name}</h1>
           <p>{data.topic.description}</p>
           {!data.knownTopic ? (
@@ -69,7 +69,7 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
       <section className="showcase-section browse-filter-section">
         <div className="section-head section-head-row">
           <div>
-            <p className="section-kicker">Refine shelf</p>
+            <p className="section-kicker">筛选条件</p>
             <h2>筛选</h2>
             <p>按内容包类型和可消费形式过滤当前主题下的内容。</p>
           </div>
@@ -121,11 +121,11 @@ export default async function TopicPage({ params, searchParams }: TopicPageProps
       <section className="showcase-section browse-results-section">
         <div className="section-head section-head-row">
           <div>
-            <p className="section-kicker">Packages</p>
+            <p className="section-kicker">内容包</p>
             <h2>内容包列表</h2>
             <p>当前主题下按时间倒序显示内容包。</p>
           </div>
-          <span className="section-count">{data.items.length} items</span>
+          <span className="section-count">{data.items.length} 项</span>
         </div>
         {data.items.length === 0 ? (
           <EmptyState
