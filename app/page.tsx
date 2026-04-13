@@ -13,7 +13,6 @@ export default async function HomePage() {
     <div className="showcase-stack home-stack">
       <section className="showcase-section home-hero-wrap">
         <div className="home-hero-copy">
-          <p className="section-kicker">本期资料</p>
           <h1>一份更安静的 AI 信号入口。</h1>
           <p>
             人工筛选海外深度内容，把文章、视频、播客和文档整理成可直接浏览的会员资料包。
