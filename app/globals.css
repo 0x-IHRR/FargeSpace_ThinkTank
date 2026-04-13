@@ -1111,7 +1111,7 @@ body {
 }
 
 .package-detail-stack h1 .title-tail {
-  display: inline;
+  display: block;
 }
 
 .package-summary {

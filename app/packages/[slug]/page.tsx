@@ -21,6 +21,12 @@ const PACKAGE_TYPE_LABELS = {
 } satisfies Record<PackageDetailData["packageType"], string>;
 
 function splitDisplayTitle(title: string) {
+  const guideTitleMatch = title.match(/^([A-Za-z0-9][^：:]*?)\s+(指南整理[：:].+)$/);
+
+  if (guideTitleMatch) {
+    return { lead: guideTitleMatch[1], tail: guideTitleMatch[2] };
+  }
+
   const match = title.match(/^(.+?[：:])\s*(.+)$/);
 
   if (!match) {
@@ -59,7 +65,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         <div className="package-detail-copy">
           <p className="section-kicker">会员资料包 / {detail.displayDate}</p>
           <h1>
-            <span>{displayTitle.lead}</span>
+            <span className="title-lead">{displayTitle.lead}</span>
             {displayTitle.tail ? <span className="title-tail">{displayTitle.tail}</span> : null}
           </h1>
           <p className="package-summary">{detail.summary}</p>
