@@ -7,6 +7,7 @@ import {
   getSessionStateFromCookieValue,
 } from "@/lib/session";
 import { isProtectedAppPath } from "@/lib/member-session-server";
+import { isOpenPreviewMode } from "@/lib/preview-mode";
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -14,6 +15,14 @@ export function middleware(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-fargespace-next-path", nextPath);
+
+  if (isOpenPreviewMode()) {
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  }
 
   if (!isProtectedAppPath(pathname)) {
     return NextResponse.next({

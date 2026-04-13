@@ -6,6 +6,7 @@ import "./globals.css";
 import { logoutMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl, MEMBER_LOGIN_ROUTE } from "@/lib/login-entry";
 import { getCurrentMemberSessionState, isProtectedAppPath } from "@/lib/member-session-server";
+import { isOpenPreviewMode } from "@/lib/preview-mode";
 import { ROUTES } from "@/lib/routes";
 import {
   formatSessionStatus,
@@ -29,11 +30,12 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const year = new Date().getFullYear();
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
+  const openPreviewMode = isOpenPreviewMode();
   const requestHeaders = headers();
   const currentPath = requestHeaders.get("x-fargespace-next-path") ?? "/";
   const sessionState = await getCurrentMemberSessionState();
 
-  if (sessionState.kind === "expired" && isProtectedAppPath(currentPath)) {
+  if (!openPreviewMode && sessionState.kind === "expired" && isProtectedAppPath(currentPath)) {
     redirect(`${MEMBER_LOGIN_ROUTE}?next=${encodeURIComponent(currentPath)}&reason=expired`);
   }
 
@@ -61,23 +63,31 @@ export default async function RootLayout({
               <section className="login-status" aria-label="登录状态区">
                 <div className="status-copy">
                   <p className="status-label">当前状态</p>
-                  <p className="status-value">{formatSessionStatus(sessionState)}</p>
+                  <p className="status-value">
+                    {openPreviewMode ? "开放预览" : formatSessionStatus(sessionState)}
+                  </p>
                 </div>
                 <div className="status-actions">
-                  {sessionState.kind === "authenticated" ? (
-                    <form action={logoutMember}>
-                      <button type="submit" className="state-btn">
-                        退出登录
-                      </button>
-                    </form>
+                  {openPreviewMode ? (
+                    <span className="preview-mode-badge">开放预览</span>
                   ) : (
-                    <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
+                    <>
+                      {sessionState.kind === "authenticated" ? (
+                        <form action={logoutMember}>
+                          <button type="submit" className="state-btn">
+                            退出登录
+                          </button>
+                        </form>
+                      ) : (
+                        <Link href={MEMBER_LOGIN_ROUTE}>会员登录</Link>
+                      )}
+                      {directusAdminLoginUrl ? (
+                        <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
+                          后台入口
+                        </a>
+                      ) : null}
+                    </>
                   )}
-                  {directusAdminLoginUrl ? (
-                    <a href={directusAdminLoginUrl} target="_blank" rel="noreferrer">
-                      后台入口
-                    </a>
-                  ) : null}
                 </div>
               </section>
             </div>

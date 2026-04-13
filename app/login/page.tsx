@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { loginMember } from "@/app/session-actions";
 import { getDirectusAdminLoginUrl, MEMBER_FORGOT_PASSWORD_ROUTE } from "@/lib/login-entry";
 import { getCurrentMemberSessionState } from "@/lib/member-session-server";
+import { isOpenPreviewMode } from "@/lib/preview-mode";
+import { ROUTES } from "@/lib/routes";
 import { sanitizeNextPath } from "@/lib/session";
 
 type LoginPageProps = {
@@ -16,6 +18,7 @@ type LoginPageProps = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const directusAdminLoginUrl = getDirectusAdminLoginUrl();
+  const openPreviewMode = isOpenPreviewMode();
   const nextPath = sanitizeNextPath(searchParams?.next ?? "/");
   const isExpiredReason = searchParams?.reason === "expired";
   const errorMessageByCode: Record<string, string> = {
@@ -40,7 +43,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     : null;
   const sessionState = await getCurrentMemberSessionState();
 
-  if (sessionState.kind === "authenticated") {
+  if (!openPreviewMode && sessionState.kind === "authenticated") {
     redirect(nextPath);
   }
 
@@ -50,7 +53,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <div className="login-hero-copy">
           <p className="section-kicker">Member access</p>
           <h1>进入 FargeSpace 会员资料库。</h1>
-          <p>登录后可访问精选内容包、主题页、合集页和搜索工作台。</p>
+          <p>
+            {openPreviewMode
+              ? "当前先开放前端页面，方便完整检查产品结构和 UI。"
+              : "登录后可访问精选内容包、主题页、合集页和搜索工作台。"}
+          </p>
           {isExpiredReason ? (
             <p className="login-alert">当前会话已过期，请重新登录。</p>
           ) : null}
@@ -60,7 +67,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <div className="login-hero-meta" aria-label="登录说明">
           <p>登录后返回</p>
           <strong>{nextPath}</strong>
-          <span>仅后台已配置的有效会员账号可访问前台资料库。</span>
+          <span>
+            {openPreviewMode
+              ? "会员权限暂时后置，当前可以直接浏览前端页面。"
+              : "仅后台已配置的有效会员账号可访问前台资料库。"}
+          </span>
         </div>
       </section>
 
@@ -106,26 +117,38 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </div>
         </article>
 
-        <article className="login-panel login-panel-alt">
-          <p className="section-kicker">Editorial admin</p>
-          <h2>Directus 后台入口</h2>
-          <p>内容编辑与发布请走后台入口。</p>
-          {directusAdminLoginUrl ? (
-            <>
-              <a
-                href={directusAdminLoginUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="state-link"
-              >
-                打开 Directus Admin
-              </a>
-              <p className="login-meta">后台地址：{directusAdminLoginUrl}</p>
-            </>
-          ) : (
-            <p className="login-meta">后台测试环境尚未配置，当前预览站仅供前台验收。</p>
-          )}
-        </article>
+        {openPreviewMode ? (
+          <article className="login-panel login-panel-alt">
+            <p className="section-kicker">Open preview</p>
+            <h2>先直接浏览产品页面</h2>
+            <p>当前先不强制会员登录，便于继续精修首页、主题、合集、搜索和详情页。</p>
+            <div className="login-link-row">
+              <Link href={ROUTES.home}>查看首页</Link>
+              <Link href={ROUTES.search}>进入搜索页</Link>
+            </div>
+          </article>
+        ) : (
+          <article className="login-panel login-panel-alt">
+            <p className="section-kicker">Editorial admin</p>
+            <h2>Directus 后台入口</h2>
+            <p>内容编辑与发布请走后台入口。</p>
+            {directusAdminLoginUrl ? (
+              <>
+                <a
+                  href={directusAdminLoginUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="state-link"
+                >
+                  打开 Directus Admin
+                </a>
+                <p className="login-meta">后台地址：{directusAdminLoginUrl}</p>
+              </>
+            ) : (
+              <p className="login-meta">后台测试环境尚未配置，当前预览站仅供前台验收。</p>
+            )}
+          </article>
+        )}
       </section>
     </div>
   );
