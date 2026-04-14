@@ -114,30 +114,79 @@ export function buildAssetPlans(item) {
   return plans;
 }
 
+export const MINIMUM_VALIDATION_RULES = [
+  {
+    key: "title",
+    label: "资料标题",
+    check: (item) => Boolean(item.title),
+    message: "请填写资料标题",
+  },
+  {
+    key: "summary",
+    label: "简短摘要",
+    check: (item) => Boolean(item.summary),
+    message: "请填写简短摘要",
+  },
+  {
+    key: "primary_topic_id",
+    label: "主主题",
+    check: (item) => Boolean(item.primary_topic_id?.id),
+    message: "请选择主主题",
+  },
+  {
+    key: "member_tier_id",
+    label: "会员层级",
+    check: (item) => Boolean(item.member_tier_id?.id),
+    message: "请选择会员层级",
+  },
+  {
+    key: "source_type",
+    label: "来源类型",
+    check: (item) => Boolean(item.source_type),
+    message: "请选择来源类型",
+  },
+  {
+    key: "source_platform",
+    label: "来源平台",
+    check: (item) => Boolean(item.source_platform),
+    message: "请填写来源平台",
+  },
+  {
+    key: "source_url",
+    label: "原始链接",
+    check: (item) => Boolean(item.source_url),
+    message: "请填写原始链接",
+  },
+  {
+    key: "processed_assets",
+    label: "加工内容",
+    check: (item) =>
+      Boolean(item.brief_body_markdown) ||
+      Boolean(item.brief_file_id?.id) ||
+      Boolean(item.audio_file_id?.id) ||
+      Boolean(item.audio_external_url) ||
+      Boolean(item.slides_file_id?.id) ||
+      Boolean(item.slides_external_url) ||
+      Boolean(item.video_file_id?.id) ||
+      Boolean(item.video_external_url),
+    message: "请至少提供一种加工内容（摘要、音频、PPT 或视频）",
+  },
+];
+
+export function collectValidationIssues(item) {
+  return MINIMUM_VALIDATION_RULES.filter((rule) => !rule.check(item)).map((rule) => ({
+    key: rule.key,
+    label: rule.label,
+    message: rule.message,
+  }));
+}
+
+export function summarizeValidationIssues(issues) {
+  return issues.map((issue) => issue.message).join("；");
+}
+
 export function validateItem(item) {
-  const errors = [];
-
-  if (!item.title) errors.push("missing title");
-  if (!item.summary) errors.push("missing summary");
-  if (!item.primary_topic_id?.id) errors.push("missing primary_topic_id");
-  if (!item.member_tier_id?.id) errors.push("missing member_tier_id");
-  if (!item.source_type) errors.push("missing source_type");
-  if (!item.source_platform) errors.push("missing source_platform");
-  if (!item.source_url) errors.push("missing source_url");
-
-  const hasAsset =
-    Boolean(item.brief_body_markdown) ||
-    Boolean(item.brief_file_id?.id) ||
-    Boolean(item.audio_file_id?.id) ||
-    Boolean(item.audio_external_url) ||
-    Boolean(item.slides_file_id?.id) ||
-    Boolean(item.slides_external_url) ||
-    Boolean(item.video_file_id?.id) ||
-    Boolean(item.video_external_url);
-
-  if (!hasAsset) errors.push("missing at least one processed asset");
-
-  return errors;
+  return collectValidationIssues(item).map((issue) => issue.key);
 }
 
 export function buildGenerationPlan(item) {

@@ -787,3 +787,33 @@ dry-run 报告包含：
 - [scripts/phase21_content_intake_import.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase21_content_intake_import.mjs)
 
 这样后面继续加验证脚本或权限脚本时，只需要检查统一上传台上的这四个字段，不需要重复判断各类分支。
+
+## 14. T2111 最小校验规则
+
+最小校验规则已收口到统一方法里：
+
+- [scripts/lib/phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase21_content_intake.mjs)
+
+当前会检查这些项目：
+
+| 字段 | 提示 |
+|---|---|
+| `title` | 请填写资料标题 |
+| `summary` | 请填写简短摘要 |
+| `primary_topic_id` | 请选择主主题 |
+| `member_tier_id` | 请选择会员层级 |
+| `source_type` | 请选择来源类型 |
+| `source_platform` | 请填写来源平台 |
+| `source_url` | 请填写原始链接 |
+| 加工内容至少一种 | 请至少提供一种加工内容（摘要、音频、PPT 或视频） |
+
+输出方式：
+
+- dry-run 报告里输出 `validationIssues`
+- 正式生成时，如果校验不通过，会把中文错误信息直接写回 `generation_error`
+
+当前边界：
+
+- 这一步只处理“能不能生成”的最低门槛
+- 还不做复杂审核流
+- 还不做字段格式深度校验，例如链接格式、文件类型、内容质量

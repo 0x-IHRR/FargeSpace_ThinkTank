@@ -13,9 +13,10 @@ import {
 import {
   assertCondition,
   buildGenerationPlan,
+  collectValidationIssues,
   ensureReportFile,
   fetchContentIntake,
-  validateItem,
+  summarizeValidationIssues,
   writeGenerationFailure,
   writeGenerationSuccess,
 } from "./lib/phase21_content_intake.mjs";
@@ -44,10 +45,6 @@ async function cleanupCreated(token, createdItems) {
   }
 }
 
-function stringifyErrors(errors) {
-  return errors.join("; ");
-}
-
 async function main() {
   assertCondition(contentIntakeId, "CONTENT_INTAKE_ID is required");
 
@@ -74,9 +71,9 @@ async function main() {
     return;
   }
 
-  const validationErrors = validateItem(item);
-  if (validationErrors.length > 0) {
-    const message = stringifyErrors(validationErrors);
+  const validationIssues = collectValidationIssues(item);
+  if (validationIssues.length > 0) {
+    const message = summarizeValidationIssues(validationIssues);
     await writeGenerationFailure(updateItem, token, item.id, message);
     const reportPath = await ensureReportFile(reportRelativePath, {
       step: "T2109",
@@ -87,7 +84,7 @@ async function main() {
         title: item.title,
       },
       error: message,
-      validationErrors,
+      validationIssues,
     });
 
     console.log(`phase21 import intake: ${item.id}`);

@@ -6,9 +6,9 @@ import { loginAdmin, request } from "./lib/phase5_directus.mjs";
 import {
   assertCondition,
   buildGenerationPlan,
+  collectValidationIssues,
   ensureReportFile,
   fetchContentIntake,
-  validateItem,
 } from "./lib/phase21_content_intake.mjs";
 
 const contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "";
@@ -22,19 +22,19 @@ async function main() {
   const item = await fetchContentIntake(token, request, contentIntakeId);
   assertCondition(Boolean(item), `content_intake not found: ${contentIntakeId}`);
 
-  const validationErrors = validateItem(item);
+  const validationIssues = collectValidationIssues(item);
   const plan = buildGenerationPlan(item);
 
   const report = {
     step: "T2108",
-    status: validationErrors.length > 0 ? "blocked" : "passed",
+    status: validationIssues.length > 0 ? "blocked" : "passed",
     checkedAt: new Date().toISOString(),
     intake: {
       id: item.id,
       title: item.title,
       generation_status: item.generation_status,
     },
-    validationErrors,
+    validationIssues,
     notes: [
       "dry-run only",
       "no database writes",
