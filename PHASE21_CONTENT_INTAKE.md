@@ -196,3 +196,97 @@ Phase 21 只解决一个后台体验问题：
 - `generation_error = 具体失败原因`
 
 运营者看到错误后，只需要回到统一上传台修改当前记录，不需要去底层集合手动修。
+
+## 6. T2103 `content_intake` 集合设计
+
+`content_intake` 是给内容运营者使用的统一入口集合。
+
+前台不读取这个集合。前台仍读取生成后的 `packages`、`sources`、`processed_assets` 和关联集合。
+
+### 6.1 集合定位
+
+| 项目 | 设计 |
+|---|---|
+| 集合名 | `content_intake` |
+| 后台展示名 | 资料上传台 |
+| 用途 | 一次填写资料信息，后续自动生成前台内容包 |
+| 是否给会员前台读取 | 否 |
+| 是否替代底层集合 | 否 |
+| 是否允许运营者删除 | 初期不建议，优先归档 |
+
+### 6.2 字段设计
+
+| 字段名 | 类型 | 必填 | 默认值 | 后台展示名 |
+|---|---|---|---|---|
+| `id` | UUID | 是 | 自动生成 | ID |
+| `title` | String(255) | 是 | 无 | 资料标题 |
+| `summary` | Text | 是 | 无 | 简短摘要 |
+| `primary_topic_id` | Many-to-One `topics` | 是 | 无 | 主主题 |
+| `collection_ids` | Many-to-Many `curated_collections` | 否 | 无 | 所属合集 |
+| `cover_file_id` | File | 否 | 无 | 封面图 |
+| `source_type` | Enum | 是 | `article` | 来源类型 |
+| `source_platform` | String(100) | 是 | 无 | 来源平台 |
+| `source_url` | String(500) | 是 | 无 | 原始链接 |
+| `source_title` | String(255) | 否 | 无 | 原始来源标题 |
+| `source_author` | String(150) | 否 | 无 | 作者 |
+| `source_language` | Enum | 否 | `en` | 原始语言 |
+| `source_published_at` | Datetime | 否 | 无 | 原始发布时间 |
+| `source_thumbnail_file_id` | File | 否 | 无 | 来源缩略图 |
+| `brief_title` | String(255) | 否 | 无 | 摘要标题 |
+| `brief_body_markdown` | Long Text | 否 | 无 | 摘要正文 |
+| `brief_file_id` | File | 否 | 无 | 摘要附件 |
+| `audio_file_id` | File | 否 | 无 | 音频文件 |
+| `audio_external_url` | String(500) | 否 | 无 | 音频外链 |
+| `slides_file_id` | File | 否 | 无 | PPT 文件 |
+| `slides_external_url` | String(500) | 否 | 无 | PPT 外链 |
+| `video_file_id` | File | 否 | 无 | 视频文件 |
+| `video_external_url` | String(500) | 否 | 无 | 视频外链 |
+| `publish_mode` | Enum | 是 | `draft` | 发布方式 |
+| `publish_start_at` | Datetime | 否 | 无 | 发布时间 |
+| `member_tier_id` | Many-to-One `member_tiers` | 是 | 默认会员层级 | 会员层级 |
+| `package_type` | Enum | 是 | `recap` | 内容类型 |
+| `difficulty` | Enum | 是 | `intermediate` | 阅读难度 |
+| `use_case` | Enum | 是 | `research` | 使用目的 |
+| `signal_level` | Enum | 是 | `reference` | 信号等级 |
+| `raw_source_visible` | Boolean | 是 | `true` | 会员可见原始来源 |
+| `generation_status` | Enum | 是 | `draft` | 生成状态 |
+| `generated_package_id` | Many-to-One `packages` | 否 | 无 | 已生成资料包 |
+| `generated_at` | Datetime | 否 | 无 | 生成时间 |
+| `generation_error` | Text | 否 | 无 | 失败原因 |
+| `created_at` | Datetime | 是 | 自动生成 | 创建时间 |
+| `updated_at` | Datetime | 是 | 自动生成 | 更新时间 |
+
+### 6.3 枚举值
+
+| 字段 | 可选值 |
+|---|---|
+| `source_type` | `article` / `video` / `podcast` / `paper` / `website` |
+| `source_language` | `en` / `zh` / `other` |
+| `publish_mode` | `draft` / `published` |
+| `package_type` | `recap` / `deep_dive` / `watchlist` / `toolkit` / `interview` |
+| `difficulty` | `beginner` / `intermediate` / `advanced` |
+| `use_case` | `awareness` / `strategy` / `tooling` / `workflow` / `research` |
+| `signal_level` | `high_signal` / `reference` / `archive` |
+| `generation_status` | `draft` / `ready` / `generated` / `failed` / `archived` |
+
+### 6.4 字段映射摘要
+
+| `content_intake` 字段 | 生成到哪里 |
+|---|---|
+| `title`、`summary`、`cover_file_id`、`primary_topic_id`、`member_tier_id`、`package_type`、`difficulty`、`use_case`、`signal_level`、`raw_source_visible` | `packages` |
+| `source_type`、`source_platform`、`source_url`、`source_title`、`source_author`、`source_language`、`source_published_at`、`source_thumbnail_file_id` | `sources` |
+| `brief_*`、`audio_*`、`slides_*`、`video_*` | `processed_assets` |
+| `source_url` 对应的来源和生成后的内容包 | `package_sources` |
+| `primary_topic_id` | `package_topics` |
+| `collection_ids` | `package_collections` |
+| `generated_package_id`、`generated_at`、`generation_status`、`generation_error` | 回写到 `content_intake` |
+
+### 6.5 设计边界
+
+`content_intake` 不处理这些事情：
+
+- 不让前台直接读取
+- 不取代 `packages`
+- 不让运营者手动管理多对多关联表
+- 不在 T2103 阶段处理重复来源复用
+- 不在 T2103 阶段处理自动生成逻辑
