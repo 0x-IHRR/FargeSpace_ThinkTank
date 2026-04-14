@@ -920,7 +920,7 @@ Phase 20 当前已交付内容：
 
 - 给内容运营者提供一个“一处填写、一处上传、一键生成资料包”的后台入口
 - 底层继续保留 `packages`、`sources`、`processed_assets`、`package_sources`、`package_topics`、`package_collections` 的结构，但不要求运营者手动在多个集合之间来回跳
-- 当前状态：进行中（T2101-T2104 已完成）
+- 当前状态：进行中（T2101-T2105 已完成）
 
 模块划分：
 
@@ -968,6 +968,7 @@ Phase 20 当前已交付内容：
 - 分组：基础信息、原始来源、加工内容、发布设置、生成状态
 - 不做：自定义 Directus 插件
 - 依赖：T2104
+- 状态：已完成，见 [scripts/apply_phase21_content_intake_form.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/apply_phase21_content_intake_form.mjs)
 
 #### T2106 配置运营者只看统一上传台
 
