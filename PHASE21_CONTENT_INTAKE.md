@@ -720,3 +720,44 @@ dry-run 报告包含：
 - 不检查 slug 是否已被占用
 - 不做数据库写入
 - 不做事务或回滚
+
+## 12. T2109 正式生成脚本
+
+脚本文件：
+
+- [scripts/phase21_content_intake_import.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase21_content_intake_import.mjs)
+
+输入：
+
+- `CONTENT_INTAKE_ID`
+
+输出：
+
+- 一份正式生成报告，默认写到 `artifacts/phase21/content-intake-import.json`
+- 成功时把底层内容真正写入数据库
+- 失败时把错误回写到统一上传台
+
+正式生成规则：
+
+- 如果当前上传记录已经有 `generated_package_id` 且状态是 `generated`，则直接跳过，不重复生成
+- 如果生成前校验不通过，则不写底层数据，直接把错误写回 `content_intake`
+- 如果来源链接已经存在，则复用已有 `sources`
+- 如果即将生成的 `packages.slug` 已存在，则终止生成并回写失败原因
+- 生成成功后回写：
+  - `generated_package_id`
+  - `generated_at`
+  - `generation_status = generated`
+  - `generation_error = null`
+
+失败处理：
+
+- 生成过程中如果已经创建了部分底层记录，会做尽量清理
+- 清理范围只包含这次脚本新建的记录
+- 如果复用了已有 `sources`，不会删除已有来源
+- 失败时会清空旧的 `generated_package_id` 和 `generated_at`
+- 最终仍会把失败原因写回 `content_intake`
+
+当前边界：
+
+- 仍然没有完整事务
+- 重复来源复用已经做了最小支持，但更完整的重复来源检测与提示仍后置到 T2112

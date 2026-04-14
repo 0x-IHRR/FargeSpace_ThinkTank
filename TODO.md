@@ -920,7 +920,7 @@ Phase 20 当前已交付内容：
 
 - 给内容运营者提供一个“一处填写、一处上传、一键生成资料包”的后台入口
 - 底层继续保留 `packages`、`sources`、`processed_assets`、`package_sources`、`package_topics`、`package_collections` 的结构，但不要求运营者手动在多个集合之间来回跳
-- 当前状态：进行中（T2101-T2108 已完成）
+- 当前状态：进行中（T2101-T2109 已完成）
 
 模块划分：
 
@@ -998,6 +998,7 @@ Phase 20 当前已交付内容：
 - 输出：把一条 `content_intake` 正式生成到底层集合
 - 要求：避免重复生成；失败时写入错误信息
 - 依赖：T2108
+- 状态：已完成，见 [scripts/phase21_content_intake_import.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase21_content_intake_import.mjs)
 
 #### T2110 实现生成结果回写
 
