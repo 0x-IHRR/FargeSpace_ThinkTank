@@ -9,6 +9,7 @@ import {
   collectValidationIssues,
   ensureReportFile,
   fetchContentIntake,
+  findExistingSourceByUrl,
 } from "./lib/phase21_content_intake.mjs";
 
 const contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "";
@@ -24,6 +25,12 @@ async function main() {
 
   const validationIssues = collectValidationIssues(item);
   const plan = buildGenerationPlan(item);
+  const sourceLookup = await findExistingSourceByUrl(
+    token,
+    request,
+    plan.source_lookup.raw_url,
+    plan.source.payload.platform
+  );
 
   const report = {
     step: "T2108",
@@ -38,8 +45,23 @@ async function main() {
     notes: [
       "dry-run only",
       "no database writes",
-      "duplicate source reuse not applied in T2108",
+      "source duplicate detection preview included",
     ],
+    sourceLookup: {
+      action: sourceLookup.source?.id ? "reuse" : "create",
+      match_type: sourceLookup.match_type,
+      raw_url: plan.source_lookup.raw_url,
+      normalized_url: sourceLookup.normalized_url,
+      candidates: sourceLookup.candidates,
+      existing_source: sourceLookup.source
+        ? {
+            id: sourceLookup.source.id,
+            title: sourceLookup.source.title,
+            platform: sourceLookup.source.platform,
+            source_url: sourceLookup.source.source_url,
+          }
+        : null,
+    },
     plan,
   };
 

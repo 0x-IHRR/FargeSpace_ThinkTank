@@ -24,6 +24,55 @@ export function buildPackageSlug(item) {
   return slugifyTitle(item.title) || `content-intake-${item.id.slice(0, 8).toLowerCase()}`;
 }
 
+const TRACKING_QUERY_KEYS = new Set([
+  "fbclid",
+  "feature",
+  "gclid",
+  "igshid",
+  "mc_cid",
+  "mc_eid",
+  "si",
+]);
+
+export function normalizeSourceUrl(sourceUrl) {
+  if (!sourceUrl) return "";
+
+  try {
+    const parsed = new URL(sourceUrl.trim());
+    parsed.hash = "";
+    parsed.protocol = parsed.protocol.toLowerCase();
+    parsed.hostname = parsed.hostname.toLowerCase().replace(/^(www|m)\./, "");
+
+    if (parsed.hostname === "x.com") {
+      parsed.hostname = "twitter.com";
+    }
+
+    const params = Array.from(parsed.searchParams.entries())
+      .filter(([key]) => !key.toLowerCase().startsWith("utm_"))
+      .filter(([key]) => !TRACKING_QUERY_KEYS.has(key.toLowerCase()))
+      .filter(([key, value]) => !(parsed.hostname === "youtube.com" && key === "t" && value))
+      .sort(([left], [right]) => left.localeCompare(right));
+
+    parsed.search = "";
+    for (const [key, value] of params) {
+      parsed.searchParams.append(key, value);
+    }
+
+    const pathname = parsed.pathname.replace(/\/+$/, "");
+    parsed.pathname = pathname || "/";
+
+    return parsed.toString();
+  } catch {
+    return sourceUrl.trim();
+  }
+}
+
+export function buildSourceLookupCandidates(sourceUrl) {
+  const raw = sourceUrl?.trim() ?? "";
+  const normalized = normalizeSourceUrl(raw);
+  return Array.from(new Set([raw, normalized].filter(Boolean)));
+}
+
 export function deriveWorkflowState(publishMode, publishStartAt) {
   if (publishMode === "draft") return "draft";
   if (!publishStartAt) return "published";
@@ -195,6 +244,8 @@ export function buildGenerationPlan(item) {
     item.publish_mode,
     item.publish_start_at
   );
+  const rawSourceUrl = item.source_url?.trim() ?? "";
+  const normalizedSourceUrl = normalizeSourceUrl(rawSourceUrl);
   const collectionLinks =
     item.collection_ids?.map((entry, index) => ({
       action: "create",
@@ -215,7 +266,7 @@ export function buildGenerationPlan(item) {
         title: item.source_title || item.title,
         source_type: item.source_type,
         platform: item.source_platform,
-        source_url: item.source_url,
+        source_url: normalizedSourceUrl || rawSourceUrl,
         author_name: item.source_author || null,
         language: item.source_language || "en",
         published_at: item.source_published_at || null,
@@ -268,6 +319,11 @@ export function buildGenerationPlan(item) {
     },
     package_collections: collectionLinks,
     processed_assets: buildAssetPlans(item),
+    source_lookup: {
+      raw_url: rawSourceUrl,
+      normalized_url: normalizedSourceUrl || rawSourceUrl,
+      candidates: buildSourceLookupCandidates(rawSourceUrl),
+    },
     writeback: {
       success: {
         generated_package_id: "<created-package-id>",
@@ -338,6 +394,57 @@ export async function fetchContentIntake(token, request, id) {
     token,
   });
   return payload.data;
+}
+
+export async function findExistingSourceByUrl(token, request, sourceUrl, sourcePlatform) {
+  const rawUrl = sourceUrl?.trim() ?? "";
+  const normalizedUrl = normalizeSourceUrl(rawUrl);
+  const candidates = buildSourceLookupCandidates(rawUrl);
+
+  for (const candidate of candidates) {
+    const { payload } = await request(
+      `/items/sources?limit=1&fields=id,title,platform,source_url,status&filter[source_url][_eq]=${encodeURIComponent(candidate)}`,
+      { token }
+    );
+    const match = payload.data?.[0];
+    if (match?.id) {
+      return {
+        source: match,
+        match_type: candidate === rawUrl ? "exact" : "normalized_exact",
+        normalized_url: normalizedUrl || rawUrl,
+        candidates,
+      };
+    }
+  }
+
+  const platformFilter = sourcePlatform
+    ? `&filter[platform][_eq]=${encodeURIComponent(sourcePlatform)}`
+    : "";
+  const { payload } = await request(
+    `/items/sources?limit=-1&fields=id,title,platform,source_url,status${platformFilter}`,
+    { token }
+  );
+
+  const normalizedMatch = payload.data?.find((item) => {
+    if (!item?.source_url) return false;
+    return normalizeSourceUrl(item.source_url) === normalizedUrl;
+  });
+
+  if (normalizedMatch?.id) {
+    return {
+      source: normalizedMatch,
+      match_type: "normalized_compare",
+      normalized_url: normalizedUrl || rawUrl,
+      candidates,
+    };
+  }
+
+  return {
+    source: null,
+    match_type: "new",
+    normalized_url: normalizedUrl || rawUrl,
+    candidates,
+  };
 }
 
 export async function ensureReportFile(relativeReportPath, payload) {

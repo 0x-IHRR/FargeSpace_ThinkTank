@@ -16,6 +16,7 @@ import {
   collectValidationIssues,
   ensureReportFile,
   fetchContentIntake,
+  findExistingSourceByUrl,
   summarizeValidationIssues,
   writeGenerationFailure,
   writeGenerationSuccess,
@@ -100,22 +101,28 @@ async function main() {
   try {
     let sourceId = null;
     let sourceMode = "created";
+    let sourceMatchType = "new";
+    let sourceMatchedUrl = null;
 
-    const existingSource = await fetchSingleByField(
+    const sourceLookup = await findExistingSourceByUrl(
       token,
-      "sources",
-      "source_url",
-      plan.source.payload.source_url
+      request,
+      plan.source_lookup.raw_url,
+      plan.source.payload.platform
     );
 
-    if (existingSource?.id) {
-      await updateItem(token, "sources", existingSource.id, plan.source.payload);
-      sourceId = existingSource.id;
+    if (sourceLookup.source?.id) {
+      await updateItem(token, "sources", sourceLookup.source.id, plan.source.payload);
+      sourceId = sourceLookup.source.id;
       sourceMode = "reused";
+      sourceMatchType = sourceLookup.match_type;
+      sourceMatchedUrl = sourceLookup.source.source_url;
     } else {
       const source = await createItem(token, "sources", plan.source.payload);
       sourceId = source.id;
       sourceMode = "created";
+      sourceMatchType = "new";
+      sourceMatchedUrl = plan.source.payload.source_url;
       createdItems.push({ collection: "sources", id: source.id });
     }
 
@@ -187,6 +194,9 @@ async function main() {
       source: {
         mode: sourceMode,
         id: sourceId,
+        match_type: sourceMatchType,
+        matched_url: sourceMatchedUrl,
+        normalized_url: plan.source_lookup.normalized_url,
       },
       package: {
         id: packageItem.id,
@@ -206,7 +216,7 @@ async function main() {
         generation_status: "generated",
       },
       notes: [
-        "source reuse by source_url enabled",
+        "source dedup checks exact url first, then normalized url",
         "best-effort cleanup only applies when this script created partial records",
       ],
     });
