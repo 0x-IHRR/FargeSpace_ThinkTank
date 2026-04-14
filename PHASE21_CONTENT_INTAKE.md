@@ -676,3 +676,47 @@ T2107 先不处理这些情况：
 - 多来源合并到同一内容包
 - 多语言资产自动判断
 - 自动生成 SEO 字段
+
+## 11. T2108 dry-run 规则
+
+脚本文件：
+
+- [scripts/phase21_content_intake_dry_run.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase21_content_intake_dry_run.mjs)
+
+输入：
+
+- `CONTENT_INTAKE_ID`
+
+输出：
+
+- 一份 JSON 报告，默认写到 `artifacts/phase21/content-intake-dry-run.json`
+- 终端摘要：当前检查的是哪条上传记录、报告路径、dry-run 状态
+
+行为：
+
+- 读取 1 条 `content_intake`
+- 按 T2107 规则生成“计划写入内容”
+- 不创建 `sources`
+- 不创建 `packages`
+- 不创建 `processed_assets`
+- 不创建任何关联表记录
+- 只输出计划清单和校验结果
+
+dry-run 报告包含：
+
+- 当前 intake 基本信息
+- 是否满足最小生成门槛
+- 将会创建的 `sources` payload
+- 将会创建的 `packages` payload
+- 将会创建的 `package_sources` payload
+- 将会创建的 `package_topics` payload
+- 将会创建的 `package_collections` payload
+- 将会创建的 `processed_assets` payload
+- 成功/失败时将如何回写 `content_intake`
+
+当前边界：
+
+- 不处理重复来源复用
+- 不检查 slug 是否已被占用
+- 不做数据库写入
+- 不做事务或回滚
