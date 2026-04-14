@@ -290,3 +290,27 @@ Phase 21 只解决一个后台体验问题：
 - 不让运营者手动管理多对多关联表
 - 不在 T2103 阶段处理重复来源复用
 - 不在 T2103 阶段处理自动生成逻辑
+
+## 7. T2104 Directus 建表脚本
+
+脚本文件：
+
+- [scripts/apply_phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/apply_phase21_content_intake.mjs)
+
+脚本负责创建或补齐这些对象：
+
+- `content_intake`
+- `content_intake_collections`
+- `content_intake.primary_topic_id -> topics`
+- `content_intake.member_tier_id -> member_tiers`
+- `content_intake.generated_package_id -> packages`
+- `content_intake` 上的所有文件字段到 `directus_files`
+- `content_intake_collections.content_intake_id -> content_intake`
+- `content_intake_collections.collection_id -> curated_collections`
+
+脚本边界：
+
+- 只建集合、字段、关系和必要说明
+- 不执行内容生成
+- 不创建 `packages`、`sources`、`processed_assets` 的写入逻辑
+- 支持重复执行：已存在则更新集合/字段，关系已存在则跳过
