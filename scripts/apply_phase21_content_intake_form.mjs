@@ -238,7 +238,7 @@ const fieldMetaDefinitions = [
     sort: 43,
     group: "group_publish",
     width: "half",
-    note: "计划发布时间；可为空。",
+    note: "计划发布时间；直接发布但留空时，系统会自动补当前时间。",
     translation: "发布时间",
   },
   {

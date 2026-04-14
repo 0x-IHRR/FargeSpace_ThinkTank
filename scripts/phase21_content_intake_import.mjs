@@ -179,7 +179,10 @@ async function main() {
       token,
       item.id,
       packageItem.id,
-      generatedAt
+      generatedAt,
+      plan.publish.auto_filled_publish_start_at
+        ? { publish_start_at: plan.publish.publish_start_at }
+        : {}
     );
 
     const reportPath = await ensureReportFile(reportRelativePath, {
@@ -202,7 +205,9 @@ async function main() {
         id: packageItem.id,
         slug: plan.package.payload.slug,
         workflow_state: plan.package.payload.workflow_state,
+        publish_start_at: plan.package.payload.publish_start_at,
       },
+      publish: plan.publish,
       createdCounts: {
         packages: 1,
         package_sources: 1,

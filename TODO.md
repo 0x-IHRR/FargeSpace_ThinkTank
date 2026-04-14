@@ -920,7 +920,7 @@ Phase 20 当前已交付内容：
 
 - 给内容运营者提供一个“一处填写、一处上传、一键生成资料包”的后台入口
 - 底层继续保留 `packages`、`sources`、`processed_assets`、`package_sources`、`package_topics`、`package_collections` 的结构，但不要求运营者手动在多个集合之间来回跳
-- 当前状态：进行中（T2101-T2112 已完成）
+- 当前状态：进行中（T2101-T2113 已完成）
 
 模块划分：
 
@@ -1026,6 +1026,7 @@ Phase 20 当前已交付内容：
 - 输出：运营者可选择“保存草稿”或“直接发布”
 - 规则：保存草稿生成 `draft`；直接发布生成 `published` 并补齐发布时间
 - 依赖：T2111
+- 状态：已完成，见 [scripts/lib/phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase21_content_intake.mjs)
 
 #### T2114 写统一上传台验证脚本
 

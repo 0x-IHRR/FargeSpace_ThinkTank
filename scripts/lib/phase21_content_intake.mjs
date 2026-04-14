@@ -73,6 +73,12 @@ export function buildSourceLookupCandidates(sourceUrl) {
   return Array.from(new Set([raw, normalized].filter(Boolean)));
 }
 
+export function resolvePublishStartAt(publishMode, publishStartAt, nowIso) {
+  if (publishMode === "draft") return null;
+  if (publishStartAt) return publishStartAt;
+  return nowIso;
+}
+
 export function deriveWorkflowState(publishMode, publishStartAt) {
   if (publishMode === "draft") return "draft";
   if (!publishStartAt) return "published";
@@ -239,10 +245,16 @@ export function validateItem(item) {
 }
 
 export function buildGenerationPlan(item) {
+  const nowIso = new Date().toISOString();
   const packageSlug = buildPackageSlug(item);
+  const resolvedPublishStartAt = resolvePublishStartAt(
+    item.publish_mode,
+    item.publish_start_at,
+    nowIso
+  );
   const packageWorkflowState = deriveWorkflowState(
     item.publish_mode,
-    item.publish_start_at
+    resolvedPublishStartAt
   );
   const rawSourceUrl = item.source_url?.trim() ?? "";
   const normalizedSourceUrl = normalizeSourceUrl(rawSourceUrl);
@@ -291,8 +303,8 @@ export function buildGenerationPlan(item) {
         use_case: item.use_case,
         signal_level: item.signal_level,
         workflow_state: packageWorkflowState,
-        publish_start_at: item.publish_start_at || null,
-        sort_date: item.publish_start_at || new Date().toISOString(),
+        publish_start_at: resolvedPublishStartAt,
+        sort_date: resolvedPublishStartAt || nowIso,
         raw_source_visible: item.raw_source_visible,
         is_featured: false,
         seo_title: null,
@@ -323,6 +335,16 @@ export function buildGenerationPlan(item) {
       raw_url: rawSourceUrl,
       normalized_url: normalizedSourceUrl || rawSourceUrl,
       candidates: buildSourceLookupCandidates(rawSourceUrl),
+    },
+    publish: {
+      mode: item.publish_mode,
+      requested_publish_start_at: item.publish_start_at || null,
+      publish_start_at: resolvedPublishStartAt,
+      workflow_state: packageWorkflowState,
+      auto_filled_publish_start_at:
+        item.publish_mode === "published" &&
+        !item.publish_start_at &&
+        Boolean(resolvedPublishStartAt),
     },
     writeback: {
       success: {
@@ -454,12 +476,20 @@ export async function ensureReportFile(relativeReportPath, payload) {
   return reportPath;
 }
 
-export async function writeGenerationSuccess(updateItem, token, itemId, packageId, generatedAt) {
+export async function writeGenerationSuccess(
+  updateItem,
+  token,
+  itemId,
+  packageId,
+  generatedAt,
+  extraFields = {}
+) {
   await updateItem(token, "content_intake", itemId, {
     generated_package_id: packageId,
     generated_at: generatedAt,
     generation_status: "generated",
     generation_error: null,
+    ...extraFields,
   });
 }
 

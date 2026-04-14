@@ -62,6 +62,7 @@ async function main() {
           }
         : null,
     },
+    publish: plan.publish,
     plan,
   };
 

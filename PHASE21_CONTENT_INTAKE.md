@@ -71,7 +71,7 @@ Phase 21 只解决一个后台体验问题：
 | 字段 | 后台展示名 | 必填 | 说明 |
 |---|---|---|---|
 | `publish_mode` | 发布方式 | 是 | 保存草稿 / 直接发布 |
-| `publish_start_at` | 发布时间 | 否 | 直接发布时可自动填当前时间 |
+| `publish_start_at` | 发布时间 | 否 | 直接发布但留空时，系统会自动填当前时间 |
 | `member_tier_id` | 会员层级 | 是 | 默认标准会员 |
 | `package_type` | 内容类型 | 是 | recap / deep_dive / watchlist / toolkit / interview |
 | `difficulty` | 阅读难度 | 否 | 默认 intermediate |
@@ -512,7 +512,7 @@ T2106 只定义后台“谁看到什么”：
 | `content_intake.publish_mode` | 生成后的 `packages.workflow_state` |
 |---|---|
 | `draft` | `draft` |
-| `published` 且 `publish_start_at` 为空 | `published` |
+| `published` 且 `publish_start_at` 为空 | 自动补当前时间，并生成 `published` |
 | `published` 且 `publish_start_at` 在未来 | `scheduled` |
 | `published` 且 `publish_start_at` 在过去或现在 | `published` |
 
@@ -853,3 +853,41 @@ dry-run 现在会额外输出：
 - 还不做“不同平台但实际指向同一内容”的模糊合并
 - 还不做标题相似度查重
 - 还不处理人工确认合并
+
+## 16. T2113 发布模式选择
+
+发布模式选择已收口到统一规则里：
+
+- [scripts/lib/phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase21_content_intake.mjs)
+
+当前规则：
+
+- `publish_mode = draft`
+  - 生成后的 `packages.workflow_state = draft`
+  - `packages.publish_start_at = null`
+- `publish_mode = published` 且手动填写了 `publish_start_at`
+  - 按填写时间生成
+  - 未来时间生成 `scheduled`
+  - 当前或过去时间生成 `published`
+- `publish_mode = published` 且没有填写 `publish_start_at`
+  - 系统自动补当前时间
+  - 生成 `published`
+  - 自动补上的时间会一并回写到 `content_intake.publish_start_at`
+
+dry-run 现在会额外输出：
+
+- 运营者选择的发布方式
+- 原始填写的发布时间
+- 本次实际采用的发布时间
+- 是否是系统自动补的时间
+
+正式生成报告现在会额外输出：
+
+- 资料包最终状态
+- 资料包最终发布时间
+- 本次是否触发自动补时间
+
+当前边界：
+
+- 还不做“保存草稿后再一键重新发布”的专门操作按钮
+- 还不做复杂排期审批流
