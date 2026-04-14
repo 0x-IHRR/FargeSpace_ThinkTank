@@ -297,3 +297,21 @@ export async function ensureReportFile(relativeReportPath, payload) {
   await writeFile(reportPath, `${JSON.stringify(payload, null, 2)}\n`, "utf-8");
   return reportPath;
 }
+
+export async function writeGenerationSuccess(updateItem, token, itemId, packageId, generatedAt) {
+  await updateItem(token, "content_intake", itemId, {
+    generated_package_id: packageId,
+    generated_at: generatedAt,
+    generation_status: "generated",
+    generation_error: null,
+  });
+}
+
+export async function writeGenerationFailure(updateItem, token, itemId, message) {
+  await updateItem(token, "content_intake", itemId, {
+    generated_package_id: null,
+    generated_at: null,
+    generation_status: "failed",
+    generation_error: message,
+  });
+}

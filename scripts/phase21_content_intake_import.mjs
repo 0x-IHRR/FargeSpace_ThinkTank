@@ -16,6 +16,8 @@ import {
   ensureReportFile,
   fetchContentIntake,
   validateItem,
+  writeGenerationFailure,
+  writeGenerationSuccess,
 } from "./lib/phase21_content_intake.mjs";
 
 const contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "";
@@ -44,15 +46,6 @@ async function cleanupCreated(token, createdItems) {
 
 function stringifyErrors(errors) {
   return errors.join("; ");
-}
-
-async function writeFailure(token, itemId, message) {
-  await updateItem(token, "content_intake", itemId, {
-    generated_package_id: null,
-    generated_at: null,
-    generation_status: "failed",
-    generation_error: message,
-  });
 }
 
 async function main() {
@@ -84,7 +77,7 @@ async function main() {
   const validationErrors = validateItem(item);
   if (validationErrors.length > 0) {
     const message = stringifyErrors(validationErrors);
-    await writeFailure(token, item.id, message);
+    await writeGenerationFailure(updateItem, token, item.id, message);
     const reportPath = await ensureReportFile(reportRelativePath, {
       step: "T2109",
       status: "failed",
@@ -177,12 +170,13 @@ async function main() {
     }
 
     const generatedAt = new Date().toISOString();
-    await updateItem(token, "content_intake", item.id, {
-      generated_package_id: packageItem.id,
-      generated_at: generatedAt,
-      generation_status: "generated",
-      generation_error: null,
-    });
+    await writeGenerationSuccess(
+      updateItem,
+      token,
+      item.id,
+      packageItem.id,
+      generatedAt
+    );
 
     const reportPath = await ensureReportFile(reportRelativePath, {
       step: "T2109",
@@ -226,7 +220,7 @@ async function main() {
     console.log("phase21 import status: passed");
   } catch (error) {
     await cleanupCreated(token, createdItems);
-    await writeFailure(token, item.id, error.message);
+    await writeGenerationFailure(updateItem, token, item.id, error.message);
     const reportPath = await ensureReportFile(reportRelativePath, {
       step: "T2109",
       status: "failed",

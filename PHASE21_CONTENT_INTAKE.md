@@ -761,3 +761,29 @@ dry-run 报告包含：
 
 - 仍然没有完整事务
 - 重复来源复用已经做了最小支持，但更完整的重复来源检测与提示仍后置到 T2112
+
+## 13. T2110 生成结果回写
+
+回写逻辑已收口到统一方法里：
+
+- [scripts/lib/phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/lib/phase21_content_intake.mjs)
+
+成功回写：
+
+- `generated_package_id = 新生成的 packages.id`
+- `generated_at = 当前时间`
+- `generation_status = generated`
+- `generation_error = null`
+
+失败回写：
+
+- `generated_package_id = null`
+- `generated_at = null`
+- `generation_status = failed`
+- `generation_error = 失败原因`
+
+当前生成脚本会统一调用这两套回写逻辑：
+
+- [scripts/phase21_content_intake_import.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/phase21_content_intake_import.mjs)
+
+这样后面继续加验证脚本或权限脚本时，只需要检查统一上传台上的这四个字段，不需要重复判断各类分支。
