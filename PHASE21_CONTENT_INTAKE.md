@@ -440,3 +440,239 @@ T2106 只定义后台“谁看到什么”：
 - 不修改前台读取逻辑
 - 不实现生成脚本
 - 不替代管理员完整后台
+
+## 10. T2107 生成逻辑映射规则
+
+目标：
+
+- 一条 `content_intake` 记录生成一套可供会员前台读取的底层内容
+- 运营者只维护一条上传记录，不手动碰底层集合
+
+### 10.1 总体规则
+
+每条 `content_intake` 在生成时遵循这些固定规则：
+
+1. 生成或复用 1 条 `sources`
+2. 生成 1 条 `packages`
+3. 生成 1 条主来源关联 `package_sources`
+4. 生成 1 条主主题关联 `package_topics`
+5. 生成 0 到多条合集关联 `package_collections`
+6. 生成至少 1 条 `processed_assets`
+7. 成功后回写 `generated_package_id`、`generated_at`、`generation_status`
+
+### 10.2 `sources` 映射规则
+
+`content_intake` 会生成 1 条原始来源记录。
+
+| `content_intake` 字段 | 写入 `sources` 字段 |
+|---|---|
+| `source_title`，为空时回退到 `title` | `title` |
+| `source_type` | `source_type` |
+| `source_platform` | `platform` |
+| `source_url` | `source_url` |
+| `source_author` | `author_name` |
+| `source_language`，为空时回退 `en` | `language` |
+| `source_published_at` | `published_at` |
+| `source_thumbnail_file_id` | `thumbnail_file_id` |
+| `summary` | `source_summary` |
+
+固定值：
+
+- `status = active`
+
+### 10.3 `packages` 映射规则
+
+每条上传记录生成 1 条内容包。
+
+| `content_intake` 字段 | 写入 `packages` 字段 |
+|---|---|
+| 由 `title` 生成 slug | `slug` |
+| `title` | `title` |
+| `summary` | `summary` |
+| `cover_file_id` | `cover_file_id` |
+| `primary_topic_id` | `primary_topic_id` |
+| `member_tier_id` | `member_tier_id` |
+| `package_type` | `package_type` |
+| `difficulty` | `difficulty` |
+| `use_case` | `use_case` |
+| `signal_level` | `signal_level` |
+| `publish_start_at` | `publish_start_at` |
+| `publish_start_at`，为空时回退生成时间 | `sort_date` |
+| `raw_source_visible` | `raw_source_visible` |
+
+固定值：
+
+- `publication_cycle = special`
+- `is_featured = false`
+- `seo_title = null`
+- `seo_description = null`
+
+发布状态映射：
+
+| `content_intake.publish_mode` | 生成后的 `packages.workflow_state` |
+|---|---|
+| `draft` | `draft` |
+| `published` 且 `publish_start_at` 为空 | `published` |
+| `published` 且 `publish_start_at` 在未来 | `scheduled` |
+| `published` 且 `publish_start_at` 在过去或现在 | `published` |
+
+### 10.4 `package_sources` 映射规则
+
+每条上传记录固定生成 1 条来源关联：
+
+| 字段 | 规则 |
+|---|---|
+| `package_id` | 新生成的 `packages.id` |
+| `source_id` | 当前生成或复用的 `sources.id` |
+| `is_primary` | `true` |
+| `sort_order` | `1` |
+
+### 10.5 `package_topics` 映射规则
+
+每条上传记录固定生成 1 条主主题关联：
+
+| 字段 | 规则 |
+|---|---|
+| `package_id` | 新生成的 `packages.id` |
+| `topic_id` | `primary_topic_id` |
+| `sort_order` | `1` |
+
+T2107 先只处理主主题，不处理附加主题。
+
+### 10.6 `package_collections` 映射规则
+
+`collection_ids` 中每选 1 个合集，就生成 1 条关联：
+
+| 字段 | 规则 |
+|---|---|
+| `package_id` | 新生成的 `packages.id` |
+| `collection_id` | 当前选中的合集 |
+| `sort_order` | 按勾选顺序递增，从 `1` 开始 |
+
+如果没有选择合集，则不生成 `package_collections`。
+
+### 10.7 `processed_assets` 映射规则
+
+每条上传记录至少生成 1 条加工资产。
+
+#### 10.7.1 摘要资产
+
+如果满足以下任一条件，就生成 1 条 `brief`：
+
+- `brief_body_markdown` 有值
+- `brief_file_id` 有值
+
+映射规则：
+
+| `content_intake` 字段 | 写入 `processed_assets` 字段 |
+|---|---|
+| `brief_title`，为空时回退 `title + 摘要` | `title` |
+| 固定值 | `asset_type = brief` |
+| 固定值 | `language = zh` |
+| `brief_body_markdown` | `body_markdown` |
+| `brief_file_id` | `file_id` |
+| 固定值 | `external_url = null` |
+| 固定值 | `is_primary = true` |
+| 固定值 | `status = active` |
+| 固定值 | `sort_order = 1` |
+
+#### 10.7.2 音频资产
+
+如果 `audio_file_id` 或 `audio_external_url` 有值，则生成 1 条 `audio`。
+
+规则：
+
+- `title = title + 音频版`
+- `asset_type = audio`
+- `language = zh`
+- `body_markdown = null`
+- `file_id = audio_file_id`
+- `external_url = audio_external_url`
+- `is_primary = false`
+- `status = active`
+- `sort_order` 接在摘要后
+
+#### 10.7.3 PPT 资产
+
+如果 `slides_file_id` 或 `slides_external_url` 有值，则生成 1 条 `slides`。
+
+规则：
+
+- `title = title + 幻灯片`
+- `asset_type = slides`
+- `language = zh`
+- `body_markdown = null`
+- `file_id = slides_file_id`
+- `external_url = slides_external_url`
+- `is_primary = false`
+- `status = active`
+- `sort_order` 接在前一条资产后
+
+#### 10.7.4 视频资产
+
+如果 `video_file_id` 或 `video_external_url` 有值，则生成 1 条 `video`。
+
+规则：
+
+- `title = title + 视频版`
+- `asset_type = video`
+- `language = zh`
+- `body_markdown = null`
+- `file_id = video_file_id`
+- `external_url = video_external_url`
+- `is_primary = false`
+- `status = active`
+- `sort_order` 接在前一条资产后
+
+### 10.8 最小生成门槛
+
+一条上传记录要进入生成阶段，必须同时满足：
+
+- `title` 有值
+- `summary` 有值
+- `primary_topic_id` 有值
+- `source_type` 有值
+- `source_platform` 有值
+- `source_url` 有值
+- `member_tier_id` 有值
+- 至少存在一种加工内容：
+  - `brief_body_markdown`
+  - `brief_file_id`
+  - `audio_file_id`
+  - `audio_external_url`
+  - `slides_file_id`
+  - `slides_external_url`
+  - `video_file_id`
+  - `video_external_url`
+
+### 10.9 生成成功后的回写规则
+
+生成成功后，回写到 `content_intake`：
+
+| 字段 | 回写内容 |
+|---|---|
+| `generated_package_id` | 新生成的 `packages.id` |
+| `generated_at` | 当前时间 |
+| `generation_status` | `generated` |
+| `generation_error` | 清空 |
+
+### 10.10 生成失败后的回写规则
+
+只要任一步失败，就回写：
+
+| 字段 | 回写内容 |
+|---|---|
+| `generation_status` | `failed` |
+| `generation_error` | 失败原因 |
+
+T2107 只定义行为，不处理事务回滚。
+
+### 10.11 当前边界
+
+T2107 先不处理这些情况：
+
+- 重复来源复用策略，后置到 T2112
+- 同一条上传记录重复生成的幂等保护，后置到 T2109
+- 多来源合并到同一内容包
+- 多语言资产自动判断
+- 自动生成 SEO 字段
