@@ -891,3 +891,43 @@ dry-run 现在会额外输出：
 
 - 还不做“保存草稿后再一键重新发布”的专门操作按钮
 - 还不做复杂排期审批流
+
+## 17. T2114 统一上传台验证脚本
+
+验证脚本已提供：
+
+- [scripts/verify_phase21_content_intake.mjs](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/scripts/verify_phase21_content_intake.mjs)
+
+当前会检查：
+
+- `content_intake` 和底层内容集合是否存在
+- `content_intake` 关键字段是否存在
+- `Content Operator` 角色是否存在
+- `content_intake` / `directus_files` 的基础权限是否存在
+- dry-run 是否可以正常执行
+- 正式生成是否具备真实写入验证入口
+
+默认输入：
+
+- `CONTENT_INTAKE_ID`
+- 可选：`CONTENT_OPERATOR_ROLE_NAME`
+- 可选：`CONTENT_OPERATOR_ROLE_ID`
+- 可选：`PHASE21_VERIFY_IMPORT=1`
+
+执行规则：
+
+- 结构检查与 dry-run 检查默认执行
+- 正式生成检查默认跳过，避免误写真实数据
+- 只有显式设置 `PHASE21_VERIFY_IMPORT=1` 时，才会真的跑一次正式生成
+
+输出：
+
+- 报告默认写到 `artifacts/phase21/content-intake-verify.json`
+- dry-run 子报告写到 `artifacts/phase21/content-intake-verify-dry-run.json`
+- 正式生成子报告写到 `artifacts/phase21/content-intake-verify-import.json`
+
+当前边界：
+
+- 这一步不自动创建测试数据
+- 如果后台还没配置 `Content Operator` 权限，脚本会直接报缺项
+- 如果用于真实写入验证，建议使用专门的测试 intake 记录

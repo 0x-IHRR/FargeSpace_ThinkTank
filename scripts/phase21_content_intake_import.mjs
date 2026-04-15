@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 import {
   createItem,
@@ -22,10 +23,6 @@ import {
   writeGenerationSuccess,
 } from "./lib/phase21_content_intake.mjs";
 
-const contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "";
-const reportRelativePath =
-  process.env.PHASE21_IMPORT_REPORT ?? "artifacts/phase21/content-intake-import.json";
-
 async function cleanupCreated(token, createdItems) {
   const order = [
     "processed_assets",
@@ -46,7 +43,11 @@ async function cleanupCreated(token, createdItems) {
   }
 }
 
-async function main() {
+export async function runPhase21Import({
+  contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "",
+  reportRelativePath =
+    process.env.PHASE21_IMPORT_REPORT ?? "artifacts/phase21/content-intake-import.json",
+} = {}) {
   assertCondition(contentIntakeId, "CONTENT_INTAKE_ID is required");
 
   const token = await loginAdmin();
@@ -69,7 +70,16 @@ async function main() {
     console.log(`phase21 import intake: ${item.id}`);
     console.log(`phase21 import report: ${reportPath}`);
     console.log("phase21 import status: skipped");
-    return;
+    return {
+      intakeId: item.id,
+      reportPath,
+      status: "skipped",
+      report: {
+        step: "T2109",
+        status: "skipped",
+        generated_package: item.generated_package_id,
+      },
+    };
   }
 
   const validationIssues = collectValidationIssues(item);
@@ -230,6 +240,20 @@ async function main() {
     console.log(`phase21 import report: ${reportPath}`);
     console.log(`phase21 import package: ${packageItem.id}`);
     console.log("phase21 import status: passed");
+    return {
+      intakeId: item.id,
+      reportPath,
+      status: "passed",
+      packageId: packageItem.id,
+      report: {
+        step: "T2109",
+        status: "passed",
+        package: {
+          id: packageItem.id,
+          slug: plan.package.payload.slug,
+        },
+      },
+    };
   } catch (error) {
     await cleanupCreated(token, createdItems);
     await writeGenerationFailure(updateItem, token, item.id, error.message);
@@ -252,7 +276,13 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+async function main() {
+  await runPhase21Import();
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}

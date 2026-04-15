@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 import { loginAdmin, request } from "./lib/phase5_directus.mjs";
 import {
@@ -12,11 +13,11 @@ import {
   findExistingSourceByUrl,
 } from "./lib/phase21_content_intake.mjs";
 
-const contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "";
-const reportRelativePath =
-  process.env.PHASE21_DRY_RUN_REPORT ?? "artifacts/phase21/content-intake-dry-run.json";
-
-async function main() {
+export async function runPhase21DryRun({
+  contentIntakeId = process.env.CONTENT_INTAKE_ID ?? "",
+  reportRelativePath =
+    process.env.PHASE21_DRY_RUN_REPORT ?? "artifacts/phase21/content-intake-dry-run.json",
+} = {}) {
   assertCondition(contentIntakeId, "CONTENT_INTAKE_ID is required");
 
   const token = await loginAdmin();
@@ -68,18 +69,31 @@ async function main() {
 
   const reportPath = await ensureReportFile(reportRelativePath, report);
 
-  console.log(`phase21 dry-run intake: ${item.id}`);
-  console.log(`phase21 dry-run report: ${reportPath}`);
-  console.log(`phase21 dry-run status: ${report.status}`);
+  return {
+    intakeId: item.id,
+    reportPath,
+    report,
+  };
 }
 
-main().catch(async (error) => {
-  await ensureReportFile(reportRelativePath, {
-    step: "T2108",
-    status: "failed",
-    checkedAt: new Date().toISOString(),
-    error: error.message,
+async function main() {
+  const result = await runPhase21DryRun();
+  console.log(`phase21 dry-run intake: ${result.intakeId}`);
+  console.log(`phase21 dry-run report: ${result.reportPath}`);
+  console.log(`phase21 dry-run status: ${result.report.status}`);
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const reportRelativePath =
+    process.env.PHASE21_DRY_RUN_REPORT ?? "artifacts/phase21/content-intake-dry-run.json";
+  main().catch(async (error) => {
+    await ensureReportFile(reportRelativePath, {
+      step: "T2108",
+      status: "failed",
+      checkedAt: new Date().toISOString(),
+      error: error.message,
+    });
+    console.error(error.message);
+    process.exitCode = 1;
   });
-  console.error(error.message);
-  process.exitCode = 1;
-});
+}
