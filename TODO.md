@@ -920,7 +920,7 @@ Phase 20 当前已交付内容：
 
 - 给内容运营者提供一个“一处填写、一处上传、一键生成资料包”的后台入口
 - 底层继续保留 `packages`、`sources`、`processed_assets`、`package_sources`、`package_topics`、`package_collections` 的结构，但不要求运营者手动在多个集合之间来回跳
-- 当前状态：进行中（T2101-T2115 已完成）
+- 当前状态：已完成（T2101-T2116 已完成）
 
 模块划分：
 
@@ -1046,6 +1046,7 @@ Phase 20 当前已交付内容：
 - 输出：评估是否需要做真正的 Directus 自定义模块或改成 Next.js 独立运营后台
 - 原则：如果 `content_intake` 单表表单已经够用，暂不做自定义模块
 - 依赖：T2115
+- 状态：已完成，见 [PHASE21_CONTENT_INTAKE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE21_CONTENT_INTAKE.md)
 
 ### Phase 5：种子数据与试填验证
 
