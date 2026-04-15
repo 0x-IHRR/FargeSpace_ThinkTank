@@ -10,6 +10,7 @@
 - [DATA_MODEL.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/DATA_MODEL.md)
 - [PHASE11_UPLOAD_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE11_UPLOAD_FLOW.md)
 - [PHASE12_EDITORIAL_FLOW.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/PHASE12_EDITORIAL_FLOW.md)
+- [CONTENT_OPERATOR_GUIDE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/CONTENT_OPERATOR_GUIDE.md)
 
 ## 1. 目标
 
@@ -931,3 +932,27 @@ dry-run 现在会额外输出：
 - 这一步不自动创建测试数据
 - 如果后台还没配置 `Content Operator` 权限，脚本会直接报缺项
 - 如果用于真实写入验证，建议使用专门的测试 intake 记录
+
+## 18. T2115 运营者使用手册
+
+运营者使用手册已提供：
+
+- [CONTENT_OPERATOR_GUIDE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/CONTENT_OPERATOR_GUIDE.md)
+
+这份手册只面向日常录入人员，不解释底层集合，也不要求理解数据库结构。
+
+当前包含的场景：
+
+- 新增一个 YouTube 视频
+- 上传一个 PPT / PDF
+- 上传一段音频
+- 只放原始链接并补中文摘要
+- 先保存草稿
+- 直接发布
+- 失败后怎么处理
+
+当前原则：
+
+- 只讲“去哪里填、填什么、什么时候保存草稿、什么时候直接发布”
+- 不讲底层表结构
+- 不讲脚本调用方式

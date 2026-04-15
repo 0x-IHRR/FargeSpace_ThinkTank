@@ -920,7 +920,7 @@ Phase 20 当前已交付内容：
 
 - 给内容运营者提供一个“一处填写、一处上传、一键生成资料包”的后台入口
 - 底层继续保留 `packages`、`sources`、`processed_assets`、`package_sources`、`package_topics`、`package_collections` 的结构，但不要求运营者手动在多个集合之间来回跳
-- 当前状态：进行中（T2101-T2114 已完成）
+- 当前状态：进行中（T2101-T2115 已完成）
 
 模块划分：
 
@@ -1039,6 +1039,7 @@ Phase 20 当前已交付内容：
 - 输出：非技术版操作手册
 - 内容：新增视频、上传 PPT、上传音频、只放链接、保存草稿、发布、失败后怎么处理
 - 依赖：T2114
+- 状态：已完成，见 [CONTENT_OPERATOR_GUIDE.md](/Users/ihrr/Code/python/MVP/FargeSpace_ThinkTank/CONTENT_OPERATOR_GUIDE.md)
 
 #### T2116 后置 Directus 自定义模块评估
 
